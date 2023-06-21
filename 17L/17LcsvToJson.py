@@ -20,3 +20,10 @@ json_file_path = 'card-ratings-2023-06-20.json'
 # Save the JSON data to a file
 with open(json_file_path, 'w') as json_file:
     json_file.write(json_data)
+
+with open(json_file_path, 'r') as file:
+    json_data = file.read()
+
+data = json.loads(json_data)
+
+print(data)
