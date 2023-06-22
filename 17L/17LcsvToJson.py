@@ -1,5 +1,7 @@
 import csv
 import json
+import math
+import statistics
 
 # Path to the CSV file
 csv_file_path = 'card-ratings-2023-06-20.csv'
@@ -26,6 +28,12 @@ with open(json_file_path, 'r') as file:
 
 data = json.loads(json_data)
 
+# keeps track of how many real cards are in the set
+length = len(data)
+
+# the sum of all the GIHWs
+winrates = []
+
 # iterate through all the JSON data and get the name and GIH winrate
 for element in data:
     name = element["Name"]
@@ -33,9 +41,39 @@ for element in data:
     # GIHW = GIH Winrate
     gihw = element["GIH WR"][:-1]
 
+    # if players haven't played with a card enough for stats to be released,
+    # the gihw will be blank. So I have to have a case to handle that.
     if gihw != "":
         gihw = float(gihw)
+        winrates.append(gihw)
     else:
-        gihw = "00.0"
+        gihw = "so bad it's not played:"
+        length -= 1
 
     print(gihw, name)
+
+μ = sum(winrates)/length
+print("μ:", μ)
+
+# find σ, the standard deviation
+σ = 0
+for wr in winrates:
+    deviation = wr - μ
+
+    # preserve the negativity of the deviation
+    if deviation < 0:
+        deviation *= -deviation
+    else:
+        deviation *= deviation
+
+    σ += deviation
+
+σ = math.sqrt(σ)
+
+print("σ:", σ)
+
+lib_μ = statistics.mean(winrates)
+lib_σ = statistics.stdev(winrates)
+
+print(lib_μ)
+print(lib_σ)
