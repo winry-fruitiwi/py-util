@@ -26,4 +26,16 @@ with open(json_file_path, 'r') as file:
 
 data = json.loads(json_data)
 
-print(data)
+# iterate through all the JSON data and get the name and GIH winrate
+for element in data:
+    name = element["Name"]
+
+    # GIHW = GIH Winrate
+    gihw = element["GIH WR"][:-1]
+
+    if gihw != "":
+        gihw = float(gihw)
+    else:
+        gihw = "00.0"
+
+    print(gihw, name)
