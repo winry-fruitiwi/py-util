@@ -57,17 +57,16 @@ print("μ:", μ)
 
 # find σ, the standard deviation
 σ = 0
-for wr in winrates:
-    deviation = wr - μ
 
-    # preserve the negativity of the deviation
-    if deviation < 0:
-        deviation *= -deviation
-    else:
-        deviation *= deviation
+# first, find the variance: Σ((x-μ)²)/N)
+for wr in winrates:
+    deviation = (wr - μ)**2
 
     σ += deviation
 
+σ /= length
+
+# then take the square root of that
 σ = math.sqrt(σ)
 
 print("σ:", σ)
