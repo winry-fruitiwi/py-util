@@ -31,8 +31,9 @@ data = json.loads(json_data)
 # keeps track of how many real cards are in the set
 length = len(data)
 
-# the sum of all the GIHWs
-winrates = []
+# the all the GIHWs
+winrates = {}
+winrateSum = 0
 
 # iterate through all the JSON data and get the name and GIH winrate
 for element in data:
@@ -45,21 +46,21 @@ for element in data:
     # the gihw will be blank. So I have to have a case to handle that.
     if gihw != "":
         gihw = float(gihw)
-        winrates.append(gihw)
+        winrates[name] = gihw
+        winrateSum += gihw
     else:
-        gihw = "so bad it's not played:"
         length -= 1
 
-    print(gihw, name)
-
-μ = sum(winrates)/length
+μ = winrateSum/length
 print("μ:", μ)
 
 # find σ, the standard deviation
 σ = 0
 
 # first, find the variance: Σ((x-μ)²)/N)
-for wr in winrates:
+for name in winrates:
+    wr = winrates[name]
+
     deviation = (wr - μ)**2
 
     σ += deviation
@@ -69,10 +70,9 @@ for wr in winrates:
 # then take the square root of that
 σ = math.sqrt(σ)
 
-print("σ:", σ)
-
-lib_μ = statistics.mean(winrates)
-lib_σ = statistics.stdev(winrates)
-
-print(lib_μ)
-print(lib_σ)
+# find the number of standard deviations each card is away from the mean using
+# the equation z=(x-μ)/σ
+for name in winrates:
+    wr = winrates[name]
+    z = (wr-μ)/σ
+    print(wr, z, name)
