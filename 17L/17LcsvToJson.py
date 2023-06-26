@@ -72,23 +72,39 @@ for name in winrates:
 
 # find the number of standard deviations each card is away from the mean using
 # the equation z=(x-μ)/σ
-gradeDict = {
-    "S": 2.16,
-    "A": 1.83,
-    "B+": 1.49,
-    "B": 1.06,
-    "B-": 0.83,
-    "C+": 0,
-    "C": -0.83,
-    "C-": -1.06,
-    "D+": -1.49,
-    "D": -1.83,
-    "D-": -2.16,
-    "F": -10
-}
+grades = [
+    ("S", 2.16),
+    ("A", 1.83),
+    ("B+", 1.49),
+    ("B", 1.06),
+    ("B-", 0.83),
+    ("C+", 0),
+    ("C", -0.83),
+    ("C-", -1.06),
+    ("D+", -1.49),
+    ("D", -1.83),
+    ("D-", -2.16),
+    ("F", -10)
+]
 
 for name in winrates:
     wr = winrates[name]
     z = (wr-μ)/σ
 
-    print(wr, z, name)
+    # calculate which grade the card falls into. For example, Elesh Norn Grand
+    # Cenobite would be an S
+    cardGrade = ""
+
+    # iterate through each tuple and extract the grade and lower bound
+    for i in range(len(grades)):
+        grade = grades[i][0]
+
+        # for some reason, the IDE gets mad at me when I don't make sure this
+        # is a float, even though it seems like it's not supposed to be
+        lowerBound = float(grades[i][1])
+
+        if grade == "S" and z > lowerBound:
+            print()
+            cardGrade = "S"
+
+    print(cardGrade, wr, z, name)
