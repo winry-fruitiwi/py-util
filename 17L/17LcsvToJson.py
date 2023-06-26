@@ -72,7 +72,23 @@ for name in winrates:
 
 # find the number of standard deviations each card is away from the mean using
 # the equation z=(x-μ)/σ
+gradeDict = {
+    "S": 2.16,
+    "A": 1.83,
+    "B+": 1.49,
+    "B": 1.06,
+    "B-": 0.83,
+    "C+": 0,
+    "C": -0.83,
+    "C-": -1.06,
+    "D+": -1.49,
+    "D": -1.83,
+    "D-": -2.16,
+    "F": -10
+}
+
 for name in winrates:
     wr = winrates[name]
     z = (wr-μ)/σ
+
     print(wr, z, name)
