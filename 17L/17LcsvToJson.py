@@ -4,7 +4,7 @@ import math
 import statistics
 
 # Path to the CSV file
-csv_file_path = 'card-ratings-2023-06-20.csv'
+csv_file_path = 'card-ratings.csv'
 
 # Read the CSV file and store the data in a list of dictionaries
 data = []
@@ -17,7 +17,7 @@ with open(csv_file_path, 'r', encoding="utf-8-sig") as csv_file:
 json_data = json.dumps(data, indent=4)
 
 # Path to save the resulting JSON file
-json_file_path = 'card-ratings-2023-06-20.json'
+json_file_path = 'card-ratings.json'
 
 # Save the JSON data to a file
 with open(json_file_path, 'w') as json_file:
