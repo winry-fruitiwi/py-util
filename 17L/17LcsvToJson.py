@@ -73,20 +73,20 @@ for name in winrates:
 # find the number of standard deviations each card is away from the mean using
 # the equation z=(x-μ)/σ
 grades = [
-    ("S", 2.32),
+    ("S ", 2.32),
     ("A+", 1.99),
-    ("A", 1.66),
+    ("A ", 1.66),
     ("A-", 1.33),
     ("B+", 0.99),
-    ("B", 0.66),
+    ("B ", 0.66),
     ("B-", 0.33),
     ("C+", 0),
-    ("C", -0.33),
+    ("C ", -0.33),
     ("C-", -0.66),
     ("D+", -0.99),
-    ("D", -1.33),
+    ("D ", -1.33),
     ("D-", -1.66),
-    ("F", -10)
+    ("F ", -10)
 ]
 
 for name in winrates:
@@ -105,8 +105,12 @@ for name in winrates:
         # is a float, even though it seems like it's not supposed to be
         lowerBound = float(grades[i][1])
 
-        if grade == "S" and z > lowerBound:
-            print()
-            cardGrade = "S"
+        if z > lowerBound:
+            cardGrade = grade
+            break
 
-    print(cardGrade, wr, z, name)
+    # formats the z-string so that it's much shorter
+    zString = str(z)
+    neatZ = zString[0:5]
+
+    print(cardGrade, wr, neatZ, name)
