@@ -101,8 +101,8 @@ for name in winrates:
     if wr != "not even played enough":
         z = (wr-μ)/σ
 
-        # calculate which grade the card falls into. For example, Elesh Norn Grand
-        # Cenobite would be an S
+        # calculate which grade the card falls into. For example, "Fear, Fire,
+        # Foes!" is an A-, although grades change every once in a while
         cardGrade = ""
 
         # iterate through each tuple and extract the grade and lower bound
@@ -126,3 +126,10 @@ for name in winrates:
 
     else:
         print(name, "is not good enough to even be played")
+
+
+# ### Testing Site! ###
+choices = winrates.keys()
+
+closest_match = process.extractOne(input("What card would you like: "), choices)
+print("Closest Match:", closest_match)
