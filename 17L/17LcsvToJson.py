@@ -2,6 +2,8 @@ import csv
 import json
 import math
 import statistics
+from fuzzywuzzy import fuzz, process
+import Levenshtein
 
 # Path to the CSV file
 csv_file_path = 'card-ratings.csv'
@@ -49,6 +51,7 @@ for element in data:
         winrates[name] = gihw
         winrateSum += gihw
     else:
+        winrates[name] = "not even played enough"
         length -= 1
 
 μ = winrateSum/length
@@ -60,6 +63,9 @@ print("μ:", μ)
 # first, find the variance: Σ((x-μ)²)/N)
 for name in winrates:
     wr = winrates[name]
+
+    if wr == "not even played enough":
+        continue
 
     deviation = (wr - μ)**2
 
@@ -73,44 +79,50 @@ for name in winrates:
 # find the number of standard deviations each card is away from the mean using
 # the equation z=(x-μ)/σ
 grades = [
-    ("S ", 2.32),
-    ("A+", 1.99),
-    ("A ", 1.66),
-    ("A-", 1.33),
-    ("B+", 0.99),
-    ("B ", 0.66),
-    ("B-", 0.33),
-    ("C+", 0),
-    ("C ", -0.33),
-    ("C-", -0.66),
-    ("D+", -0.99),
-    ("D ", -1.33),
-    ("D-", -1.66),
+    ("S ", 2.48),
+    ("A+", 2.15),
+    ("A ", 1.92),
+    ("A-", 1.49),
+    ("B+", 1.16),
+    ("B ", 0.83),
+    ("B-", 0.50),
+    ("C+", 0.17),
+    ("C ", -0.17),
+    ("C-", -0.50),
+    ("D+", -0.83),
+    ("D ", -1.16),
+    ("D-", -1.49),
     ("F ", -10)
 ]
 
 for name in winrates:
     wr = winrates[name]
-    z = (wr-μ)/σ
 
-    # calculate which grade the card falls into. For example, Elesh Norn Grand
-    # Cenobite would be an S
-    cardGrade = ""
+    if wr != "not even played enough":
+        z = (wr-μ)/σ
 
-    # iterate through each tuple and extract the grade and lower bound
-    for i in range(len(grades)):
-        grade = grades[i][0]
+        # calculate which grade the card falls into. For example, Elesh Norn Grand
+        # Cenobite would be an S
+        cardGrade = ""
 
-        # for some reason, the IDE gets mad at me when I don't make sure this
-        # is a float, even though it seems like it's not supposed to be
-        lowerBound = float(grades[i][1])
+        # iterate through each tuple and extract the grade and lower bound
+        for i in range(len(grades)):
+            grade = grades[i][0]
 
-        if z > lowerBound:
-            cardGrade = grade
-            break
+            # for some reason, the IDE gets mad at me when I don't make sure
+            # this is a float, even though it seems like it's supposed to be
+            # Theory: F is -10, so it's no longer a float. it's an int
+            lowerBound = float(grades[i][1])
 
-    # formats the z-string so that it's much shorter
-    zString = str(z)
-    neatZ = zString[0:5]
+            if z > lowerBound:
+                cardGrade = grade
+                break
 
-    print(cardGrade, wr, neatZ, name)
+        # formats the z-string so that it's much shorter
+        zString = str(z)
+        neatZ = zString[0:5]
+
+        print(cardGrade, wr, neatZ, name)
+
+    else:
+        print(name, "is not good enough to even be played")
