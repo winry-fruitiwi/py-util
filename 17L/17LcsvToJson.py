@@ -122,14 +122,23 @@ for name in winrates:
         zString = str(z)
         neatZ = zString[0:5]
 
-        print(cardGrade, wr, neatZ, name)
+        # print(cardGrade, wr, neatZ, name)
 
     else:
-        print(name, "is not good enough to even be played")
+        pass
+        # print(name, "is not good enough to even be played")
 
 
-# ### Testing Site! ###
-choices = winrates.keys()
+while True:
+    choices = winrates.keys()
 
-closest_match = process.extractOne(input("What card would you like: "), choices)
-print("Closest Match:", closest_match)
+    inputCardName = input("→ ")
+
+    if inputCardName == "q":
+        print("Quitting process...")
+        break
+
+    closest_match = process.extractOne(inputCardName, choices)[0]
+    print(closest_match, "\n")
+
+print("Process finished")
