@@ -44,14 +44,23 @@ for element in data:
     # GIHW = GIH Winrate
     gihw = element["GIH WR"][:-1]
 
+    # opening hand winrate
+    ohwr = element["OH WR"][:-1]
+
+    # average last seen at
+    alsa = element["ALSA"]
+
+    # improvement when drawn
+    iwd = element["IWD"][:-2]
+
     # if players haven't played with a card enough for stats to be released,
     # the gihw will be blank. So I have to have a case to handle that.
     if gihw != "":
         gihw = float(gihw)
-        winrates[name] = gihw
+        winrates[name] = [gihw, ohwr, alsa, iwd]
         winrateSum += gihw
     else:
-        winrates[name] = "not even played enough"
+        winrates[name] = ["not even played enough"]
         length -= 1
 
 μ = winrateSum/length
@@ -62,7 +71,7 @@ print("μ:", μ)
 
 # first, find the variance: Σ((x-μ)²)/N)
 for name in winrates:
-    wr = winrates[name]
+    wr = winrates[name][0]
 
     if wr == "not even played enough":
         continue
@@ -96,7 +105,7 @@ grades = [
 ]
 
 for name in winrates:
-    wr = winrates[name]
+    wr = winrates[name][0]
 
     if wr != "not even played enough":
         z = (wr-μ)/σ
@@ -121,8 +130,6 @@ for name in winrates:
         # formats the z-string so that it's much shorter
         zString = str(z)
         neatZ = zString[0:5]
-
-        # print(cardGrade, wr, neatZ, name)
 
     else:
         pass
