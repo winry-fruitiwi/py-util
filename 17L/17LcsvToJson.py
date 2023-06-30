@@ -131,9 +131,9 @@ for name in winrates:
         zString = str(z)
         neatZ = zString[0:5]
 
-    else:
-        pass
-        # print(name, "is not good enough to even be played")
+        statList = winrates[name]
+
+        winrates[name] = [cardGrade, neatZ, statList[0], statList[1], statList[2], statList[3]]
 
 
 while True:
@@ -147,5 +147,7 @@ while True:
 
     closest_match = process.extractOne(inputCardName, choices)[0]
     print(closest_match, "\n")
+
+    print(winrates[closest_match])
 
 print("Process finished")
