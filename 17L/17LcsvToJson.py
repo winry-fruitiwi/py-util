@@ -157,9 +157,13 @@ while True:
 
     # iterate through the stat list and process the elements
     for stat in statList:
-        stats += str(stat) + "\t"
+        stats += str(stat) + "    "
 
-    print("grade\t zscore\t oh wr\t gih wr\t alsa\t iwd\t")
+    # the header for the stats display
+    print(
+        f'      z alsa   gih     oh      dif     iwd'
+        f'           μ:{μ:.1f}, σ:{σ:.1f}'
+    )
     print(stats, "\n")
 
 print("Process finished")
