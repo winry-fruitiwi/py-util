@@ -136,6 +136,8 @@ for name in winrates:
         winrates[name] = [cardGrade, neatZ, statList[0], statList[1], statList[2], statList[3]]
 
 
+# runs a FuzzyWuzzy program that constantly accepts an input and tells you
+# the stats of the card you are looking up. Abbreviations allowed
 while True:
     choices = winrates.keys()
 
@@ -146,8 +148,18 @@ while True:
         break
 
     closest_match = process.extractOne(inputCardName, choices)[0]
-    print(closest_match, "\n")
+    print(closest_match)
 
-    print(winrates[closest_match])
+    statList = winrates[closest_match]
+
+    # stands for stat string
+    stats = ""
+
+    # iterate through the stat list and process the elements
+    for stat in statList:
+        stats += str(stat) + "\t"
+
+    print("grade\t zscore\t oh wr\t gih wr\t alsa\t iwd\t")
+    print(stats, "\n")
 
 print("Process finished")
