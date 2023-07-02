@@ -141,29 +141,30 @@ for name in winrates:
 while True:
     choices = winrates.keys()
 
-    inputCardName = input("→ ")
+    inputCardNames = input("→ ").split(",")
 
-    if inputCardName == "q":
+    if inputCardNames == "q":
         print("Quitting process...")
         break
 
-    closest_match = process.extractOne(inputCardName, choices)[0]
-    print(closest_match)
-
-    statList = winrates[closest_match]
-
-    # stands for stat string
-    stats = ""
-
-    # iterate through the stat list and process the elements
-    for stat in statList:
-        stats += str(stat) + "    "
-
-    # the header for the stats display
+        # the header for the stats display
     print(
-        f'      z alsa   gih     oh      dif     iwd'
+        f'      zscore   gih     oh      alsa     iwd'
         f'           μ:{μ:.1f}, σ:{σ:.1f}'
-    )
-    print(stats, "\n")
+        )
+
+    for cardName in inputCardNames:
+        closest_match = process.extractOne(cardName, choices)[0]
+
+        statList = winrates[closest_match]
+
+        # stands for stat string
+        stats = ""
+
+        # iterate through the stat list and process the elements
+        for stat in statList:
+            stats += str(stat) + "    "
+
+        print(stats, closest_match)
 
 print("Process finished")
