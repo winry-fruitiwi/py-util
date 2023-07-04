@@ -147,11 +147,15 @@ while True:
         print("Quitting process...")
         break
 
-        # the header for the stats display
+    # the header for the stats display
     print(
         f'      zscore   gih     oh      alsa     iwd'
         f'           μ:{μ:.1f}, σ:{σ:.1f}'
         )
+
+    # a dictionary of all the stat strings matched to the GIH winrate of the
+    # card
+    statDict = {}
 
     for cardName in inputCardNames:
         closest_match = process.extractOne(cardName, choices)[0]
@@ -164,6 +168,9 @@ while True:
         # iterate through the stat list and process the elements
         for stat in statList:
             stats += str(stat) + "    "
+
+        # retrieve the GIH winrate from the stat list
+        statDict[stats] = float(statList[2])
 
         print(stats, closest_match)
 
