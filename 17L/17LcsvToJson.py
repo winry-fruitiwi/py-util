@@ -172,6 +172,14 @@ while True:
         # retrieve the GIH winrate from the stat list
         statDict[stats] = float(statList[2])
 
-        print(stats, closest_match)
+    print(statDict)
+
+    # Sort based on the value of the statDict
+    sorted_data = sorted(statDict, key=lambda x: x[1])
+
+    print(sorted_data)
+
+    for stats in sorted_data:
+        print(stats + str(statDict[stats]))
 
 print("Process finished")
