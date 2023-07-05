@@ -2,6 +2,8 @@ import csv
 import json
 import math
 import statistics
+from typing import List
+
 from fuzzywuzzy import fuzz, process
 import Levenshtein
 
@@ -33,9 +35,10 @@ data = json.loads(json_data)
 # keeps track of how many real cards are in the set
 length = len(data)
 
-# the all the GIHWs
-winrates = {}
-winrateSum = 0
+# all the GIHWs. The structure is {name: [gihwr, ohwr, alsa, iwd]}. However,
+# later the grade and the z-score is added to the beginning of the list.
+winrates: dict = {}
+winrateSum: int = 0
 
 # iterate through all the JSON data and get the name and GIH winrate
 for element in data:
@@ -63,6 +66,7 @@ for element in data:
         winrates[name] = ["not even played enough"]
         length -= 1
 
+# calculate the average of all the gih winrates (already summed up)
 μ = winrateSum/length
 print("μ:", μ)
 
@@ -87,6 +91,10 @@ for name in winrates:
 
 # find the number of standard deviations each card is away from the mean using
 # the equation z=(x-μ)/σ
+
+# to do the above, we need to start with a list of grades and their lower zscore
+# bounds. for example, a card with a z-score of 2.25 would be an A+, but any
+# card with a z-score below -1.49 (-10 is too low) is really bad.
 grades = [
     ("S ", 2.48),
     ("A+", 2.15),
@@ -104,6 +112,7 @@ grades = [
     ("F ", -10)
 ]
 
+# grade each card with the z-score equation and the lower bounds of each card
 for name in winrates:
     wr = winrates[name][0]
 
@@ -139,28 +148,39 @@ for name in winrates:
 # runs a FuzzyWuzzy program that constantly accepts an input and tells you
 # the stats of the card you are looking up. Abbreviations allowed
 while True:
+    # looks like: "banish, fear, she ambush, shelob child" and
+    # should get processed into "'Banish from Edoras', 'Fear, Fire, Foes!',
+    # 'Shelob's Ambush', 'Shelob, Child of Ungoliant'
     choices = winrates.keys()
 
+    # split up the card names by comma
     inputCardNames = input("→ ").split(",")
 
-    if inputCardNames == "q":
+    # allows the user to quit the app
+    if inputCardNames == ["q"]:
         print("Quitting process...")
         break
 
     # the header for the stats display
     print(
-        f'      zscore   gih     oh      alsa     iwd'
+        f'      zscore   gih     oh      alsa    iwd'
         f'           μ:{μ:.1f}, σ:{σ:.1f}'
         )
 
     # a dictionary of all the stat strings matched to the GIH winrate of the
-    # card
+    # card. datastructure: gihwr: "grade z-score gih oh alsa iwd name".
+    # The name part is WIP
+    #
+    # 🥝 keying off a non-unique property
+    # not having an example of what your data looks like
+    # not using f-strings and not typing data, so you constantly have to check
+    # having only one window, so you constantly need to scroll
     statDict = {}
 
     for cardName in inputCardNames:
         closest_match = process.extractOne(cardName, choices)[0]
 
-        statList = winrates[closest_match]
+        statList: List[str] = winrates[closest_match]
 
         # stands for stat string
         stats = ""
@@ -170,7 +190,7 @@ while True:
             stats += str(stat) + "    "
 
         # retrieve the GIH winrate from the stat list
-        statDict[float(statList[2])] = stats
+        statDict[float(statList[2])] = stats + "    " + closest_match
 
     # Sort based on the value of the statDict
     sorted_data = sorted(statDict, reverse=True)
