@@ -42,6 +42,7 @@ winrateSum: int = 0
 
 # iterate through all the JSON data and get the name and GIH winrate
 for element in data:
+    # next five variables are all strings
     name = element["Name"]
 
     # GIHW = GIH Winrate
@@ -67,11 +68,11 @@ for element in data:
         length -= 1
 
 # calculate the average of all the gih winrates (already summed up)
-μ = winrateSum/length
+μ: float = winrateSum/length
 print("μ:", μ)
 
 # find σ, the standard deviation
-σ = 0
+σ: float = 0
 
 # first, find the variance: Σ((x-μ)²)/N)
 for name in winrates:
@@ -80,7 +81,7 @@ for name in winrates:
     if wr == "not even played enough":
         continue
 
-    deviation = (wr - μ)**2
+    deviation: float = (wr - μ)**2
 
     σ += deviation
 
@@ -95,7 +96,7 @@ for name in winrates:
 # to do the above, we need to start with a list of grades and their lower zscore
 # bounds. for example, a card with a z-score of 2.25 would be an A+, but any
 # card with a z-score below -1.49 (-10 is too low) is really bad.
-grades = [
+grades: List[tuple] = [
     ("S ", 2.48),
     ("A+", 2.15),
     ("A ", 1.92),
@@ -148,13 +149,14 @@ for name in winrates:
 # runs a FuzzyWuzzy program that constantly accepts an input and tells you
 # the stats of the card you are looking up. Abbreviations allowed
 while True:
-    # looks like: "banish, fear, she ambush, shelob child" and
-    # should get processed into "'Banish from Edoras', 'Fear, Fire, Foes!',
-    # 'Shelob's Ambush', 'Shelob, Child of Ungoliant'
+    # a list of all the winrate keys. Apparently, this is not a list, it's
+    # a "_dict_keys" object and I'm not sure how to type that.
     choices = winrates.keys()
 
-    # split up the card names by comma
-    inputCardNames = input("→ ").split(",")
+    # looks like: "banish, fear, she ambush, shelob child" (in string form) and
+    # should get processed into "'Banish from Edoras', 'Fear, Fire, Foes!',
+    # 'Shelob's Ambush', 'Shelob, Child of Ungoliant'
+    inputCardNames: List[str] = input("→ ").split(",")
 
     # allows the user to quit the app
     if inputCardNames == ["q"]:
@@ -175,7 +177,8 @@ while True:
     # not having an example of what your data looks like
     # not using f-strings and not typing data, so you constantly have to check
     # having only one window, so you constantly need to scroll
-    statDict = {}
+    nameToWinrateDict: dict = {}
+    statDict: dict = {}
 
     for cardName in inputCardNames:
         closest_match = process.extractOne(cardName, choices)[0]
@@ -189,13 +192,20 @@ while True:
         for stat in statList:
             stats += str(stat) + "    "
 
-        # retrieve the GIH winrate from the stat list
-        statDict[float(statList[2])] = stats + "    " + closest_match
+        # retrieve the stat string previously derived and then use it as the
+        # value, paired with a key of the name of the card
+        statDict[closest_match] = stats
 
-    # Sort based on the value of the statDict
-    sorted_data = sorted(statDict, reverse=True)
+        # retrieve GIH WR from JSON and then pair it with a key of the card's
+        # name. This makes sorting easier, and then I can refer back to
+        # statDict for the information that I need
+        nameToWinrateDict[closest_match] = float(statList[2])
 
-    for stats in sorted_data:
-        print(statDict[float(stats)])
+    # Sort based on the value of the statDict. This actually returns a
+    # list of floats because it's sorting by the key.
+    sorted_data = {k: v for k, v in sorted(nameToWinrateDict.items(), reverse=True, key=lambda item: item[1])}
+
+    for name in sorted_data:
+        print(statDict[name] + name)
 
 print("Process finished")
