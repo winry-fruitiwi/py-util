@@ -185,12 +185,15 @@ while True:
 
         statList: List[str] = winrates[closest_match]
 
-        # stands for stat string
-        stats = ""
-
-        # iterate through the stat list and process the elements
-        for stat in statList:
-            stats += str(stat) + "    "
+        # define all the variables inside the stat list, then process
+        # them into an f-string
+        grade = statList[0]
+        zscore = statList[1]
+        gih = statList[2]
+        oh = statList[3]
+        alsa = statList[4]
+        iwd = statList[5]
+        stats = f"{grade}    {zscore}    {gih}    {oh}    {alsa}    {iwd}        {closest_match}"
 
         # retrieve the stat string previously derived and then use it as the
         # value, paired with a key of the name of the card
@@ -203,9 +206,13 @@ while True:
 
     # Sort based on the value of the statDict. This actually returns a
     # list of floats because it's sorting by the key.
-    sorted_data = {k: v for k, v in sorted(nameToWinrateDict.items(), reverse=True, key=lambda item: item[1])}
+    sorted_data = {k: v for k, v in sorted(nameToWinrateDict.items(),
+                                           reverse=True,
+                                           key=lambda item: item[1]
+                                           )
+                   }
 
     for name in sorted_data:
-        print(statDict[name] + name)
+        print(statDict[name])
 
 print("Process finished")
