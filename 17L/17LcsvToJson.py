@@ -192,7 +192,9 @@ while True:
         gih = statList[2]
         oh = statList[3]
         alsa = statList[4]
-        iwd = statList[5]
+        # IWD is the most complicated, but even that is just calling the ljust
+        # function to add right space padding
+        iwd = statList[5].ljust(5)
         stats = f"{grade}    {zscore}    {gih}    {oh}    {alsa}    {iwd}        {closest_match}"
 
         # retrieve the stat string previously derived and then use it as the
