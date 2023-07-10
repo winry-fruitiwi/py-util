@@ -7,30 +7,31 @@ from typing import List
 from fuzzywuzzy import fuzz, process
 import Levenshtein
 
-# Path to the CSV file
-csv_file_path = 'card-ratings.csv'
-
-# Read the CSV file and store the data in a list of dictionaries
-data = []
-with open(csv_file_path, 'r', encoding="utf-8-sig") as csv_file:
-    csv_reader = csv.DictReader(csv_file)
-    for row in csv_reader:
-        data.append(row)
-
-# Convert the data to JSON format
-json_data = json.dumps(data, indent=4)
-
+# # Path to the CSV file
+# csv_file_path = 'card-ratings.csv'
+#
+# # Read the CSV file and store the data in a list of dictionaries
+# data = []
+# with open(csv_file_path, 'r', encoding="utf-8-sig") as csv_file:
+#     csv_reader = csv.DictReader(csv_file)
+#     for row in csv_reader:
+#         data.append(row)
+#
+# # Convert the data to JSON format
+# json_data = json.dumps(data, indent=4)
+#
 # Path to save the resulting JSON file
 json_file_path = 'card-ratings.json'
-
-# Save the JSON data to a file
-with open(json_file_path, 'w') as json_file:
-    json_file.write(json_data)
+#
+# # Save the JSON data to a file
+# with open(json_file_path, 'w') as json_file:
+#     json_file.write(json_data)
 
 with open(json_file_path, 'r') as file:
     json_data = file.read()
 
 data = json.loads(json_data)
+print(data)
 
 # keeps track of how many real cards are in the set
 length = len(data)
@@ -43,19 +44,19 @@ winrateSum: int = 0
 # iterate through all the JSON data and get the name and GIH winrate
 for element in data:
     # next five variables are all strings
-    name = element["Name"]
+    name = str(element["name"])
 
     # GIHW = GIH Winrate
-    gihw = element["GIH WR"][:-1]
+    gihw = str(round(element["ever_drawn_win_rate"] * 100, 1))
 
     # opening hand winrate
-    ohwr = element["OH WR"][:-1]
+    ohwr = str(round(element["opening_hand_win_rate"] * 100, 1))
 
     # average last seen at
-    alsa = element["ALSA"]
+    alsa = str(round(element["avg_seen"], 2))
 
     # improvement when drawn
-    iwd = element["IWD"][:-2]
+    iwd = str(round(element["drawn_improvement_win_rate"] * 100, 1))
 
     # if players haven't played with a card enough for stats to be released,
     # the gihw will be blank. So I have to have a case to handle that.
