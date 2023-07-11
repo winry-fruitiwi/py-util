@@ -1,11 +1,33 @@
 import csv
+import requests
 import json
 import math
 import statistics
 from typing import List
-
 from fuzzywuzzy import fuzz, process
 import Levenshtein
+import requests
+
+
+# initialize the scryfall API link and pull the data from the website
+setCode = "ltr"
+scryfallAPILink = f"https://api.scryfall.com/cards/search?q=set:{setCode}"
+
+# Send a GET request to the URL
+response = requests.get(scryfallAPILink)
+
+# Check if the request was successful (status code 200)
+if response.status_code == 200:
+    # Get the JSON data from the response
+    json_data = response.json()
+
+    # Process the JSON data as needed
+    # Example: Access a specific value from the JSON data
+    value = json_data
+
+    print(value)
+else:
+    print("Request failed with status code:", response.status_code)
 
 # # Path to the CSV file
 # csv_file_path = 'card-ratings.csv'
@@ -31,7 +53,6 @@ with open(json_file_path, 'r') as file:
     json_data = file.read()
 
 data = json.loads(json_data)
-print(data)
 
 # keeps track of how many real cards are in the set
 length = len(data)
