@@ -7,47 +7,45 @@ from typing import List
 from fuzzywuzzy import fuzz, process
 import Levenshtein
 import requests
+import time
 
 
 # initialize the scryfall API link and pull the data from the website
 setCode = "ltr"
 scryfallAPILink = f"https://api.scryfall.com/cards/search?q=set:{setCode}"
 
-# Send a GET request to the URL
-response = requests.get(scryfallAPILink)
 
-# Check if the request was successful (status code 200)
-if response.status_code == 200:
-    # Get the JSON data from the response
-    json_data = response.json()
+def getScryfallData(link):
+    # Send a GET request to the URL
+    response = requests.get(link)
 
-    # Process the JSON data as needed
-    # Example: Access a specific value from the JSON data
-    value = json_data
+    # Check if the request was successful (status code 200)
+    if response.status_code == 200:
+        # Get the JSON data from the response
+        scryfallJSON = response.json()
 
-    print(value)
-else:
-    print("Request failed with status code:", response.status_code)
+        if scryfallJSON["has_more"]:
+            time.sleep(1)
+            nextPage = getScryfallData(scryfallJSON["next_page"])
+            return scryfallJSON["data"] + nextPage
 
-# # Path to the CSV file
-# csv_file_path = 'card-ratings.csv'
-#
-# # Read the CSV file and store the data in a list of dictionaries
-# data = []
-# with open(csv_file_path, 'r', encoding="utf-8-sig") as csv_file:
-#     csv_reader = csv.DictReader(csv_file)
-#     for row in csv_reader:
-#         data.append(row)
-#
-# # Convert the data to JSON format
-# json_data = json.dumps(data, indent=4)
-#
-# Path to save the resulting JSON file
+        return scryfallJSON["data"]
+    else:
+        print("Warning: no Scryfall data available. Please refrain from using "
+              "the '!cardName' command.")
+
+
+
+scryfallData = getScryfallData(scryfallAPILink)
+
+# print all the names of each card within the collector ID cap for the set.
+# The collector ID cap is when the cards begin to move out of the boosters and
+# become cards in special Magic deck boxes. We're not concerned about these
+# cards. (not implemented yet)
+for card in scryfallData:
+    print(card["name"])
+
 json_file_path = 'card-ratings.json'
-#
-# # Save the JSON data to a file
-# with open(json_file_path, 'w') as json_file:
-#     json_file.write(json_data)
 
 with open(json_file_path, 'r') as file:
     json_data = file.read()
