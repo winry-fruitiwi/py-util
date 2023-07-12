@@ -12,6 +12,8 @@ import time
 
 # initialize the scryfall API link and pull the data from the website
 setCode = "ltr"
+# constant for when MOM jumpstart cards start
+ltrCollectorIDCap = 281
 scryfallAPILink = f"https://api.scryfall.com/cards/search?q=set:{setCode}"
 
 
@@ -40,10 +42,11 @@ scryfallData = getScryfallData(scryfallAPILink)
 
 # print all the names of each card within the collector ID cap for the set.
 # The collector ID cap is when the cards begin to move out of the boosters and
-# become cards in special Magic deck boxes. We're not concerned about these
-# cards. (not implemented yet)
+# become cards in special Magic card boxes. We're not concerned about these
+# cards.
 for card in scryfallData:
-    print(card["name"])
+    if int(card["collector_number"]) < ltrCollectorIDCap:
+        print(card["name"])
 
 json_file_path = 'card-ratings.json'
 
