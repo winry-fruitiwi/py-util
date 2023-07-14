@@ -39,6 +39,7 @@ def getScryfallData(link):
 
 
 scryfallData = getScryfallData(scryfallAPILink)
+cardOracle = {}
 
 # print all the names of each card within the collector ID cap for the set.
 # The collector ID cap is when the cards begin to move out of the boosters and
@@ -46,7 +47,7 @@ scryfallData = getScryfallData(scryfallAPILink)
 # cards.
 for card in scryfallData:
     if int(card["collector_number"]) < ltrCollectorIDCap:
-        print(card["name"])
+        cardOracle[card["name"]] = "you have just queried for oracle text!"
 
 json_file_path = 'card-ratings.json'
 
@@ -186,9 +187,13 @@ while True:
     # processing stats and oracle requests
     if inputStr[0] == "!":
         print(f"{inputStr} starts with an exclamation mark!")
+        closest_match = process.extractOne(inputStr, choices)[0]
+        print(cardOracle[closest_match])
         continue
 
-    inputCardNames: List[str] = input("→ ").split(",")
+    print("no exclamation mark")
+
+    inputCardNames: List[str] = inputStr.split(",")
 
     # allows the user to quit the app
     if inputCardNames == ["q"]:
