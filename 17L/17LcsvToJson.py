@@ -179,6 +179,15 @@ while True:
     # looks like: "banish, fear, she ambush, shelob child" (in string form) and
     # should get processed into "'Banish from Edoras', 'Fear, Fire, Foes!',
     # 'Shelob's Ambush', 'Shelob, Child of Ungoliant'
+    inputStr: str = input("→ ")
+
+    # if there is an exclamation mark present, then just process
+    # the request for the entire string instead of individually
+    # processing stats and oracle requests
+    if inputStr[0] == "!":
+        print(f"{inputStr} starts with an exclamation mark!")
+        continue
+
     inputCardNames: List[str] = input("→ ").split(",")
 
     # allows the user to quit the app
