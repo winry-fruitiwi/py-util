@@ -47,7 +47,31 @@ cardOracle = {}
 # cards.
 for card in scryfallData:
     if int(card["collector_number"]) < ltrCollectorIDCap:
-        cardOracle[card["name"]] = "you have just queried for oracle text!"
+        # cardOracle format:
+        # Name ManaCost
+        # OracleText
+        # Power / Toughness
+        # FlavorText
+
+        # however, sometimes the power or toughness does not exist, so
+        # we need to account for this. (like in the case of instants and
+        # sorceries, although some artifacts or vehicles do have power or
+        # toughness)
+        # the same goes for flavor text
+
+        # handles absence of flavor text
+        try:
+            flavor_text = card["flavor_text"]
+        except KeyError:
+            flavor_text = ""
+
+        try:
+            cardOracle[card["name"]] = (f'{card["name"]}   {card["mana_cost"]}\n'
+                                        f'{card["oracle_text"]}\n'
+                                        f'{card["power"]}/{card["toughness"]}\n'
+                                        f'{flavor_text}\n')
+        except KeyError:
+            cardOracle[card["name"]] = "this is not a creature"
 
 json_file_path = 'card-ratings.json'
 
