@@ -66,9 +66,14 @@ for card in scryfallData:
             flavor_text = ""
 
         try:
+            stats = f'{card["power"]}/{card["toughness"]}'
+        except KeyError:
+            stats = ""
+
+        try:
             cardOracle[card["name"]] = (f'{card["name"]}   {card["mana_cost"]}\n'
                                         f'{card["oracle_text"]}\n'
-                                        f'{card["power"]}/{card["toughness"]}\n'
+                                        f'{stats}\n'
                                         f'{flavor_text}\n')
         except KeyError:
             cardOracle[card["name"]] = "this is not a creature"
