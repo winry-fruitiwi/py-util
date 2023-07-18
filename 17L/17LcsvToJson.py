@@ -12,7 +12,7 @@ import time
 
 # initialize the scryfall API link and pull the data from the website
 setCode = "ltr"
-# constant for when MOM jumpstart cards start
+# constant for when LTR jumpstart cards start
 ltrCollectorIDCap = 281
 scryfallAPILink = f"https://api.scryfall.com/cards/search?q=set:{setCode}"
 
@@ -65,18 +65,18 @@ for card in scryfallData:
         except KeyError:
             flavor_text = ""
 
+        # handles absence of power/toughness
         try:
             stats = f'{card["power"]}/{card["toughness"]}'
         except KeyError:
             stats = ""
 
-        try:
-            cardOracle[card["name"]] = (f'{card["name"]}   {card["mana_cost"]}\n'
-                                        f'{card["oracle_text"]}\n'
-                                        f'{stats}\n'
-                                        f'{flavor_text}\n')
-        except KeyError:
-            cardOracle[card["name"]] = "this is not a creature"
+
+        cardOracle[card["name"]] = (f'{card["name"]}   {card["mana_cost"]}\n'
+                                    f'{card["oracle_text"]}\n'
+                                    f'{stats}\n'
+                                    f'{flavor_text}\n'
+                                    )
 
 json_file_path = 'card-ratings.json'
 
@@ -215,12 +215,9 @@ while True:
     # the request for the entire string instead of individually
     # processing stats and oracle requests
     if inputStr[0] == "!":
-        print(f"{inputStr} starts with an exclamation mark!")
         closest_match = process.extractOne(inputStr, choices)[0]
         print(cardOracle[closest_match])
         continue
-
-    print("no exclamation mark")
 
     inputCardNames: List[str] = inputStr.split(",")
 
