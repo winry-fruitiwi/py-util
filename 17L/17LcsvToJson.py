@@ -7,38 +7,10 @@ from typing import List
 from fuzzywuzzy import fuzz, process
 import Levenshtein
 import requests
-import time
 
-
-# initialize the scryfall API link and pull the data from the website
-setCode = "ltr"
 # constant for when LTR jumpstart cards start
 ltrCollectorIDCap = 281
-scryfallAPILink = f"https://api.scryfall.com/cards/search?q=set:{setCode}"
 
-
-def getScryfallData(link):
-    # Send a GET request to the URL
-    response = requests.get(link)
-
-    # Check if the request was successful (status code 200)
-    if response.status_code == 200:
-        # Get the JSON data from the response
-        scryfallJSON = response.json()
-
-        if scryfallJSON["has_more"]:
-            time.sleep(1)
-            nextPage = getScryfallData(scryfallJSON["next_page"])
-            return scryfallJSON["data"] + nextPage
-
-        return scryfallJSON["data"]
-    else:
-        print("Warning: no Scryfall data available. Please refrain from using "
-              "the '!cardName' command.")
-
-
-
-scryfallData = getScryfallData(scryfallAPILink)
 cardOracle = {}
 
 # print all the names of each card within the collector ID cap for the set.
