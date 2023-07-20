@@ -1,5 +1,6 @@
 import requests
 import time
+import json
 
 
 # initialize the scryfall API link and pull the data from the website
@@ -29,14 +30,14 @@ def getScryfallData(link):
 
 
 with open(scryfallDataPath, 'w', encoding="utf-8") as scryfall:
-    json_data = scryfall.write(str(getScryfallData(scryfallAPILink)))
+    json_data = scryfall.write(json.dumps(getScryfallData(scryfallAPILink)))
 
 
 url = (f"https://www.17lands.com/card_ratings/data?"
        f"expansion=LTR&"
        f"format=PremierDraft&"
        f"start_date=2023-06-20&"
-       f"end_date=2023-07-17"
+       f"end_date=2023-07-19"
        )
 
 # get the 17L data

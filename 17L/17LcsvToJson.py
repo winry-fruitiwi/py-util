@@ -7,11 +7,15 @@ from typing import List
 from fuzzywuzzy import fuzz, process
 import Levenshtein
 import requests
+scryfallDataPath = 'scryfall.json'
 
 # constant for when LTR jumpstart cards start
 ltrCollectorIDCap = 281
 
 cardOracle = {}
+
+with open(scryfallDataPath, 'r', encoding="utf-8") as scryfall:
+    scryfallData = json.load(scryfall)
 
 # print all the names of each card within the collector ID cap for the set.
 # The collector ID cap is when the cards begin to move out of the boosters and
