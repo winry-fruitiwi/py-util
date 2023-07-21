@@ -195,6 +195,10 @@ while True:
         print(cardOracle[closest_match])
         continue
 
+    if inputStr[0] == "~":
+        print("querying for top players! (not really)")
+        inputStr = inputStr[1:]
+
     inputCardNames: List[str] = inputStr.split(",")
 
     # allows the user to quit the app
