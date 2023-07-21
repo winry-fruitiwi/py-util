@@ -33,15 +33,13 @@ with open(scryfallDataPath, 'w', encoding="utf-8") as scryfall:
     json_data = scryfall.write(json.dumps(getScryfallData(scryfallAPILink)))
 
 
-url = (f"https://www.17lands.com/card_ratings/data?"
-       f"expansion=LTR&"
-       f"format=PremierDraft&"
-       f"start_date=2023-06-20&"
-       f"end_date=2023-07-19"
-       )
+topURL = (f"https://www.17lands.com/card_ratings/data?"
+          f"expansion=LTR&"
+          f"format=PremierDraft&"
+          )
 
 # get the 17L data
-response = requests.get(url)
+response = requests.get(topURL)
 
 # if the query was successful, write it into the card rating JSON
 if response.status_code == 200:
@@ -49,6 +47,28 @@ if response.status_code == 200:
     print(text_content)
 
     json_file_path = 'card-ratings.json'
+
+    with open(json_file_path, 'w') as file:
+        json_data = file.write(text_content)
+else:
+    print("Request failed with status code:", response.status_code)
+
+
+topURL = (f"https://www.17lands.com/card_ratings/data?"
+          f"expansion=LTR&"
+          f"format=PremierDraft&"
+          f"user_group=top"
+          )
+
+# get the 17L data
+response = requests.get(topURL)
+
+# if the query was successful, write it into the card rating JSON
+if response.status_code == 200:
+    text_content = response.text
+    print(text_content)
+
+    json_file_path = 'top-card-ratings.json'
 
     with open(json_file_path, 'w') as file:
         json_data = file.write(text_content)
