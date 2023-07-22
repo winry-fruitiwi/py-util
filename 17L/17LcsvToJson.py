@@ -177,7 +177,7 @@ def process17LJson(json_file_path):
     return winrates
 
 
-winrates = process17LJson('card-ratings.json')
+allWinrates = process17LJson('card-ratings.json')
 topWinrates = process17LJson('top-card-ratings.json')
 
 # runs a FuzzyWuzzy program that constantly accepts an input and tells you
@@ -185,7 +185,10 @@ topWinrates = process17LJson('top-card-ratings.json')
 while True:
     # a list of all the winrate keys. Apparently, this is not a list, it's
     # a "_dict_keys" object and I'm not sure how to type that.
-    choices = winrates.keys()
+    choices = allWinrates.keys()
+
+    # the winrates is either all the winrates or just the top winrates
+    winrates = allWinrates
 
     # looks like: "banish, fear, she ambush, shelob child" (in string form) and
     # should get processed into "'Banish from Edoras', 'Fear, Fire, Foes!',
@@ -203,6 +206,7 @@ while True:
     if inputStr[0] == "~":
         print("querying for top players!")
         choices = topWinrates.keys()
+        winrates = topWinrates
         inputStr = inputStr[1:]
 
     inputCardNames: List[str] = inputStr.split(",")
