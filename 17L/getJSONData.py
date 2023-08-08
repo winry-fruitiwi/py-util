@@ -33,25 +33,19 @@ with open(scryfallDataPath, 'w', encoding="utf-8") as scryfall:
     json_data = scryfall.write(json.dumps(getScryfallData(scryfallAPILink)))
 
 
-topURL = (f"https://www.17lands.com/card_ratings/data?"
-          f"expansion=LTR&"
-          f"format=PremierDraft&"
-          )
+def get17LDataIntoFile(url, filePath):
+    # get the 17L data
+    response = requests.get(url)
 
-# get the 17L data
-response = requests.get(topURL)
+    # if the query was successful, write it into the card rating JSON
+    if response.status_code == 200:
+        text_content = response.text
 
-# if the query was successful, write it into the card rating JSON
-if response.status_code == 200:
-    text_content = response.text
-    print(text_content)
-
-    json_file_path = 'card-ratings.json'
-
-    with open(json_file_path, 'w') as file:
-        json_data = file.write(text_content)
-else:
-    print("Request failed with status code:", response.status_code)
+        with open(filePath, 'w') as file:
+            file.write(text_content)
+            print(f"📈 stats for file path {filePath} loaded!")
+    else:
+        print("Request failed with status code:", response.status_code)
 
 
 topURL = (f"https://www.17lands.com/card_ratings/data?"
@@ -60,17 +54,21 @@ topURL = (f"https://www.17lands.com/card_ratings/data?"
           f"user_group=top"
           )
 
-# get the 17L data
-response = requests.get(topURL)
 
-# if the query was successful, write it into the card rating JSON
-if response.status_code == 200:
-    text_content = response.text
-    print(text_content)
+allURL = (f"https://www.17lands.com/card_ratings/data?"
+          f"expansion=LTR&"
+          f"format=PremierDraft&"
+          )
 
-    json_file_path = 'top-card-ratings.json'
 
-    with open(json_file_path, 'w') as file:
-        json_data = file.write(text_content)
-else:
-    print("Request failed with status code:", response.status_code)
+wuURL = (f"https://www.17lands.com/card_ratings/data?"
+         f"expansion=LTR&"
+         f"format=PremierDraft&"
+         f"colors=WU"
+         )
+
+get17LDataIntoFile(topURL, 'top-card-ratings.json')
+get17LDataIntoFile(allURL, 'card-ratings.json')
+get17LDataIntoFile(wuURL, 'wu-card-ratings.json')
+
+print("🔮 all stats loaded!")
