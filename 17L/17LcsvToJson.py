@@ -77,18 +77,20 @@ def process17LJson(json_file_path):
         # GIHW = GIH Winrate
         # if there are no instances where a card is ever drawn, then
         # it should be treated as 0 instead of null
-        if element["ever_drawn_win_rate"] is None:
-            gihw = ""
-        else:
-            gihw = str(round(element["ever_drawn_win_rate"] * 100, 1))
+        if element["ever_drawn_game_count"] == 0:
+            winrates[name] = ["not even played enough"]
+            continue
+
+        gihw = str(round(element["ever_drawn_win_rate"] * 100, 1))
 
         # opening hand winrate
         # if there are no instances where a card is ever drawn, then
         # it should be treated as 0 instead of null
-        if element["opening_hand_win_rate"] is None:
-            ohwr = ""
-        else:
-            ohwr = str(round(element["opening_hand_win_rate"] * 100, 1))
+        if element["opening_hand_game_count"] == 0:
+            winrates[name] = ["not even played enough"]
+            continue
+
+        ohwr = str(round(element["opening_hand_win_rate"] * 100, 1))
 
         # average last seen at
         alsa = str(round(element["avg_seen"], 2))
@@ -248,10 +250,7 @@ while True:
         break
 
     # the header for the stats display
-    print(
-        f'      zscore   gih     oh      alsa    iwd'
-        f'          name'
-        )
+    header = f'      zscore   gih     oh      alsa    iwd          name'
 
     # a dictionary of all the stat strings matched to the GIH winrate of the
     # card. datastructure: gihwr: "grade z-score gih oh alsa iwd name".
@@ -269,13 +268,18 @@ while True:
 
         statList: List[str] = winrates[closest_match]
 
+        if statList[0] == "not even played enough":
+            print(f"🍓 {cardName} is not played enough")
+            continue
+
         # define all the variables inside the stat list, then process
         # them into an f-string
         grade = statList[0]
         zscore = statList[1]
         gih = statList[2]
         oh = statList[3]
-        alsa = statList[4]
+        # since alsa can't be negative, it has one less padding than iwd
+        alsa = statList[4].ljust(4)
         # IWD is the most complicated, but even that is just calling the ljust
         # function to add right space padding
         iwd = statList[5].ljust(5)
@@ -299,6 +303,7 @@ while True:
                                            )
                    }
 
+    print(header)
     for name in sorted_data:
         print(statDict[name])
 
