@@ -7,6 +7,9 @@ from typing import List
 from fuzzywuzzy import fuzz, process
 import Levenshtein
 import requests
+from constants import colorPairs
+
+
 scryfallDataPath = 'scryfall.json'
 
 # constant for when LTR jumpstart cards start
@@ -197,7 +200,10 @@ def process17LJson(json_file_path):
 
 allWinrates = process17LJson('card-ratings.json')
 topWinrates = process17LJson('top-card-ratings.json')
-wuWinrates = process17LJson('wu-card-ratings.json')
+colorPairWinrates = {}
+
+for pair in colorPairs:
+    colorPairWinrates[pair] = process17LJson(f'{pair}-card-ratings.json')
 
 # runs a FuzzyWuzzy program that constantly accepts an input and tells you
 # the stats of the card you are looking up. Abbreviations allowed
@@ -237,9 +243,9 @@ while True:
         inputStr = inputStr[1:]
 
     # process request for a color wedge / color pair
-    if colorWedge.lower() == "wu":
-        print("querying for WU cards!")
-        winrates = wuWinrates
+    if colorWedge.lower() in colorPairs:
+        print(f"querying for {colorWedge.upper()} cards!")
+        winrates = colorPairWinrates[colorWedge]
         inputStr = inputStr[3:]
 
     inputCardNames: List[str] = inputStr.split(",")
@@ -269,7 +275,7 @@ while True:
         statList: List[str] = winrates[closest_match]
 
         if statList[0] == "not even played enough":
-            print(f"🍓 {cardName} is not played enough")
+            print(f"🍓 {closest_match} is not played enough")
             continue
 
         # define all the variables inside the stat list, then process
