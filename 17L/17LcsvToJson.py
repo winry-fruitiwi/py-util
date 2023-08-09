@@ -75,20 +75,31 @@ def process17LJson(json_file_path):
         name = str(element["name"])
 
         # GIHW = GIH Winrate
-        gihw = str(round(element["ever_drawn_win_rate"] * 100, 1))
+        # if there are no instances where a card is ever drawn, then
+        # it should be treated as 0 instead of null
+        if element["ever_drawn_win_rate"] is None:
+            gihw = ""
+        else:
+            gihw = str(round(element["ever_drawn_win_rate"] * 100, 1))
 
         # opening hand winrate
-        ohwr = str(round(element["opening_hand_win_rate"] * 100, 1))
+        # if there are no instances where a card is ever drawn, then
+        # it should be treated as 0 instead of null
+        if element["opening_hand_win_rate"] is None:
+            ohwr = ""
+        else:
+            ohwr = str(round(element["opening_hand_win_rate"] * 100, 1))
 
         # average last seen at
         alsa = str(round(element["avg_seen"], 2))
 
         # improvement when drawn
+
         iwd = str(round(element["drawn_improvement_win_rate"] * 100, 1))
 
         # if players haven't played with a card enough for stats to be released,
         # the gihw will be blank. So I have to have a case to handle that.
-        if gihw != "":
+        if (gihw != "") and (ohwr != ""):
             gihw = float(gihw)
             winrates[name] = [gihw, ohwr, alsa, iwd]
             winrateSum += gihw
@@ -124,7 +135,7 @@ def process17LJson(json_file_path):
 
     # to do the above, we need to start with a list of grades and their lower zscore
     # bounds. for example, a card with a z-score of 2.25 would be an A+, but any
-    # card with a z-score below -1.49 (-10 is too low) is really bad.
+    # card with a z-score below -1.49 (-10 is too low) is unplayable.
     grades: List[tuple] = [
         ("S ", 2.48),
         ("A+", 2.15),
@@ -172,17 +183,32 @@ def process17LJson(json_file_path):
 
             statList = winrates[name]
 
-            winrates[name] = [cardGrade, neatZ, statList[0], statList[1], statList[2], statList[3]]
+            winrates[name] = [cardGrade,
+                              neatZ,
+                              statList[0],
+                              statList[1],
+                              statList[2],
+                              statList[3]]
 
     return winrates
 
 
 allWinrates = process17LJson('card-ratings.json')
 topWinrates = process17LJson('top-card-ratings.json')
+wuWinrates = process17LJson('wu-card-ratings.json')
 
 # runs a FuzzyWuzzy program that constantly accepts an input and tells you
 # the stats of the card you are looking up. Abbreviations allowed
 while True:
+    # looks like: "banish, fear, she ambush, shelob child" (in string form) and
+    # should get processed into "'Banish from Edoras', 'Fear, Fire, Foes!',
+    # 'Shelob's Ambush', 'Shelob, Child of Ungoliant' + their stats
+    inputStr: str = input("→ ")
+
+    if inputStr == "":
+        print("Please input an actual string.")
+        continue
+
     # a list of all the winrate keys. Apparently, this is not a list, it's
     # a "_dict_keys" object and I'm not sure how to type that.
     choices = allWinrates.keys()
@@ -190,10 +216,8 @@ while True:
     # the winrates is either all the winrates or just the top winrates
     winrates = allWinrates
 
-    # looks like: "banish, fear, she ambush, shelob child" (in string form) and
-    # should get processed into "'Banish from Edoras', 'Fear, Fire, Foes!',
-    # 'Shelob's Ambush', 'Shelob, Child of Ungoliant'
-    inputStr: str = input("→ ")
+    # checks for a color wedge based on splitting by colon
+    colorWedge = inputStr.split(":")[0]
 
     # if there is an exclamation mark present, then just process
     # the request for the entire string instead of individually
@@ -203,11 +227,18 @@ while True:
         print(cardOracle[closest_match])
         continue
 
+    # process request for top players
     if inputStr[0] == "~":
         print("querying for top players!")
         choices = topWinrates.keys()
         winrates = topWinrates
         inputStr = inputStr[1:]
+
+    # process request for a color wedge / color pair
+    if colorWedge.lower() == "wu":
+        print("querying for WU cards!")
+        winrates = wuWinrates
+        inputStr = inputStr[3:]
 
     inputCardNames: List[str] = inputStr.split(",")
 
@@ -248,7 +279,8 @@ while True:
         # IWD is the most complicated, but even that is just calling the ljust
         # function to add right space padding
         iwd = statList[5].ljust(5)
-        stats = f"{grade}    {zscore}    {gih}    {oh}    {alsa}    {iwd}        {closest_match}"
+        stats = (f"{grade}    {zscore}    {gih}    {oh}"
+                 f"    {alsa}    {iwd}        {closest_match}")
 
         # retrieve the stat string previously derived and then use it as the
         # value, paired with a key of the name of the card
