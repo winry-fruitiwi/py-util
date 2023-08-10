@@ -70,7 +70,15 @@ for pair in colorPairs:
                f"colors={pair}"
                )
 
+    topPairURL = (f"https://www.17lands.com/card_ratings/data?"
+                  f"expansion=LTR&"
+                  f"format=PremierDraft&"
+                  f"colors={pair}&"
+                  f"user_group=top"
+                  )
+
     get17LDataIntoFile(pairURL, f'{pair}-card-ratings.json')
+    get17LDataIntoFile(topPairURL, f'top-{pair}-card-ratings.json')
 
 
 get17LDataIntoFile(topURL, 'top-card-ratings.json')

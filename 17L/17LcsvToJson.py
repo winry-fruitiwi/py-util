@@ -114,7 +114,6 @@ def process17LJson(json_file_path):
 
     # calculate the average of all the gih winrates (already summed up)
     μ: float = winrateSum/length
-    print("μ:", μ)
 
     # find σ, the standard deviation
     σ: float = 0
@@ -201,9 +200,11 @@ def process17LJson(json_file_path):
 allWinrates = process17LJson('card-ratings.json')
 topWinrates = process17LJson('top-card-ratings.json')
 colorPairWinrates = {}
+topColorPairWinrates = {}
 
 for pair in colorPairs:
     colorPairWinrates[pair] = process17LJson(f'{pair}-card-ratings.json')
+    topColorPairWinrates[pair] = process17LJson(f'top-{pair}-card-ratings.json')
 
 # runs a FuzzyWuzzy program that constantly accepts an input and tells you
 # the stats of the card you are looking up. Abbreviations allowed
@@ -224,9 +225,6 @@ while True:
     # the winrates is either all the winrates or just the top winrates
     winrates = allWinrates
 
-    # checks for a color wedge based on splitting by colon
-    colorWedge = inputStr.split(":")[0]
-
     # if there is an exclamation mark present, then just process
     # the request for the entire string instead of individually
     # processing stats and oracle requests
@@ -240,13 +238,21 @@ while True:
         print("querying for top players!")
         choices = topWinrates.keys()
         winrates = topWinrates
-        inputStr = inputStr[1:]
+
+    # checks for a color wedge based on splitting by colon
+    colorWedge = inputStr.split(":")[0]
 
     # process request for a color wedge / color pair
     if colorWedge.lower() in colorPairs:
         print(f"querying for {colorWedge.upper()} cards!")
         winrates = colorPairWinrates[colorWedge]
         inputStr = inputStr[3:]
+
+    # process request for top player data for a color wedge/pair
+    elif colorWedge[1:].lower() in colorPairs:
+        print(f"querying for {colorWedge.upper()} cards!")
+        winrates = topColorPairWinrates[colorWedge[1:]]
+        inputStr = inputStr[4:]
 
     inputCardNames: List[str] = inputStr.split(",")
 
