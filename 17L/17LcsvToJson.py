@@ -214,6 +214,9 @@ while True:
     # 'Shelob's Ambush', 'Shelob, Child of Ungoliant' + their stats
     inputStr: str = input("→ ")
 
+    # keep track if you wanted to query for top players
+    topQuery: bool = False
+
     if inputStr == "":
         print("Please input an actual string.")
         continue
@@ -239,6 +242,7 @@ while True:
         print("querying for top players!")
         choices = topWinrates.keys()
         winrates = topWinrates
+        topQuery = True
 
     # checks for a color wedge based on splitting by colon
     colorWedge = inputStr.split(":")[0]
@@ -267,8 +271,15 @@ while True:
         print(f'{closest_match}\npair          zscore   gih     oh'
               f'      alsa    iwd')
 
-        for pair in colorPairWinrates:
-            pairStats = colorPairWinrates[pair]
+        # if I queried for top players, then the winrates used below become
+        # the winrate of the top players
+        if topQuery:
+            winrates = topColorPairWinrates
+        else:
+            winrates = colorPairWinrates
+
+        for pair in winrates:
+            pairStats = winrates[pair]
 
             statList: List[str] = pairStats[closest_match]
 
@@ -288,7 +299,7 @@ while True:
             iwd = statList[5].ljust(5)
 
             print(f"{pair.upper()}      {grade}    {zscore}    {gih}    {oh}"
-                     f"    {alsa}    {iwd}")
+                  f"    {alsa}    {iwd}")
         continue
 
     # allows the user to quit the app
