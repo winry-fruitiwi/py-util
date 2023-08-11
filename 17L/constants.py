@@ -5,3 +5,5 @@ colorPairs = [
     'br', 'bg',
     'rg'
 ]
+
+minGameCountSampleSize = 100

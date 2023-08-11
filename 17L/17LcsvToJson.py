@@ -7,7 +7,7 @@ from typing import List
 from fuzzywuzzy import fuzz, process
 import Levenshtein
 import requests
-from constants import colorPairs
+from constants import *
 
 
 scryfallDataPath = 'scryfall.json'
@@ -80,7 +80,7 @@ def process17LJson(json_file_path):
         # GIHW = GIH Winrate
         # if there are no instances where a card is ever drawn, then
         # it should be treated as 0 instead of null
-        if element["ever_drawn_game_count"] == 0:
+        if element["ever_drawn_game_count"] <= minGameCountSampleSize:
             winrates[name] = ["not even played enough"]
             continue
 
@@ -223,6 +223,7 @@ while True:
     choices = allWinrates.keys()
 
     # the winrates is either all the winrates or just the top winrates
+    # or any color pair / wedge
     winrates = allWinrates
 
     # if there is an exclamation mark present, then just process
@@ -245,16 +246,50 @@ while True:
     # process request for a color wedge / color pair
     if colorWedge.lower() in colorPairs:
         print(f"querying for {colorWedge.upper()} cards!")
-        winrates = colorPairWinrates[colorWedge]
+        winrates = colorPairWinrates[colorWedge.lower()]
         inputStr = inputStr[3:]
 
     # process request for top player data for a color wedge/pair
     elif colorWedge[1:].lower() in colorPairs:
         print(f"querying for {colorWedge.upper()} cards!")
-        winrates = topColorPairWinrates[colorWedge[1:]]
+        winrates = topColorPairWinrates[colorWedge[1:].lower()]
         inputStr = inputStr[4:]
 
     inputCardNames: List[str] = inputStr.split(",")
+
+    if len(inputCardNames) == 1:
+        print("you're only looking for 1 card")
+
+        closest_match = process.extractOne(inputStr, choices)[0]
+
+        nameToWinrateDict = {}
+
+        print(f'{closest_match}\npair          zscore   gih     oh'
+              f'      alsa    iwd')
+
+        for pair in colorPairWinrates:
+            pairStats = colorPairWinrates[pair]
+
+            statList: List[str] = pairStats[closest_match]
+
+            if statList[0] == "not even played enough":
+                continue
+
+            # define all the variables inside the stat list, then process
+            # them into an f-string
+            grade = statList[0]
+            zscore = statList[1]
+            gih = statList[2]
+            oh = statList[3]
+            # since alsa can't be negative, it has one less padding than iwd
+            alsa = statList[4].ljust(4)
+            # IWD is the most complicated, but even that is just calling the ljust
+            # function to add right space padding
+            iwd = statList[5].ljust(5)
+
+            print(f"{pair.upper()}      {grade}    {zscore}    {gih}    {oh}"
+                     f"    {alsa}    {iwd}")
+        continue
 
     # allows the user to quit the app
     if inputCardNames == ["q"]:
