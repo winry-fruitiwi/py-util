@@ -3,6 +3,7 @@ import math
 from typing import List
 from constants import *
 
+
 def process17LJson(json_file_path):
     with open(json_file_path, 'r') as file:
         json_data = file.read()
