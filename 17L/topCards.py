@@ -1,4 +1,5 @@
 from processJSON import *
+from processScryfallData import *
 from constants import *
 
 # a file that looks for each archetype and returns the top commons of that
@@ -8,6 +9,11 @@ colorPairWinrates = {}
 
 for pair in colorPairs:
     pairData = process17LJson(f'{pair}-card-ratings.json')
+    pairData = sorted_dict = {key: value for key, value in
+                              sorted(pairData.items(),
+                                     key=lambda x: x[1][2],
+                                     reverse=True)
+                              }
     colorPairWinrates[pair] = pairData
 
 # number of cards to print for each color pair in upcoming loop
@@ -23,17 +29,18 @@ for color in colorPairWinrates:
     for card in colorData:
         statList = colorData[card]
 
-        if statList == ["not even played enough"]:
+        if (statList[0] == "not even played enough" or
+            rarityOfCards[card] == "rare" or
+            rarityOfCards[card] == "mythic"
+            ):
             continue
 
+        # construct a stat string and print it
         grade = statList[0]
         zscore = statList[1]
         gih = statList[2]
         oh = statList[3]
-        # since alsa can't be negative, it has one less padding than iwd
         alsa = statList[4].ljust(4)
-        # IWD is the most complicated, but even that is just calling the ljust
-        # function to add right space padding
         iwd = statList[5].ljust(5)
         print(f"{grade}    {zscore}    {gih}    {oh}"
               f"    {alsa}    {iwd}        {card}")

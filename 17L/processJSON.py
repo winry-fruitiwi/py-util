@@ -27,7 +27,8 @@ def process17LJson(json_file_path):
         # if there are no instances where a card is ever drawn, then
         # it should be treated as 0 instead of null
         if element["ever_drawn_game_count"] <= minGameCountSampleSize:
-            winrates[name] = ["not even played enough"]
+            winrates[name] = ["not even played enough", 0, 0, 0]
+            length -= 1
             continue
 
         gihw = str(round(element["ever_drawn_win_rate"] * 100, 1))
@@ -36,7 +37,8 @@ def process17LJson(json_file_path):
         # if there are no instances where a card is ever drawn, then
         # it should be treated as 0 instead of null
         if element["opening_hand_game_count"] == 0:
-            winrates[name] = ["not even played enough"]
+            winrates[name] = ["not even played enough", 0, 0, 0]
+            length -= 1
             continue
 
         ohwr = str(round(element["opening_hand_win_rate"] * 100, 1))
@@ -52,10 +54,10 @@ def process17LJson(json_file_path):
         # the gihw will be blank. So I have to have a case to handle that.
         if (gihw != "") and (ohwr != ""):
             gihw = float(gihw)
-            winrates[name] = [gihw, ohwr, alsa, iwd]
+            winrates[name] = [gihw, ohwr, alsa, iwd]  # TODO add rarity
             winrateSum += gihw
         else:
-            winrates[name] = ["not even played enough"]
+            winrates[name] = ["not even played enough", 0, 0, 0]
             length -= 1
 
     # calculate the average of all the gih winrates (already summed up)

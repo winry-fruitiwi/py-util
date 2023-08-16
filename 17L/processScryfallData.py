@@ -6,6 +6,7 @@ scryfallDataPath = 'scryfall.json'
 ltrCollectorIDCap = 281
 
 cardOracle = {}
+rarityOfCards = {}
 
 with open(scryfallDataPath, 'r', encoding="utf-8") as scryfall:
     scryfallData = json.load(scryfall)
@@ -46,3 +47,5 @@ for card in scryfallData:
                                     f'{stats}\n'
                                     f'{flavor_text}\n'
                                     )
+
+        rarityOfCards[card["name"]] = card["rarity"]
