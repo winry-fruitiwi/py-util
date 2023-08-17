@@ -1,5 +1,5 @@
 from fuzzywuzzy import process
-from processJSON import *
+from process17LData import *
 from processScryfallData import *
 
 
@@ -74,8 +74,8 @@ while True:
 
         nameToWinrateDict = {}
 
-        print(f'{closest_match}\npair          zscore   gih     oh'
-              f'      alsa    iwd')
+        print(f'{closest_match}\n      zscore   gih     oh'
+              f'      alsa    iwd      pair')
 
         # if I queried for top players, then the winrates used below become
         # the winrate of the top players
@@ -92,20 +92,8 @@ while True:
             if statList[0] == "not even played enough":
                 continue
 
-            # define all the variables inside the stat list, then process
-            # them into an f-string
-            grade = statList[0]
-            zscore = statList[1]
-            gih = statList[2]
-            oh = statList[3]
-            # since alsa can't be negative, it has one less padding than iwd
-            alsa = statList[4].ljust(4)
-            # IWD is the most complicated, but even that is just calling the ljust
-            # function to add right space padding
-            iwd = statList[5].ljust(5)
+            print(createStatList(statList, pair.upper()))
 
-            print(f"{pair.upper()}      {grade}    {zscore}    {gih}    {oh}"
-                  f"    {alsa}    {iwd}")
         continue
 
     # allows the user to quit the app
@@ -114,7 +102,7 @@ while True:
         break
 
     # the header for the stats display
-    header = f'      zscore   gih     oh      alsa    iwd          name'
+    header = f'      zscore   gih     oh      alsa    iwd      name'
 
     # a dictionary of all the stat strings matched to the GIH winrate of the
     # card. datastructure: gihwr: "grade z-score gih oh alsa iwd name".
@@ -136,19 +124,7 @@ while True:
             print(f"🍓 {closest_match} is not played enough")
             continue
 
-        # define all the variables inside the stat list, then process
-        # them into an f-string
-        grade = statList[0]
-        zscore = statList[1]
-        gih = statList[2]
-        oh = statList[3]
-        # since alsa can't be negative, it has one less padding than iwd
-        alsa = statList[4].ljust(4)
-        # IWD is the most complicated, but even that is just calling the ljust
-        # function to add right space padding
-        iwd = statList[5].ljust(5)
-        stats = (f"{grade}    {zscore}    {gih}    {oh}"
-                 f"    {alsa}    {iwd}        {closest_match}")
+        stats = createStatList(statList, closest_match)
 
         # retrieve the stat string previously derived and then use it as the
         # value, paired with a key of the name of the card

@@ -1,3 +1,5 @@
+# TODO turn this into a function
+
 import json
 
 scryfallDataPath = 'scryfall.json'

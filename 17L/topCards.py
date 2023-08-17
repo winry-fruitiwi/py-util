@@ -1,4 +1,4 @@
-from processJSON import *
+from process17LData import *
 from processScryfallData import *
 from constants import *
 
@@ -35,15 +35,7 @@ for color in colorPairWinrates:
             ):
             continue
 
-        # construct a stat string and print it
-        grade = statList[0]
-        zscore = statList[1]
-        gih = statList[2]
-        oh = statList[3]
-        alsa = statList[4].ljust(4)
-        iwd = statList[5].ljust(5)
-        print(f"{grade}    {zscore}    {gih}    {oh}"
-              f"    {alsa}    {iwd}        {card}")
+        createStatList(statList, card)
 
         cardsPrinted += 1
 
