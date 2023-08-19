@@ -26,7 +26,7 @@ def getScryfallData(link):
 
         return scryfallJSON["data"]
     else:
-        print("Warning: no Scryfall data available. Please refrain from using "
+        print("Warning: no data available. Please refrain from using "
               "the '!cardName' command.")
 
 
@@ -77,11 +77,11 @@ for pair in colorPairs:
                   f"user_group=top"
                   )
 
-    get17LDataIntoFile(pairURL, f'{pair}-card-ratings.json')
-    get17LDataIntoFile(topPairURL, f'top-{pair}-card-ratings.json')
+    get17LDataIntoFile(pairURL, f'all/{pair}-card-ratings.json')
+    get17LDataIntoFile(topPairURL, f'top/{pair}-card-ratings.json')
 
 
-get17LDataIntoFile(topURL, 'top-card-ratings.json')
-get17LDataIntoFile(allURL, 'card-ratings.json')
+get17LDataIntoFile(topURL, 'top/card-ratings.json')
+get17LDataIntoFile(allURL, 'all/card-ratings.json')
 
 print("🔮 all stats loaded!")

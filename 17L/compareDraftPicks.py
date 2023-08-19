@@ -3,14 +3,14 @@ from process17LData import *
 from processScryfallData import *
 
 
-allWinrates = process17LJson('card-ratings.json')
-topWinrates = process17LJson('top-card-ratings.json')
+allWinrates = process17LJson('all/card-ratings.json')
+topWinrates = process17LJson('top/card-ratings.json')
 colorPairWinrates = {}
 topColorPairWinrates = {}
 
 for pair in colorPairs:
-    colorPairWinrates[pair] = process17LJson(f'{pair}-card-ratings.json')
-    topColorPairWinrates[pair] = process17LJson(f'top-{pair}-card-ratings.json')
+    colorPairWinrates[pair] = process17LJson(f'all/{pair}-card-ratings.json')
+    topColorPairWinrates[pair] = process17LJson(f'top/{pair}-card-ratings.json')
 
 # runs a FuzzyWuzzy program that constantly accepts an input and tells you
 # the stats of the card you are looking up. Abbreviations allowed
