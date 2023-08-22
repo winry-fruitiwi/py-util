@@ -54,13 +54,13 @@ while True:
     colorWedge = inputStr.split(":")[0]
 
     # process request for a color wedge / color pair
-    if colorWedge.lower() in colorPairs:
+    if set(colorWedge.lower()) in colorPairAnagrams:
         print(f"querying for {colorWedge.upper()} cards!")
         winrates = colorPairWinrates[colorWedge.lower()]
         inputStr = inputStr[3:]
 
     # process request for top player data for a color wedge/pair
-    elif colorWedge[1:].lower() in colorPairs:
+    elif set(colorWedge[1:].lower()) in colorPairAnagrams:
         print(f"querying for {colorWedge.upper()} cards!")
         winrates = topColorPairWinrates[colorWedge[1:].lower()]
         inputStr = inputStr[4:]
