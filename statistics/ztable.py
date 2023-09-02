@@ -58,12 +58,13 @@ def quadBetweenTwoZs():
 
 
 def ppfPercentileToZ():
-    μ = float(input("mean: "))
-    σ = float(input("stdev: "))
+    # μ = float(input("mean: "))
+    # σ = float(input("stdev: "))
     percentile = float(input("percentile: "))/100
 
     z = stats.norm.ppf(percentile)
-    print(z * σ + μ)
+    print("z:", z)
+    # print("value:", z * σ + μ)
 
 
 while True:
