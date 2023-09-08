@@ -54,7 +54,7 @@ for card in scryfallData:
             rarityOfCards[card["name"]] = card["rarity"]
 
         except KeyError:  # this means there are multiple card faces
-            cardOracle[card["name"]] = ""
+            cardOracle[card["card_faces"][0]["name"]] = ""
             for face in card["card_faces"]:
                 try:
                     flavor_text = card["flavor_text"]
@@ -67,7 +67,10 @@ for card in scryfallData:
                 except KeyError:
                     stats = ""
 
-                cardOracle[card["name"]] += (
+                # this is a hack I came up with to address the fact that
+                # Scryfall names their cards based on both faces rather
+                # than just the front face
+                cardOracle[card["card_faces"][0]["name"]] += (
                     f'{face["name"]}   {face["mana_cost"]}\n'
                     f'{face["oracle_text"]}\n'
                     f'{stats}\n'
