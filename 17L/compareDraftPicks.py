@@ -55,8 +55,12 @@ while True:
 
     # process request for a color wedge / color pair
     if set(colorWedge.lower()) in colorPairAnagrams:
-        print(f"querying for {colorWedge.upper()} cards!")
-        winrates = colorPairWinrates[colorWedge.lower()]
+        colorPairIndex = colorPairAnagrams.index(set(colorWedge.lower()))
+        colorPair = colorPairs[colorPairIndex]
+
+        print(f"querying for {colorPair.upper()} cards!")
+        winrates = colorPairWinrates[colorPair.lower()]
+
         inputStr = inputStr[3:]
 
     # process request for top player data for a color wedge/pair

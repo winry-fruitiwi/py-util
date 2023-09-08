@@ -31,23 +31,69 @@ for card in scryfallData:
         # toughness)
         # the same goes for flavor text
 
-        # handles absence of flavor text
         try:
-            flavor_text = card["flavor_text"]
-        except KeyError:
-            flavor_text = ""
+            # handles absence of flavor text
+            try:
+                flavor_text = card["flavor_text"]
+            except KeyError:
+                flavor_text = ""
 
-        # handles absence of power/toughness
-        try:
-            stats = f'{card["power"]}/{card["toughness"]}'
-        except KeyError:
-            stats = ""
+            # handles absence of power/toughness
+            try:
+                stats = f'{card["power"]}/{card["toughness"]}'
+            except KeyError:
+                stats = ""
+
+            cardOracle[card["name"]] = (
+                f'{card["name"]}   {card["mana_cost"]}\n'
+                f'{card["oracle_text"]}\n'
+                f'{stats}\n'
+                f'{flavor_text}\n'
+                )
+
+            rarityOfCards[card["name"]] = card["rarity"]
+
+        except KeyError:  # this means there are multiple card faces
+            cardOracle[card["name"]] = ""
+            for face in card["card_faces"]:
+                try:
+                    flavor_text = card["flavor_text"]
+                except KeyError:
+                    flavor_text = ""
+
+                # handles absence of power/toughness
+                try:
+                    stats = f'{face["power"]}/{face["toughness"]}'
+                except KeyError:
+                    stats = ""
+
+                cardOracle[card["name"]] += (
+                    f'{face["name"]}   {face["mana_cost"]}\n'
+                    f'{face["oracle_text"]}\n'
+                    f'{stats}\n'
+                    f'{flavor_text}\n'
+                    )
+
+            rarityOfCards[card["name"]] = card["rarity"]
+
+        else:
+            # handles absence of flavor text
+            try:
+                flavor_text = card["flavor_text"]
+            except KeyError:
+                flavor_text = ""
+
+            # handles absence of power/toughness
+            try:
+                stats = f'{card["power"]}/{card["toughness"]}'
+            except KeyError:
+                stats = ""
 
 
-        cardOracle[card["name"]] = (f'{card["name"]}   {card["mana_cost"]}\n'
-                                    f'{card["oracle_text"]}\n'
-                                    f'{stats}\n'
-                                    f'{flavor_text}\n'
-                                    )
+            cardOracle[card["name"]] = (f'{card["name"]}   {card["mana_cost"]}\n'
+                                        f'{card["oracle_text"]}\n'
+                                        f'{stats}\n'
+                                        f'{flavor_text}\n'
+                                        )
 
-        rarityOfCards[card["name"]] = card["rarity"]
+            rarityOfCards[card["name"]] = card["rarity"]

@@ -9,4 +9,6 @@ colorPairs = [
 # a set of each color pair
 colorPairAnagrams = [set(pair) for pair in colorPairs]
 
-minGameCountSampleSize = 100
+minGameCountSampleSize = 500
+
+setCode = "woe"

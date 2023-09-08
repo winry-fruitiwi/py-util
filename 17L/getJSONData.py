@@ -1,11 +1,10 @@
 import requests
 import time
 import json
-from constants import colorPairs
+from constants import *
 
 
 # initialize the scryfall API link and pull the data from the website
-setCode = "ltr"
 scryfallAPILink = f"https://api.scryfall.com/cards/search?q=set:{setCode}"
 scryfallDataPath = 'scryfall.json'
 
@@ -51,27 +50,27 @@ def get17LDataIntoFile(url, filePath):
 
 
 topURL = (f"https://www.17lands.com/card_ratings/data?"
-          f"expansion=LTR&"
+          f"expansion={setCode.upper()}&"
           f"format=PremierDraft&"
           f"user_group=top"
           )
 
 
 allURL = (f"https://www.17lands.com/card_ratings/data?"
-          f"expansion=LTR&"
+          f"expansion={setCode.upper()}&"
           f"format=PremierDraft&"
           )
 
 
 for pair in colorPairs:
     pairURL = (f"https://www.17lands.com/card_ratings/data?"
-               f"expansion=LTR&"
+               f"expansion={setCode.upper()}&"
                f"format=PremierDraft&"
                f"colors={pair}"
                )
 
     topPairURL = (f"https://www.17lands.com/card_ratings/data?"
-                  f"expansion=LTR&"
+                  f"expansion={setCode.upper()}&"
                   f"format=PremierDraft&"
                   f"colors={pair}&"
                   f"user_group=top"

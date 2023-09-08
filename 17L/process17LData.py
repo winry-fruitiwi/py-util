@@ -36,7 +36,7 @@ def process17LJson(json_file_path):
         # opening hand winrate
         # if there are no instances where a card is ever drawn, then
         # it should be treated as 0 instead of null
-        if element["opening_hand_game_count"] == 0:
+        if element["opening_hand_game_count"] <= minGameCountSampleSize:
             winrates[name] = ["not even played enough", 0, 0, 0]
             length -= 1
             continue
@@ -61,6 +61,10 @@ def process17LJson(json_file_path):
             length -= 1
 
     # calculate the average of all the gih winrates (already summed up)
+    if length == 0:
+        print("Top data not available. Path:", json_file_path)
+        return
+
     μ: float = winrateSum/length
 
     # find σ, the standard deviation
@@ -110,6 +114,11 @@ def process17LJson(json_file_path):
         wr = winrates[name][0]
 
         if wr != "not even played enough":
+
+            if σ == 0:
+                print("Top data not available. Path:", json_file_path)
+                return
+
             z = (wr-μ)/σ
 
             # calculate which grade the card falls into. For example, "Fear, Fire,
