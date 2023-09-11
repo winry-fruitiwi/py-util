@@ -77,7 +77,7 @@ for card in scryfallData:
                     f'{flavor_text}\n'
                     )
 
-            rarityOfCards[card["name"]] = card["rarity"]
+            rarityOfCards[card["card_faces"][0]["name"]] = card["rarity"]
 
         else:
             # handles absence of flavor text

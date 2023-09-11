@@ -5,7 +5,8 @@ from constants import *
 
 
 # initialize the scryfall API link and pull the data from the website
-scryfallAPILink = f"https://api.scryfall.com/cards/search?q=set:{setCode}"
+scryfallAPILink = (f"https://api.scryfall.com/cards/search?q=set:{setCode}"
+                   f"+or+set:{bonusSheetCode}")
 scryfallDataPath = 'scryfall.json'
 
 

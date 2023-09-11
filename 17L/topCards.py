@@ -4,11 +4,11 @@ from constants import *
 
 # a file that looks for each archetype and returns the top commons of that
 # archetype. Does not count top players.
-allWinrates = process17LJson('card-ratings.json')
+allWinrates = process17LJson('all/card-ratings.json')
 colorPairWinrates = {}
 
 for pair in colorPairs:
-    pairData = process17LJson(f'{pair}-card-ratings.json')
+    pairData = process17LJson(f'all/{pair}-card-ratings.json')
     pairData = sorted_dict = {key: value for key, value in
                               sorted(pairData.items(),
                                      key=lambda x: x[1][2],
@@ -30,12 +30,12 @@ for color in colorPairWinrates:
         statList = colorData[card]
 
         if (statList[0] == "not even played enough" or
-            rarityOfCards[card] == "rare" or
-            rarityOfCards[card] == "mythic"
-            ):
+                rarityOfCards[card] == "rare" or
+                rarityOfCards[card] == "mythic"
+        ):
             continue
 
-        createStatList(statList, card)
+        print(createStatList(statList, card))
 
         cardsPrinted += 1
 
