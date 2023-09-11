@@ -9,6 +9,11 @@ scryfallAPILink = (f"https://api.scryfall.com/cards/search?q=set:{setCode}"
                    f"+or+set:{bonusSheetCode}")
 scryfallDataPath = 'scryfall.json'
 
+downloadData = input("Hey, do you really want to download the data? yes/no ")
+
+if downloadData.lower() != "yes":
+    raise ValueError("You called this function by accident")
+
 
 def getScryfallData(link):
     # Send a GET request to the URL
