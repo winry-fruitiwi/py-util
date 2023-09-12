@@ -2,6 +2,8 @@ from process17LData import *
 from processScryfallData import *
 from constants import *
 
+
+
 # a file that looks for each archetype and returns the top commons of that
 # archetype. Does not count top players.
 allWinrates = process17LJson('all/card-ratings.json')

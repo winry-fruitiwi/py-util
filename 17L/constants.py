@@ -1,6 +1,5 @@
 # combinations of all the color pairs in WUBRG order
 colorPairs = [
-    'w', 'u', 'b', 'r', 'g',
     'wu', 'wb', 'wr', 'wg',
     'ub', 'ur', 'ug',
     'br', 'bg',
