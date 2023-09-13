@@ -6,11 +6,11 @@ from constants import *
 
 # a file that looks for each archetype and returns the top commons of that
 # archetype. Does not count top players.
-allWinrates = process17LJson('all/card-ratings.json')
+allWinrates = process17LJson('requests/all/card-ratings.json')
 colorPairWinrates = {}
 
 for pair in colorPairs:
-    pairData = process17LJson(f'all/{pair}-card-ratings.json')
+    pairData = process17LJson(f'requests/all/{pair}-card-ratings.json')
     pairData = sorted_dict = {key: value for key, value in
                               sorted(pairData.items(),
                                      key=lambda x: x[1][2],

@@ -3,14 +3,16 @@ from process17LData import *
 from processScryfallData import *
 
 
-allWinrates = process17LJson('all/card-ratings.json')
-topWinrates = process17LJson('top/card-ratings.json')
+allWinrates = process17LJson('requests/all/card-ratings.json')
+topWinrates = process17LJson('requests/top/card-ratings.json')
 colorPairWinrates = {}
 topColorPairWinrates = {}
 
 for pair in colorPairs:
-    colorPairWinrates[pair] = process17LJson(f'all/{pair}-card-ratings.json')
-    topColorPairWinrates[pair] = process17LJson(f'top/{pair}-card-ratings.json')
+    colorPairWinrates[pair] = process17LJson(
+        f'requests/all/{pair}-card-ratings.json')
+    topColorPairWinrates[pair] = process17LJson(
+        f'requests/top/{pair}-card-ratings.json')
 
 # runs a FuzzyWuzzy program that constantly accepts an input and tells you
 # the stats of the card you are looking up. Abbreviations allowed
@@ -36,14 +38,14 @@ while True:
     winrates = allWinrates
 
     # if there is an exclamation mark present, then just process
-    # the request for the entire string instead of individually
+    # the requests for the entire string instead of individually
     # processing stats and oracle requests
     if inputStr[0] == "!":
         closest_match = process.extractOne(inputStr, choices)[0]
         print(cardOracle[closest_match])
         continue
 
-    # process request for top players
+    # process requests for top players
     if inputStr[0] == "~":
         print("querying for top players!")
         choices = topWinrates.keys()
@@ -53,7 +55,7 @@ while True:
     # checks for a color wedge based on splitting by colon
     colorWedge = inputStr.split(":")[0]
 
-    # process request for a color wedge / color pair
+    # process requests for a color wedge / color pair
     if set(colorWedge.lower()) in colorPairAnagrams:
         colorPairIndex = colorPairAnagrams.index(set(colorWedge.lower()))
         colorPair = colorPairs[colorPairIndex]
@@ -63,7 +65,7 @@ while True:
 
         inputStr = inputStr[3:]
 
-    # process request for top player data for a color wedge/pair
+    # process requests for top player data for a color wedge/pair
     elif set(colorWedge[1:].lower()) in colorPairAnagrams:
         print(f"querying for {colorWedge.upper()} cards!")
         winrates = topColorPairWinrates[colorWedge[1:].lower()]

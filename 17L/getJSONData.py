@@ -16,10 +16,10 @@ if downloadData.lower() != "yes":
 
 
 def getScryfallData(link):
-    # Send a GET request to the URL
+    # Send a GET requests to the URL
     scryfallData = requests.get(link)
 
-    # Check if the request was successful (status code 200)
+    # Check if the requests was successful (status code 200)
     if scryfallData.status_code == 200:
         # Get the JSON data from the response
         scryfallJSON = scryfallData.json()
@@ -82,11 +82,11 @@ for pair in colorPairs:
                   f"user_group=top"
                   )
 
-    get17LDataIntoFile(pairURL, f'all/{pair}-card-ratings.json')
-    get17LDataIntoFile(topPairURL, f'top/{pair}-card-ratings.json')
+    get17LDataIntoFile(pairURL, f'requests/all/{pair}-card-ratings.json')
+    get17LDataIntoFile(topPairURL, f'requests/top/{pair}-card-ratings.json')
 
 
-get17LDataIntoFile(topURL, 'top/card-ratings.json')
-get17LDataIntoFile(allURL, 'all/card-ratings.json')
+get17LDataIntoFile(topURL, 'requests/top/card-ratings.json')
+get17LDataIntoFile(allURL, 'requests/all/card-ratings.json')
 
 print("🔮 all stats loaded!")
