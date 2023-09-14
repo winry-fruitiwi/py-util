@@ -1,4 +1,5 @@
 import json
+from constants import *
 
 
 # this function operates on 17L archetype data and makes it more
@@ -34,4 +35,25 @@ def streamline17LJSON(fileToOpen, fileToWrite):
         json.dump(formattedFile, file)
 
 
-streamline17LJSON('requests/all/wr-card-ratings.json', 'formatted/all/wr-card-ratings.json')
+for pair in colorPairs:
+    pairURL = (f"https://www.17lands.com/card_ratings/data?"
+               f"expansion={setCode.upper()}&"
+               f"format=PremierDraft&"
+               f"colors={pair}"
+               )
+
+    topPairURL = (f"https://www.17lands.com/card_ratings/data?"
+                  f"expansion={setCode.upper()}&"
+                  f"format=PremierDraft&"
+                  f"colors={pair}&"
+                  f"user_group=top"
+                  )
+
+    streamline17LJSON(f'requests/all/{pair}-card-ratings.json', f'formatted/all/{pair}-card-ratings.json')
+    streamline17LJSON(f'requests/top/{pair}-card-ratings.json', f'formatted/top/{pair}-card-ratings.json')
+
+
+streamline17LJSON('requests/top/card-ratings.json', 'formatted/top/card-ratings.json')
+streamline17LJSON('requests/all/card-ratings.json', 'formatted/all/card-ratings.json')
+
+print("🎏 all stats streamlined!")
