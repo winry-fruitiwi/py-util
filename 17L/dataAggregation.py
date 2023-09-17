@@ -78,3 +78,6 @@ for cardName in allWinrates:
         }
 
     masterJSON[cardName] = jsonFragment
+
+with open("master.json", "w") as master:
+    json.dump(masterJSON, master)
