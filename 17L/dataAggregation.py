@@ -57,25 +57,27 @@ for cardName in allWinrates:
         colorWinrates = colorPairWinrates[pair][cardName]
         topWinrates = topColorPairWinrates[pair][cardName]
 
-        jsonFragment["stats"]["all"][pair] = {
-            "# OH": colorWinrates["# OH"],
-            "OH WR": colorWinrates["OH WR"],
-            "# GD": colorWinrates["# GD"],
-            "GD WR": colorWinrates["GD WR"],
-            "# GIH": colorWinrates["# GIH"],
-            "GIH WR": colorWinrates["GIH WR"],
-            "IWD": colorWinrates["IWD"]
-        }
+        if colorWinrates["GIH WR"] is not None:
+            jsonFragment["stats"]["all"][pair.upper()] = {
+                "# OH": colorWinrates["# OH"],
+                "OH WR": colorWinrates["OH WR"],
+                "# GD": colorWinrates["# GD"],
+                "GD WR": colorWinrates["GD WR"],
+                "# GIH": colorWinrates["# GIH"],
+                "GIH WR": colorWinrates["GIH WR"],
+                "IWD": colorWinrates["IWD"]
+            }
 
-        jsonFragment["stats"]["top"][pair] = {
-            "# OH": topWinrates["# OH"],
-            "OH WR": topWinrates["OH WR"],
-            "# GD": topWinrates["# GD"],
-            "GD WR": topWinrates["GD WR"],
-            "# GIH": topWinrates["# GIH"],
-            "GIH WR": topWinrates["GIH WR"],
-            "IWD": topWinrates["IWD"]
-        }
+        if topWinrates["GIH WR"] is not None:
+            jsonFragment["stats"]["top"][pair.upper()] = {
+                "# OH": topWinrates["# OH"],
+                "OH WR": topWinrates["OH WR"],
+                "# GD": topWinrates["# GD"],
+                "GD WR": topWinrates["GD WR"],
+                "# GIH": topWinrates["# GIH"],
+                "GIH WR": topWinrates["GIH WR"],
+                "IWD": topWinrates["IWD"]
+            }
 
     masterJSON[cardName] = jsonFragment
 
