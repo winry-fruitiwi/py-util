@@ -1,21 +1,32 @@
 # this file turns all the now streamlined data into one big master.json file
 import json
 from constants import *
-from process17LData import process17LJson
+from process17LData import gradeCards, fetchFileData
 
 # first, get data needed
-allWinrates = process17LJson('formatted/all/card-ratings.json')
-topWinrates = process17LJson('formatted/top/card-ratings.json')
+allWinrates = fetchFileData('formatted/all/card-ratings.json')
+topWinrates = fetchFileData('formatted/top/card-ratings.json')
+allGrades = fetchFileData('formatted/all/card-ratings.json')
+topGrades = fetchFileData('formatted/top/card-ratings.json')
+
 colorPairWinrates = {}
 topColorPairWinrates = {}
+colorPairGrades = {}
+topColorPairGrades = {}
 
 for pair in colorPairs:
-    colorPairWinrates[pair] = process17LJson(
-        f'formatted/all/{pair}-card-ratings.json')
-    topColorPairWinrates[pair] = process17LJson(
+    topColorPairWinrates[pair] = fetchFileData(
         f'formatted/top/{pair}-card-ratings.json')
+    colorPairWinrates[pair] = fetchFileData(
+        f'formatted/all/{pair}-card-ratings.json')
+
+    topColorPairGrades[pair] = fetchFileData(
+        f'formatted/top/{pair}-card-ratings.json')
+    colorPairGrades[pair] = fetchFileData(
+        f'formatted/all/{pair}-card-ratings.json')
 
 masterJSON = {}
+
 
 # then, iterate through each card
 for cardName in allWinrates:

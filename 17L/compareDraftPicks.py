@@ -1,18 +1,11 @@
 from fuzzywuzzy import process
 from process17LData import *
 from processScryfallData import *
+import json
 
 
-allWinrates = process17LJson('requests/all/card-ratings.json')
-topWinrates = process17LJson('requests/top/card-ratings.json')
-colorPairWinrates = {}
-topColorPairWinrates = {}
-
-for pair in colorPairs:
-    colorPairWinrates[pair] = process17LJson(
-        f'requests/all/{pair}-card-ratings.json')
-    topColorPairWinrates[pair] = process17LJson(
-        f'requests/top/{pair}-card-ratings.json')
+with open("master.json") as file:
+    master = json.load(file)
 
 # runs a FuzzyWuzzy program that constantly accepts an input and tells you
 # the stats of the card you are looking up. Abbreviations allowed
@@ -22,20 +15,19 @@ while True:
     # 'Shelob's Ambush', 'Shelob, Child of Ungoliant' + their stats
     inputStr: str = input("→ ")
 
-    # keep track if you wanted to query for top players
+    # keep track of if you wanted to query for top players
     topQuery: bool = False
 
     if inputStr == "":
         print("Please input an actual string.")
         continue
 
+    if inputStr == "q":
+        break
+
     # a list of all the winrate keys. Apparently, this is not a list, it's
     # a "_dict_keys" object and I'm not sure how to type that.
-    choices = allWinrates.keys()
-
-    # the winrates is either all the winrates or just the top winrates
-    # or any color pair / wedge
-    winrates = allWinrates
+    choices = master.keys()
 
     # if there is an exclamation mark present, then just process
     # the requests for the entire string instead of individually
@@ -48,12 +40,13 @@ while True:
     # process requests for top players
     if inputStr[0] == "~":
         print("querying for top players!")
-        choices = topWinrates.keys()
-        winrates = topWinrates
         topQuery = True
 
     # checks for a color wedge based on splitting by colon
     colorWedge = inputStr.split(":")[0]
+
+    # keeps track of what color pair I want
+    colorPair = "all"
 
     # process requests for a color wedge / color pair
     if set(colorWedge.lower()) in colorPairAnagrams:
@@ -61,15 +54,16 @@ while True:
         colorPair = colorPairs[colorPairIndex]
 
         print(f"querying for {colorPair.upper()} cards!")
-        winrates = colorPairWinrates[colorPair.lower()]
 
         inputStr = inputStr[3:]
+        colorPair = colorPair.lower()
 
     # process requests for top player data for a color wedge/pair
     elif set(colorWedge[1:].lower()) in colorPairAnagrams:
         print(f"querying for {colorWedge.upper()} cards!")
-        winrates = topColorPairWinrates[colorWedge[1:].lower()]
         inputStr = inputStr[4:]
+
+        colorPair = colorWedge[1:].lower()
 
     inputCardNames: List[str] = inputStr.split(",")
 
@@ -77,6 +71,9 @@ while True:
         print("you're only looking for 1 card")
 
         closest_match = process.extractOne(inputStr, choices)[0]
+
+        # get the data from the master JSON
+        stats = master[closest_match]["stats"]
 
         nameToWinrateDict = {}
 
@@ -86,17 +83,12 @@ while True:
         # if I queried for top players, then the winrates used below become
         # the winrate of the top players
         if topQuery:
-            winrates = topColorPairWinrates
+            winrates = stats["all"]
         else:
-            winrates = colorPairWinrates
+            winrates = stats["top"]
 
         for pair in winrates:
             pairStats = winrates[pair]
-
-            statList: List[str] = pairStats[closest_match]
-
-            if statList[0] == "not even played enough":
-                continue
 
             print(createStatList(statList, pair.upper()))
 
@@ -153,4 +145,4 @@ while True:
     for name in sorted_data:
         print(statDict[name])
 
-print("Process finished")
+print("Quitting...")
