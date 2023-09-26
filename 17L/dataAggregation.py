@@ -20,9 +20,9 @@ for pair in colorPairs:
     colorPairWinrates[pair] = fetchFileData(
         f'formatted/all/{pair}-card-ratings.json')
 
-    topColorPairGrades[pair] = fetchFileData(
+    topColorPairGrades[pair] = gradeCards(
         f'formatted/top/{pair}-card-ratings.json')
-    colorPairGrades[pair] = fetchFileData(
+    colorPairGrades[pair] = gradeCards(
         f'formatted/all/{pair}-card-ratings.json')
 
 masterJSON = {}
@@ -68,6 +68,9 @@ for cardName in allWinrates:
         colorWinratesOfAPair = colorPairWinrates[pair][cardName]
         topWinratesOfAPair = topColorPairWinrates[pair][cardName]
 
+        colorGradesOfAPair = colorPairWinrates[pair][cardName]
+        topGradesOfAPair = topColorPairWinrates[pair][cardName]
+
         if colorWinratesOfAPair["GIH WR"] is not None:
             jsonFragment["stats"]["all"][pair.upper()] = {
                 "# OH": colorWinratesOfAPair["# OH"],
@@ -76,7 +79,9 @@ for cardName in allWinrates:
                 "GD WR": colorWinratesOfAPair["GD WR"],
                 "# GIH": colorWinratesOfAPair["# GIH"],
                 "GIH WR": colorWinratesOfAPair["GIH WR"],
-                "IWD": colorWinratesOfAPair["IWD"]
+                "IWD": colorWinratesOfAPair["IWD"],
+                "grade": colorGradesOfAPair["grade"],
+                "z-score": colorGradesOfAPair["z-score"]
             }
 
         if topWinratesOfAPair["GIH WR"] is not None:
@@ -87,7 +92,9 @@ for cardName in allWinrates:
                 "GD WR": topWinratesOfAPair["GD WR"],
                 "# GIH": topWinratesOfAPair["# GIH"],
                 "GIH WR": topWinratesOfAPair["GIH WR"],
-                "IWD": topWinratesOfAPair["IWD"]
+                "IWD": topWinratesOfAPair["IWD"],
+                "grade": topGradesOfAPair["grade"],
+                "z-score": topGradesOfAPair["z-score"]
             }
 
     allColorWinrates = allWinrates[cardName]

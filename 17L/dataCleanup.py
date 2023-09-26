@@ -24,6 +24,7 @@ def streamline17LJSON(fileToOpen, fileToWrite):
                 "# GIH": cardJSON["ever_drawn_game_count"],
                 "GIH WR": cardJSON["ever_drawn_win_rate"],
                 "IWD": cardJSON["drawn_improvement_win_rate"],
+                "ALSA": cardJSON["avg_seen"],
                 "name": cardJSON["name"],
                 "color": cardJSON["color"],
                 "rarity": cardJSON["rarity"]

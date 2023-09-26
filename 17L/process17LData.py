@@ -23,42 +23,42 @@ def gradeCards(json_file_path):
     winrateSum: int = 0
 
     # iterate through all the JSON data and get the name and GIH winrate
-    for element in data:
+    for name in data:
         # next five variables are all strings
-        name = str(element["name"])
+        element = data[name]
 
         # GIHW = GIH Winrate
         # if there are no instances where a card is ever drawn, then
         # it should be treated as 0 instead of null
-        if element["ever_drawn_game_count"] <= minGameCountSampleSize:
+        if element["# GIH"] <= minGameCountSampleSize:
             winrates[name] = ["not even played enough", 0, 0, 0]
             length -= 1
             continue
 
-        gihw = str(round(element["ever_drawn_win_rate"] * 100, 1))
+        gihw = str(round(element["GIH WR"] * 100, 1))
 
         # opening hand winrate
         # if there are no instances where a card is ever drawn, then
         # it should be treated as 0 instead of null
-        if element["opening_hand_game_count"] <= minGameCountSampleSize:
+        if element["# OH"] <= minGameCountSampleSize:
             winrates[name] = ["not even played enough", 0, 0, 0]
             length -= 1
             continue
 
-        ohwr = str(round(element["opening_hand_win_rate"] * 100, 1))
+        ohwr = str(round(element["OH WR"] * 100, 1))
 
         # average last seen at
-        alsa = str(round(element["avg_seen"], 2))
+        alsa = str(round(element["ALSA"], 2))
 
         # improvement when drawn
 
-        iwd = str(round(element["drawn_improvement_win_rate"] * 100, 1))
+        iwd = str(round(element["IWD"] * 100, 1))
 
         # if players haven't played with a card enough for stats to be released,
         # the gihw will be blank. So I have to have a case to handle that.
         if (gihw != "") and (ohwr != ""):
             gihw = float(gihw)
-            winrates[name] = [gihw, ohwr, alsa, iwd]  # TODO add rarity
+            winrates[name] = [gihw, ohwr, alsa, iwd]
             winrateSum += gihw
         else:
             winrates[name] = ["not even played enough", 0, 0, 0]
