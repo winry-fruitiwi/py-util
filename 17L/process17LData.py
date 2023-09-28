@@ -34,6 +34,7 @@ def gradeCards(json_file_path):
     # Check if there are valid "b" values before calculating the mean
     if ohWRs:
         mean_oh = statistics.mean(ohWRs)
+        stdev_oh = statistics.stdev(ohWRs)
         print("Mean of OH WR:", mean_oh)
     else:
         print("No OH WR grades found.")
@@ -46,6 +47,7 @@ def gradeCards(json_file_path):
     # Check if there are valid "b" values before calculating the mean
     if gihWRs:
         mean_gih = statistics.mean(gihWRs)
+        stdev_gih = statistics.stdev(gihWRs)
         print("Mean of GIH WR:", mean_gih)
     else:
         print("No GIH WR grades found.")
@@ -58,10 +60,14 @@ def gradeCards(json_file_path):
     # Check if there are valid "b" values before calculating the mean
     if gdWRs:
         mean_gd = statistics.mean(gdWRs)
+        stdev_gd = statistics.stdev(gdWRs)
         print("Mean of GD WR:", mean_gd)
     else:
         print("No GD WR grades found.")
         mean_gd = 0
+
+
+
 
     # # keeps track of how many real cards are in the set
     # length = len(data)
