@@ -2,6 +2,7 @@ import json
 import math
 from typing import List
 from constants import *
+import statistics
 
 
 def fetchFileData(json_file_path):
@@ -13,6 +14,54 @@ def fetchFileData(json_file_path):
 
 def gradeCards(json_file_path):
     data = fetchFileData(json_file_path)
+
+    # a list of GIH, OH, and GD winrates
+    winrates = {}
+
+    for cardName in data:
+        card = data[cardName]
+
+        winrates[cardName] = {
+            "OH WR": card["OH WR"],
+            "GD WR": card["GD WR"],
+            "GIH WR": card["GIH WR"],
+        }
+
+    # Extract winrate values into a list while filtering out None values
+    ohWRs = [inner_dict["OH WR"] for inner_dict in winrates.values() if
+             "OH WR" in inner_dict and inner_dict["OH WR"] is not None]
+
+    # Check if there are valid "b" values before calculating the mean
+    if ohWRs:
+        mean_oh = statistics.mean(ohWRs)
+        print("Mean of OH WR:", mean_oh)
+    else:
+        print("No OH WR grades found.")
+        mean_oh = 0
+
+    # Extract winrate values into a list while filtering out None values
+    gihWRs = [inner_dict["GIH WR"] for inner_dict in winrates.values() if
+              "GIH WR" in inner_dict and inner_dict["GIH WR"] is not None]
+
+    # Check if there are valid "b" values before calculating the mean
+    if gihWRs:
+        mean_gih = statistics.mean(gihWRs)
+        print("Mean of GIH WR:", mean_gih)
+    else:
+        print("No GIH WR grades found.")
+        mean_gih = 0
+
+    # Extract winrate values into a list while filtering out None values
+    gdWRs = [inner_dict["GD WR"] for inner_dict in winrates.values() if
+             "GD WR" in inner_dict and inner_dict["GD WR"] is not None]
+
+    # Check if there are valid "b" values before calculating the mean
+    if gdWRs:
+        mean_gd = statistics.mean(gdWRs)
+        print("Mean of GD WR:", mean_gd)
+    else:
+        print("No GD WR grades found.")
+        mean_gd = 0
 
     # # keeps track of how many real cards are in the set
     # length = len(data)
