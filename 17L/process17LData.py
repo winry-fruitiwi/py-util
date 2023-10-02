@@ -35,9 +35,9 @@ def gradeCards(json_file_path):
     if ohWRs:
         mean_oh = statistics.mean(ohWRs)
         stdev_oh = statistics.stdev(ohWRs)
-        print("Mean of OH WR:", mean_oh)
     else:
         print("No OH WR grades found.")
+        stdev_oh = 0
         mean_oh = 0
 
     # Extract winrate values into a list while filtering out None values
@@ -48,9 +48,9 @@ def gradeCards(json_file_path):
     if gihWRs:
         mean_gih = statistics.mean(gihWRs)
         stdev_gih = statistics.stdev(gihWRs)
-        print("Mean of GIH WR:", mean_gih)
     else:
         print("No GIH WR grades found.")
+        stdev_gih = 0
         mean_gih = 0
 
     # Extract winrate values into a list while filtering out None values
@@ -61,12 +61,63 @@ def gradeCards(json_file_path):
     if gdWRs:
         mean_gd = statistics.mean(gdWRs)
         stdev_gd = statistics.stdev(gdWRs)
-        print("Mean of GD WR:", mean_gd)
     else:
         print("No GD WR grades found.")
+        stdev_gd = 0
         mean_gd = 0
 
+    # find the number of standard deviations each card is away from the mean using
+    # the equation z=(x-μ)/σ
 
+    # to do the above, we need to start with a list of grades and their lower zscore
+    # bounds. for example, a card with a z-score of 2.25 would be an A+, but any
+    # card with a z-score below -1.49 (-10 is too low) is unplayable.
+    grades: List[tuple] = [
+        ("S ", 2.48),
+        ("A+", 2.15),
+        ("A ", 1.92),
+        ("A-", 1.49),
+        ("B+", 1.16),
+        ("B ", 0.83),
+        ("B-", 0.50),
+        ("C+", 0.17),
+        ("C ", -0.17),
+        ("C-", -0.50),
+        ("D+", -0.83),
+        ("D ", -1.16),
+        ("D-", -1.49),
+        ("F ", -10.0)
+    ]
+
+    # the grades of all the cards
+    cardGrades = {}
+
+    for cardName in winrates:
+        winrateDict = winrates[cardName]
+
+        if (mean_gd != 0) and (stdev_gd != 0):
+            # find z-score of gd wr
+            wr = winrateDict["GD WR"]
+
+            if wr is not None:
+                z = (wr - mean_gd)/stdev_gd
+
+                cardGrade = ""
+
+                for i in range(len(grades)):
+                    grade = grades[i][0]
+
+                    # for some reason, the IDE gets mad at me when I don't make sure
+                    # this is a float, even though it seems like it's supposed to be
+                    # Theory: F is -10, so it's no longer a float. it's an int
+                    lowerBound = float(grades[i][1])
+
+                    if z > lowerBound:
+                        cardGrade = grade
+                        break
+
+                cardGrades[cardName] = {"GD grade": cardGrade,
+                                        "GD zscore": z}
 
 
     # # keeps track of how many real cards are in the set
@@ -146,28 +197,6 @@ def gradeCards(json_file_path):
     # # then take the square root of that
     # σ = math.sqrt(σ)
     #
-    # # find the number of standard deviations each card is away from the mean using
-    # # the equation z=(x-μ)/σ
-    #
-    # # to do the above, we need to start with a list of grades and their lower zscore
-    # # bounds. for example, a card with a z-score of 2.25 would be an A+, but any
-    # # card with a z-score below -1.49 (-10 is too low) is unplayable.
-    # grades: List[tuple] = [
-    #     ("S ", 2.48),
-    #     ("A+", 2.15),
-    #     ("A ", 1.92),
-    #     ("A-", 1.49),
-    #     ("B+", 1.16),
-    #     ("B ", 0.83),
-    #     ("B-", 0.50),
-    #     ("C+", 0.17),
-    #     ("C ", -0.17),
-    #     ("C-", -0.50),
-    #     ("D+", -0.83),
-    #     ("D ", -1.16),
-    #     ("D-", -1.49),
-    #     ("F ", -10)
-    # ]
     #
     # # grade each card with the z-score equation and the lower bounds of each card
     # for name in winrates:
