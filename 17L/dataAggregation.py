@@ -10,9 +10,11 @@ colorPairGrades = {}
 topColorPairGrades = {}
 
 allWinrates = fetchFileData('formatted/all/card-ratings.json')
-topWinrates = fetchFileData('formatted/top/card-ratings.json')
-allGrades = fetchFileData('formatted/all/card-ratings.json')
-topGrades = fetchFileData('formatted/top/card-ratings.json')
+
+colorPairWinrates["all"] = fetchFileData('formatted/all/card-ratings.json')
+topColorPairWinrates["all"] = fetchFileData('formatted/top/card-ratings.json')
+colorPairGrades["all"] = gradeCards('formatted/all/card-ratings.json')
+topColorPairGrades["all"] = gradeCards('formatted/top/card-ratings.json')
 
 for pair in colorPairs:
     topColorPairWinrates[pair] = fetchFileData(
@@ -83,7 +85,8 @@ for cardName in allWinrates:
                         "grade": colorGradesOfAPair["grade"],
                         "z-score": colorGradesOfAPair["z-score"]
                     }
-        except KeyError or TypeError:
+        except KeyError as e:
+            print(e)
             pass
 
 

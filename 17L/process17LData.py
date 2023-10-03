@@ -169,6 +169,9 @@ def gradeCards(json_file_path):
                                         "OH zscore": z}
 
 
+        return cardGrades
+
+
     # # keeps track of how many real cards are in the set
     # length = len(data)
     #
