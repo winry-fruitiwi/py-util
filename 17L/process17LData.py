@@ -119,6 +119,55 @@ def gradeCards(json_file_path):
                 cardGrades[cardName] = {"GD grade": cardGrade,
                                         "GD zscore": z}
 
+        if (mean_gih != 0) and (stdev_gih != 0):
+            # find z-score of gd wr
+            wr = winrateDict["GIH WR"]
+
+            if wr is not None:
+                z = (wr - mean_gih)/stdev_gih
+
+                cardGrade = ""
+
+                for i in range(len(grades)):
+                    grade = grades[i][0]
+
+                    # for some reason, the IDE gets mad at me when I don't make sure
+                    # this is a float, even though it seems like it's supposed to be
+                    # Theory: F is -10, so it's no longer a float. it's an int
+                    lowerBound = float(grades[i][1])
+
+                    if z > lowerBound:
+                        cardGrade = grade
+                        break
+
+                cardGrades[cardName] = {"GIH grade": cardGrade,
+                                        "GIH zscore": z}
+
+
+        if (mean_oh != 0) and (stdev_oh != 0):
+            # find z-score of gd wr
+            wr = winrateDict["OH WR"]
+
+            if wr is not None:
+                z = (wr - mean_oh)/stdev_oh
+
+                cardGrade = ""
+
+                for i in range(len(grades)):
+                    grade = grades[i][0]
+
+                    # for some reason, the IDE gets mad at me when I don't make sure
+                    # this is a float, even though it seems like it's supposed to be
+                    # Theory: F is -10, so it's no longer a float. it's an int
+                    lowerBound = float(grades[i][1])
+
+                    if z > lowerBound:
+                        cardGrade = grade
+                        break
+
+                cardGrades[cardName] = {"OH grade": cardGrade,
+                                        "OH zscore": z}
+
 
     # # keeps track of how many real cards are in the set
     # length = len(data)
