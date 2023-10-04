@@ -95,6 +95,8 @@ def gradeCards(json_file_path):
     for cardName in winrates:
         winrateDict = winrates[cardName]
 
+        cardGrades[cardName] = {}
+
         if (mean_gd != 0) and (stdev_gd != 0):
             # find z-score of gd wr
             wr = winrateDict["GD WR"]
@@ -116,8 +118,9 @@ def gradeCards(json_file_path):
                         cardGrade = grade
                         break
 
-                cardGrades[cardName] = {"GD grade": cardGrade,
-                                        "GD zscore": z}
+                cardGrades[cardName].update({"GD grade": cardGrade,
+                                             "GD zscore": z})
+                print(f"{cardName}: {cardGrades[cardName]}")
 
         if (mean_gih != 0) and (stdev_gih != 0):
             # find z-score of gd wr
@@ -140,8 +143,8 @@ def gradeCards(json_file_path):
                         cardGrade = grade
                         break
 
-                cardGrades[cardName] = {"GIH grade": cardGrade,
-                                        "GIH zscore": z}
+                cardGrades[cardName].update({"GIH grade": cardGrade,
+                                             "GIH zscore": z})
 
 
         if (mean_oh != 0) and (stdev_oh != 0):
@@ -165,9 +168,8 @@ def gradeCards(json_file_path):
                         cardGrade = grade
                         break
 
-                cardGrades[cardName] = {"OH grade": cardGrade,
-                                        "OH zscore": z}
-
+                cardGrades[cardName].update({"OH grade": cardGrade,
+                                             "OH zscore": z})
 
         return cardGrades
 

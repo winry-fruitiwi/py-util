@@ -27,6 +27,9 @@ for pair in colorPairs:
     colorPairGrades[pair] = gradeCards(
         f'formatted/all/{pair}-card-ratings.json')
 
+with open("test.json", "w") as file:
+    json.dump(colorPairGrades, file)
+
 masterJSON = {}
 
 colorPairs.append("all")
@@ -67,6 +70,7 @@ for cardName in allWinrates:
         }
     }
 
+    print(cardName)
     for pair in colorPairs:
         try:
             colorWinratesOfAPair = colorPairWinrates[pair][cardName]
@@ -86,7 +90,6 @@ for cardName in allWinrates:
                         "z-score": colorGradesOfAPair["z-score"]
                     }
         except KeyError as e:
-            print(e)
             pass
 
 
