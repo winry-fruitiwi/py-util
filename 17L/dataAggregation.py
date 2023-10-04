@@ -13,7 +13,11 @@ allWinrates = fetchFileData('formatted/all/card-ratings.json')
 
 colorPairWinrates["all"] = fetchFileData('formatted/all/card-ratings.json')
 topColorPairWinrates["all"] = fetchFileData('formatted/top/card-ratings.json')
+
+print(f"\n\nall")
 colorPairGrades["all"] = gradeCards('formatted/all/card-ratings.json')
+
+print(f"\n\nall top")
 topColorPairGrades["all"] = gradeCards('formatted/top/card-ratings.json')
 
 for pair in colorPairs:
@@ -22,8 +26,13 @@ for pair in colorPairs:
     colorPairWinrates[pair] = fetchFileData(
         f'formatted/all/{pair}-card-ratings.json')
 
+    print(f"\n\n{pair}")
+
     topColorPairGrades[pair] = gradeCards(
         f'formatted/top/{pair}-card-ratings.json')
+
+    print(f"\n\ntop {pair}")
+
     colorPairGrades[pair] = gradeCards(
         f'formatted/all/{pair}-card-ratings.json')
 
@@ -70,7 +79,6 @@ for cardName in allWinrates:
         }
     }
 
-    print(cardName)
     for pair in colorPairs:
         try:
             colorWinratesOfAPair = colorPairWinrates[pair][cardName]

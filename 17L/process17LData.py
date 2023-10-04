@@ -19,6 +19,7 @@ def gradeCards(json_file_path):
     winrates = {}
 
     for cardName in data:
+        print(cardName)
         card = data[cardName]
 
         winrates[cardName] = {
@@ -73,14 +74,14 @@ def gradeCards(json_file_path):
     # bounds. for example, a card with a z-score of 2.25 would be an A+, but any
     # card with a z-score below -1.49 (-10 is too low) is unplayable.
     grades: List[tuple] = [
-        ("S ", 2.48),
-        ("A+", 2.15),
-        ("A ", 1.92),
-        ("A-", 1.49),
-        ("B+", 1.16),
-        ("B ", 0.83),
-        ("B-", 0.50),
-        ("C+", 0.17),
+        ("S ",  2.48),
+        ("A+",  2.15),
+        ("A ",  1.92),
+        ("A-",  1.49),
+        ("B+",  1.16),
+        ("B ",  0.83),
+        ("B-",  0.50),
+        ("C+",  0.17),
         ("C ", -0.17),
         ("C-", -0.50),
         ("D+", -0.83),
@@ -92,8 +93,10 @@ def gradeCards(json_file_path):
     # the grades of all the cards
     cardGrades = {}
 
-    for cardName in winrates:
+    for cardName in data:
         winrateDict = winrates[cardName]
+
+        print(cardName)
 
         cardGrades[cardName] = {}
 
@@ -102,6 +105,7 @@ def gradeCards(json_file_path):
             wr = winrateDict["GD WR"]
 
             if wr is not None:
+                print(f"GD winrates are provided for {cardName}")
                 z = (wr - mean_gd)/stdev_gd
 
                 cardGrade = ""
@@ -120,13 +124,13 @@ def gradeCards(json_file_path):
 
                 cardGrades[cardName].update({"GD grade": cardGrade,
                                              "GD zscore": z})
-                print(f"{cardName}: {cardGrades[cardName]}")
 
         if (mean_gih != 0) and (stdev_gih != 0):
             # find z-score of gd wr
             wr = winrateDict["GIH WR"]
 
             if wr is not None:
+                print(f"GIH winrates are provided for {cardName}")
                 z = (wr - mean_gih)/stdev_gih
 
                 cardGrade = ""
@@ -152,6 +156,7 @@ def gradeCards(json_file_path):
             wr = winrateDict["OH WR"]
 
             if wr is not None:
+                print(f"OH winrates are provided for {cardName}")
                 z = (wr - mean_oh)/stdev_oh
 
                 cardGrade = ""
@@ -170,6 +175,8 @@ def gradeCards(json_file_path):
 
                 cardGrades[cardName].update({"OH grade": cardGrade,
                                              "OH zscore": z})
+
+        print(cardGrades)
 
         return cardGrades
 
