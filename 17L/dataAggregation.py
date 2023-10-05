@@ -26,13 +26,11 @@ for pair in colorPairs:
     colorPairWinrates[pair] = fetchFileData(
         f'formatted/all/{pair}-card-ratings.json')
 
-    print(f"\n\n{pair}")
-
+    print(f"\n\ntop {pair}")
     topColorPairGrades[pair] = gradeCards(
         f'formatted/top/{pair}-card-ratings.json')
 
-    print(f"\n\ntop {pair}")
-
+    print(f"\n\n{pair}")
     colorPairGrades[pair] = gradeCards(
         f'formatted/all/{pair}-card-ratings.json')
 

@@ -18,8 +18,7 @@ def gradeCards(json_file_path):
     # a list of GIH, OH, and GD winrates
     winrates = {}
 
-    for cardName in data:
-        print(cardName)
+    for cardName in data.keys():
         card = data[cardName]
 
         winrates[cardName] = {
@@ -67,7 +66,7 @@ def gradeCards(json_file_path):
         stdev_gd = 0
         mean_gd = 0
 
-    # find the number of standard deviations each card is away from the mean using
+    # find the number of standard deviations each car   d is away from the mean using
     # the equation z=(x-μ)/σ
 
     # to do the above, we need to start with a list of grades and their lower zscore
@@ -93,7 +92,7 @@ def gradeCards(json_file_path):
     # the grades of all the cards
     cardGrades = {}
 
-    for cardName in data:
+    for cardName in data.keys():
         winrateDict = winrates[cardName]
 
         print(cardName)
@@ -176,9 +175,7 @@ def gradeCards(json_file_path):
                 cardGrades[cardName].update({"OH grade": cardGrade,
                                              "OH zscore": z})
 
-        print(cardGrades)
-
-        return cardGrades
+    return cardGrades
 
 
     # # keeps track of how many real cards are in the set
