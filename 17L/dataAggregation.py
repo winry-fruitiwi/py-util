@@ -79,31 +79,37 @@ for cardName in allWinrates:
         colorWinratesOfAPair = colorPairWinrates[pair][cardName]
         colorGradesOfAPair = colorPairGrades[pair][cardName]
 
-        jsonFragment["stats"]["all"][pair.upper()] = {
-            "# OH": colorWinratesOfAPair["# OH"],
-            "OH WR": colorWinratesOfAPair["OH WR"],
-            "# GD": colorWinratesOfAPair["# GD"],
-            "GD WR": colorWinratesOfAPair["GD WR"],
-            "# GIH": colorWinratesOfAPair["# GIH"],
-            "GIH WR": colorWinratesOfAPair["GIH WR"],
-            "IWD": colorWinratesOfAPair["IWD"]
-        }
-        jsonFragment["stats"]["all"][pair.upper()].update(colorGradesOfAPair)
+        if ((colorWinratesOfAPair["OH WR"] is not None) and
+            (colorWinratesOfAPair["GD WR"] is not None) and
+            (colorWinratesOfAPair["GIH WR"] is not None)):
+            jsonFragment["stats"]["all"][pair] = {
+                "# OH": colorWinratesOfAPair["# OH"],
+                "OH WR": colorWinratesOfAPair["OH WR"],
+                "# GD": colorWinratesOfAPair["# GD"],
+                "GD WR": colorWinratesOfAPair["GD WR"],
+                "# GIH": colorWinratesOfAPair["# GIH"],
+                "GIH WR": colorWinratesOfAPair["GIH WR"],
+                "IWD": colorWinratesOfAPair["IWD"]
+            }
+            jsonFragment["stats"]["all"][pair].update(colorGradesOfAPair)
 
 
         topWinratesOfAPair = topColorPairWinrates[pair][cardName]
         topGradesOfAPair = topColorPairGrades[pair][cardName]
 
-        jsonFragment["stats"]["top"][pair.upper()] = {
-            "# OH": topWinratesOfAPair["# OH"],
-            "OH WR": topWinratesOfAPair["OH WR"],
-            "# GD": topWinratesOfAPair["# GD"],
-            "GD WR": topWinratesOfAPair["GD WR"],
-            "# GIH": topWinratesOfAPair["# GIH"],
-            "GIH WR": topWinratesOfAPair["GIH WR"],
-            "IWD": topWinratesOfAPair["IWD"]
-        }
-        jsonFragment["stats"]["top"][pair.upper()].update(topGradesOfAPair)
+        if ((topWinratesOfAPair["OH WR"] is not None) and
+            (topWinratesOfAPair["GD WR"] is not None) and
+            (topWinratesOfAPair["GIH WR"] is not None)):
+            jsonFragment["stats"]["top"][pair] = {
+                "# OH": topWinratesOfAPair["# OH"],
+                "OH WR": topWinratesOfAPair["OH WR"],
+                "# GD": topWinratesOfAPair["# GD"],
+                "GD WR": topWinratesOfAPair["GD WR"],
+                "# GIH": topWinratesOfAPair["# GIH"],
+                "GIH WR": topWinratesOfAPair["GIH WR"],
+                "IWD": topWinratesOfAPair["IWD"]
+            }
+            jsonFragment["stats"]["top"][pair].update(topGradesOfAPair)
 
     masterJSON[cardName] = jsonFragment
 
