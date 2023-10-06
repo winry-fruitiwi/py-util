@@ -94,11 +94,6 @@ while True:
 
         continue
 
-    # allows the user to quit the app
-    if inputCardNames == ["q"]:
-        print("Quitting process...")
-        break
-
     # the header for the stats display
     header = f'      zscore   gih     oh      alsa    iwd      name'
 

@@ -89,7 +89,8 @@ for cardName in allWinrates:
                 "GD WR": colorWinratesOfAPair["GD WR"],
                 "# GIH": colorWinratesOfAPair["# GIH"],
                 "GIH WR": colorWinratesOfAPair["GIH WR"],
-                "IWD": colorWinratesOfAPair["IWD"]
+                "IWD": colorWinratesOfAPair["IWD"],
+                "ALSA": colorWinratesOfAPair["ALSA"]
             }
             jsonFragment["stats"]["all"][pair].update(colorGradesOfAPair)
 
@@ -107,7 +108,8 @@ for cardName in allWinrates:
                 "GD WR": topWinratesOfAPair["GD WR"],
                 "# GIH": topWinratesOfAPair["# GIH"],
                 "GIH WR": topWinratesOfAPair["GIH WR"],
-                "IWD": topWinratesOfAPair["IWD"]
+                "IWD": topWinratesOfAPair["IWD"],
+                "ALSA": topWinratesOfAPair["ALSA"]
             }
             jsonFragment["stats"]["top"][pair].update(topGradesOfAPair)
 

@@ -288,7 +288,7 @@ def gradeCards(json_file_path):
     # return winrates
 
 
-def createStatList(json, pair):
+def createStatList(json, pairOrName):
     # # construct a stat string and print it
     # # format: statList = [grade, zscore, diff, oh, alsa, iwd]
     # # I'm using ljust to make sure that alsa is always 4 chars long, using
@@ -304,4 +304,23 @@ def createStatList(json, pair):
 
     # the above is wrong and not for use anymore! It's only for reference
 
-    return "Stat list creation is currently down during reimplementation."
+    numGIH = json["# GIH"]
+    alsa = json["ALSA"]
+    iwd = json["IWD"]
+
+    gradeGIH = json["GIH grade"]
+    zscoreGIH = json["GIH zscore"]
+    winrateGIH = json["GIH WR"]
+
+    gradeGD = json["GD grade"]
+    zscoreGD = json["GD zscore"]
+    winrateGD = json["GD WR"]
+
+    gradeOH = json["OH grade"]
+    zscoreOH = json["OH zscore"]
+    winrateOH = json["OH WR"]
+
+    return (f"{numGIH}  {alsa} | {gradeGIH}  {zscoreGIH} {winrateGIH}"
+            f" | {gradeOH}  {zscoreOH} {winrateOH} "
+            f"| {gradeGD}  {zscoreGD} {winrateGD} |"
+            f"  {iwd}pp  |  {pairOrName}")
