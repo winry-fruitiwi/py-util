@@ -14,10 +14,8 @@ allWinrates = fetchFileData('formatted/all/card-ratings.json')
 colorPairWinrates["all"] = fetchFileData('formatted/all/card-ratings.json')
 topColorPairWinrates["all"] = fetchFileData('formatted/top/card-ratings.json')
 
-print(f"\n\nall")
 colorPairGrades["all"] = gradeCards('formatted/all/card-ratings.json')
 
-print(f"\n\nall top")
 topColorPairGrades["all"] = gradeCards('formatted/top/card-ratings.json')
 
 for pair in colorPairs:
@@ -26,11 +24,9 @@ for pair in colorPairs:
     colorPairWinrates[pair] = fetchFileData(
         f'formatted/all/{pair}-card-ratings.json')
 
-    print(f"\n\ntop {pair}")
     topColorPairGrades[pair] = gradeCards(
         f'formatted/top/{pair}-card-ratings.json')
 
-    print(f"\n\n{pair}")
     colorPairGrades[pair] = gradeCards(
         f'formatted/all/{pair}-card-ratings.json')
 
@@ -77,6 +73,8 @@ for cardName in allWinrates:
         }
     }
 
+    # iterate through each color pair, find the grades, and then construct a
+    # JSON fragment of winrates and grades for each winrate
     for pair in colorPairs:
         try:
             colorWinratesOfAPair = colorPairWinrates[pair][cardName]
@@ -91,10 +89,13 @@ for cardName in allWinrates:
                         "GD WR": colorWinratesOfAPair["GD WR"],
                         "# GIH": colorWinratesOfAPair["# GIH"],
                         "GIH WR": colorWinratesOfAPair["GIH WR"],
-                        "IWD": colorWinratesOfAPair["IWD"],
-                        "grade": colorGradesOfAPair["grade"],
-                        "z-score": colorGradesOfAPair["z-score"]
+                        "IWD": colorWinratesOfAPair["IWD"]
                     }
+
+                    jsonFragment["stats"]["all"][pair.upper()].update(colorGradesOfAPair)
+
+            print("no errors here yet in all")
+
         except KeyError as e:
             pass
 
@@ -112,10 +113,10 @@ for cardName in allWinrates:
                         "GD WR": topWinratesOfAPair["GD WR"],
                         "# GIH": topWinratesOfAPair["# GIH"],
                         "GIH WR": topWinratesOfAPair["GIH WR"],
-                        "IWD": topWinratesOfAPair["IWD"],
-                        "grade": topGradesOfAPair["grade"],
-                        "z-score": topGradesOfAPair["z-score"]
+                        "IWD": topWinratesOfAPair["IWD"]
                     }
+
+                    jsonFragment["stats"]["top"][pair.upper()].update(topGradesOfAPair)
         except KeyError or TypeError:
             pass
 

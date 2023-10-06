@@ -36,7 +36,6 @@ def gradeCards(json_file_path):
         mean_oh = statistics.mean(ohWRs)
         stdev_oh = statistics.stdev(ohWRs)
     else:
-        print("No OH WR grades found.")
         stdev_oh = 0
         mean_oh = 0
 
@@ -49,7 +48,6 @@ def gradeCards(json_file_path):
         mean_gih = statistics.mean(gihWRs)
         stdev_gih = statistics.stdev(gihWRs)
     else:
-        print("No GIH WR grades found.")
         stdev_gih = 0
         mean_gih = 0
 
@@ -62,7 +60,6 @@ def gradeCards(json_file_path):
         mean_gd = statistics.mean(gdWRs)
         stdev_gd = statistics.stdev(gdWRs)
     else:
-        print("No GD WR grades found.")
         stdev_gd = 0
         mean_gd = 0
 
@@ -95,8 +92,6 @@ def gradeCards(json_file_path):
     for cardName in data.keys():
         winrateDict = winrates[cardName]
 
-        print(cardName)
-
         cardGrades[cardName] = {}
 
         if (mean_gd != 0) and (stdev_gd != 0):
@@ -104,7 +99,6 @@ def gradeCards(json_file_path):
             wr = winrateDict["GD WR"]
 
             if wr is not None:
-                print(f"GD winrates are provided for {cardName}")
                 z = (wr - mean_gd)/stdev_gd
 
                 cardGrade = ""
@@ -129,7 +123,6 @@ def gradeCards(json_file_path):
             wr = winrateDict["GIH WR"]
 
             if wr is not None:
-                print(f"GIH winrates are provided for {cardName}")
                 z = (wr - mean_gih)/stdev_gih
 
                 cardGrade = ""
@@ -155,7 +148,6 @@ def gradeCards(json_file_path):
             wr = winrateDict["OH WR"]
 
             if wr is not None:
-                print(f"OH winrates are provided for {cardName}")
                 z = (wr - mean_oh)/stdev_oh
 
                 cardGrade = ""
