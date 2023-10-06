@@ -76,49 +76,34 @@ for cardName in allWinrates:
     # iterate through each color pair, find the grades, and then construct a
     # JSON fragment of winrates and grades for each winrate
     for pair in colorPairs:
-        try:
-            colorWinratesOfAPair = colorPairWinrates[pair][cardName]
-            colorGradesOfAPair = colorPairGrades[pair][cardName]
+        colorWinratesOfAPair = colorPairWinrates[pair][cardName]
+        colorGradesOfAPair = colorPairGrades[pair][cardName]
 
-            if colorGradesOfAPair[0] != "not even played enough":
-                if colorWinratesOfAPair["GIH WR"] is not None and colorGradesOfAPair is not None:
-                    jsonFragment["stats"]["all"][pair.upper()] = {
-                        "# OH": colorWinratesOfAPair["# OH"],
-                        "OH WR": colorWinratesOfAPair["OH WR"],
-                        "# GD": colorWinratesOfAPair["# GD"],
-                        "GD WR": colorWinratesOfAPair["GD WR"],
-                        "# GIH": colorWinratesOfAPair["# GIH"],
-                        "GIH WR": colorWinratesOfAPair["GIH WR"],
-                        "IWD": colorWinratesOfAPair["IWD"]
-                    }
-
-                    jsonFragment["stats"]["all"][pair.upper()].update(colorGradesOfAPair)
-
-            print("no errors here yet in all")
-
-        except KeyError as e:
-            pass
+        jsonFragment["stats"]["all"][pair.upper()] = {
+            "# OH": colorWinratesOfAPair["# OH"],
+            "OH WR": colorWinratesOfAPair["OH WR"],
+            "# GD": colorWinratesOfAPair["# GD"],
+            "GD WR": colorWinratesOfAPair["GD WR"],
+            "# GIH": colorWinratesOfAPair["# GIH"],
+            "GIH WR": colorWinratesOfAPair["GIH WR"],
+            "IWD": colorWinratesOfAPair["IWD"]
+        }
+        jsonFragment["stats"]["all"][pair.upper()].update(colorGradesOfAPair)
 
 
-        try:
-            topWinratesOfAPair = topColorPairWinrates[pair][cardName]
-            topGradesOfAPair = topColorPairGrades[pair][cardName]
+        topWinratesOfAPair = topColorPairWinrates[pair][cardName]
+        topGradesOfAPair = topColorPairGrades[pair][cardName]
 
-            if topGradesOfAPair[0] != "not even played enough":
-                if topWinratesOfAPair["GIH WR"] is not None and topGradesOfAPair is not None:
-                    jsonFragment["stats"]["top"][pair.upper()] = {
-                        "# OH": topWinratesOfAPair["# OH"],
-                        "OH WR": topWinratesOfAPair["OH WR"],
-                        "# GD": topWinratesOfAPair["# GD"],
-                        "GD WR": topWinratesOfAPair["GD WR"],
-                        "# GIH": topWinratesOfAPair["# GIH"],
-                        "GIH WR": topWinratesOfAPair["GIH WR"],
-                        "IWD": topWinratesOfAPair["IWD"]
-                    }
-
-                    jsonFragment["stats"]["top"][pair.upper()].update(topGradesOfAPair)
-        except KeyError or TypeError:
-            pass
+        jsonFragment["stats"]["top"][pair.upper()] = {
+            "# OH": topWinratesOfAPair["# OH"],
+            "OH WR": topWinratesOfAPair["OH WR"],
+            "# GD": topWinratesOfAPair["# GD"],
+            "GD WR": topWinratesOfAPair["GD WR"],
+            "# GIH": topWinratesOfAPair["# GIH"],
+            "GIH WR": topWinratesOfAPair["GIH WR"],
+            "IWD": topWinratesOfAPair["IWD"]
+        }
+        jsonFragment["stats"]["top"][pair.upper()].update(topGradesOfAPair)
 
     masterJSON[cardName] = jsonFragment
 
