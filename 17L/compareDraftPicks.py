@@ -83,14 +83,14 @@ while True:
         # if I queried for top players, then the winrates used below become
         # the winrate of the top players
         if topQuery:
-            winrates = stats["all"]
-        else:
             winrates = stats["top"]
+        else:
+            winrates = stats["all"]
 
         for pair in winrates:
             pairStats = winrates[pair]
 
-            print(createStatList(statList, pair.upper()))
+            print(createStatList(pairStats, pair.upper()))
 
         continue
 

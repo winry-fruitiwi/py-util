@@ -288,7 +288,7 @@ def gradeCards(json_file_path):
     # return winrates
 
 
-def createStatList(json):
+def createStatList(json, pair):
     # # construct a stat string and print it
     # # format: statList = [grade, zscore, diff, oh, alsa, iwd]
     # # I'm using ljust to make sure that alsa is always 4 chars long, using
@@ -304,4 +304,4 @@ def createStatList(json):
 
     # the above is wrong and not for use anymore! It's only for reference
 
-    return ""
+    return "Stat list creation is currently down during reimplementation."
