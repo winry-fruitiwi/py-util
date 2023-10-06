@@ -289,15 +289,19 @@ def gradeCards(json_file_path):
 
 
 def createStatList(json):
-    # construct a stat string and print it
-    # format: statList = [grade, zscore, diff, oh, alsa, iwd]
-    # I'm using ljust to make sure that alsa is always 4 chars long, using
-    # spaces to pad the right side
-    grade = statList[0]
-    zscore = statList[1]
-    gih = statList[2]
-    oh = statList[3]
-    alsa = statList[4].ljust(4)
-    iwd = statList[5].ljust(5)
-    return f"{grade}    {zscore}    {gih}    {oh}" \
-           f"    {alsa}    {iwd}    {nameOrCard}"
+    # # construct a stat string and print it
+    # # format: statList = [grade, zscore, diff, oh, alsa, iwd]
+    # # I'm using ljust to make sure that alsa is always 4 chars long, using
+    # # spaces to pad the right side
+    # grade = statList[0]
+    # zscore = statList[1]
+    # gih = statList[2]
+    # oh = statList[3]
+    # alsa = statList[4].ljust(4)
+    # iwd = statList[5].ljust(5)
+    # return f"{grade}    {zscore}    {gih}    {oh}" \
+    #        f"    {alsa}    {iwd}    {nameOrCard}"
+
+    # the above is wrong and not for use anymore! It's only for reference
+
+    return ""
