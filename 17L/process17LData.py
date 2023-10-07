@@ -304,7 +304,7 @@ def createStatList(json, pairOrName):
 
     # the above is wrong and not for use anymore! It's only for reference
 
-    numGIH = json["# GIH"]
+    numGIH = str(json["# GIH"]).ljust(6)
     alsa = round(json["ALSA"], 1)
     iwd = round(float(json["IWD"]) * 100, 1)
 
@@ -324,7 +324,7 @@ def createStatList(json, pairOrName):
     # 16807  4.1 | B-  0.8 58.3 | B-  0.8 58.4 |
     # B-  0.6 58.2 |  1.2pp  ← Totentanz, Swarm Piper
 
-    return (f"{numGIH}  {alsa} | {gradeGIH}  {zscoreGIH} {winrateGIH}"
+    return (f"{numGIH} {alsa} | {gradeGIH}  {zscoreGIH} {winrateGIH}"
             f" | {gradeOH}  {zscoreOH} {winrateOH} "
             f"| {gradeGD}  {zscoreGD} {winrateGD} |"
             f"  {iwd}pp  |  {pairOrName}")
