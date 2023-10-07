@@ -305,20 +305,24 @@ def createStatList(json, pairOrName):
     # the above is wrong and not for use anymore! It's only for reference
 
     numGIH = json["# GIH"]
-    alsa = json["ALSA"]
-    iwd = json["IWD"]
+    alsa = round(json["ALSA"], 1)
+    iwd = round(float(json["IWD"]) * 100, 1)
 
     gradeGIH = json["GIH grade"]
-    zscoreGIH = json["GIH zscore"]
-    winrateGIH = json["GIH WR"]
+    zscoreGIH = round(json["GIH zscore"], 1)
+    winrateGIH = round(float(json["GIH WR"]) * 100, 1)
 
     gradeGD = json["GD grade"]
-    zscoreGD = json["GD zscore"]
-    winrateGD = json["GD WR"]
+    zscoreGD = round(json["GD zscore"], 1)
+    winrateGD = round(float(json["GD WR"]) * 100, 1)
 
     gradeOH = json["OH grade"]
-    zscoreOH = json["OH zscore"]
-    winrateOH = json["OH WR"]
+    zscoreOH = round(json["OH zscore"], 1)
+    winrateOH = round(float(json["OH WR"]) * 100, 1)
+
+    # ideal stat string:
+    # 16807  4.1 | B-  0.8 58.3 | B-  0.8 58.4 |
+    # B-  0.6 58.2 |  1.2pp  ← Totentanz, Swarm Piper
 
     return (f"{numGIH}  {alsa} | {gradeGIH}  {zscoreGIH} {winrateGIH}"
             f" | {gradeOH}  {zscoreOH} {winrateOH} "
