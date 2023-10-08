@@ -307,17 +307,19 @@ def createStatList(json, pairOrName):
     numGIH = str(json["# GIH"]).ljust(6)
     alsa = round(json["ALSA"], 1)
     iwd = round(float(json["IWD"]) * 100, 1)
+    iwd = str(iwd) + "pp"
+    iwd = iwd.ljust(6)
 
     gradeGIH = json["GIH grade"]
-    zscoreGIH = round(json["GIH zscore"], 1)
+    zscoreGIH = str(round(json["GIH zscore"], 1)).ljust(4)
     winrateGIH = round(float(json["GIH WR"]) * 100, 1)
 
     gradeGD = json["GD grade"]
-    zscoreGD = round(json["GD zscore"], 1)
+    zscoreGD = str(round(json["GD zscore"], 1)).ljust(4)
     winrateGD = round(float(json["GD WR"]) * 100, 1)
 
     gradeOH = json["OH grade"]
-    zscoreOH = round(json["OH zscore"], 1)
+    zscoreOH = str(round(json["OH zscore"], 1)).ljust(4)
     winrateOH = round(float(json["OH WR"]) * 100, 1)
 
     # ideal stat string:
@@ -327,4 +329,4 @@ def createStatList(json, pairOrName):
     return (f"{numGIH} {alsa} | {gradeGIH}  {zscoreGIH} {winrateGIH}"
             f" | {gradeOH}  {zscoreOH} {winrateOH} "
             f"| {gradeGD}  {zscoreGD} {winrateGD} |"
-            f"  {iwd}pp  |  {pairOrName}")
+            f"  {iwd} |  {pairOrName}")
