@@ -34,6 +34,9 @@ while True:
         inputStr = previousQuery
         topQuery = not ifPreviousTop
 
+    if inputStr[0] == "+":
+        inputStr = previousQuery + ", " + inputStr[1:]
+
     if inputStr == "q":
         break
 
