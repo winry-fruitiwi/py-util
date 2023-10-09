@@ -11,6 +11,9 @@ with open("master.json") as file:
 # save the previous query
 previousQuery = ""
 
+# save if the previous query was top or bottom players
+ifPreviousTop = False
+
 # runs a FuzzyWuzzy program that constantly accepts an input and tells you
 # the stats of the card you are looking up. Abbreviations allowed
 while True:
@@ -29,6 +32,7 @@ while True:
             continue
 
         inputStr = previousQuery
+        topQuery = not ifPreviousTop
 
     if inputStr == "q":
         break
@@ -77,6 +81,8 @@ while True:
 
     inputCardNames: List[str] = inputStr.split(",")
 
+    ifPreviousTop = topQuery
+
     if len(inputCardNames) == 1:
         print("you're only looking for 1 card")
 
@@ -88,7 +94,7 @@ while True:
         nameToWinrateDict = {}
 
         print(closest_match)
-        print(f'n     alsa |           GIH |            OH |            GD |    IWD  |  pair')
+        print(f'n     alsa |           GIH |            OH |            GD |  IWD    |  pair')
 
         # if I queried for top players, then the winrates used below become
         # the winrate of the top players
@@ -105,7 +111,7 @@ while True:
         continue
 
     # the header for the stats display
-    header = f'n     alsa |           GIH |            OH |            GD |    IWD  |  name'
+    header = f'n     alsa |           GIH |            OH |            GD |  IWD    |  name'
 
     # a dictionary of all the stat strings matched to the GIH winrate of the
     # card. datastructure: gihwr: "grade z-score gih oh alsa iwd name".
@@ -122,15 +128,18 @@ while True:
         closest_match = process.extractOne(cardName, choices)[0]
 
         stats = master[closest_match]["stats"]
-
         if topQuery:
-            winrates = stats["top"][colorPair]
+            if colorPair in stats["top"].keys():
+                winrates = stats["top"][colorPair]
+            else:
+                print(f"🍓 {closest_match} is not played enough")
+                continue
         else:
-            winrates = stats["all"][colorPair]
-
-        if winrates["GIH WR"] is None:
-            print(f"🍓 {closest_match} is not played enough")
-            continue
+            if colorPair in stats["all"].keys():
+                winrates = stats["all"][colorPair]
+            else:
+                print(f"🍓 {closest_match} is not played enough")
+                continue
 
         stats = createStatList(winrates, closest_match)
 
