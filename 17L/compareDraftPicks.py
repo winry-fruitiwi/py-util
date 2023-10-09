@@ -111,13 +111,18 @@ while True:
     for cardName in inputCardNames:
         closest_match = process.extractOne(cardName, choices)[0]
 
-        statList: List[str] = winrates[closest_match]
+        stats = master[closest_match]["stats"]
 
-        if statList[0] == "not even played enough":
+        if topQuery:
+            winrates = stats["top"][colorPair]
+        else:
+            winrates = stats["all"][colorPair]
+
+        if winrates["GIH WR"] is None:
             print(f"🍓 {closest_match} is not played enough")
             continue
 
-        stats = createStatList(statList, closest_match)
+        stats = createStatList(winrates, closest_match)
 
         # retrieve the stat string previously derived and then use it as the
         # value, paired with a key of the name of the card
@@ -126,7 +131,7 @@ while True:
         # retrieve GIH WR from JSON and then pair it with a key of the card's
         # name. This makes sorting easier, and then I can refer back to
         # statDict for the information that I need
-        nameToWinrateDict[closest_match] = float(statList[2])
+        nameToWinrateDict[closest_match] = float(winrates["GIH WR"])
 
     # Sort based on the value of the statDict. This actually returns a
     # list of floats because it's sorting by the key.
