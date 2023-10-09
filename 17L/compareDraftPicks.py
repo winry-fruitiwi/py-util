@@ -95,7 +95,7 @@ while True:
         continue
 
     # the header for the stats display
-    header = f'      zscore   gih     oh      alsa    iwd      name'
+    header = f'n     alsa |           GIH |            OH |            GD |    IWD  |  name'
 
     # a dictionary of all the stat strings matched to the GIH winrate of the
     # card. datastructure: gihwr: "grade z-score gih oh alsa iwd name".
