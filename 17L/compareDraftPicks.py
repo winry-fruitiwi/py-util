@@ -7,6 +7,10 @@ import json
 with open("master.json") as file:
     master = json.load(file)
 
+
+# save the previous query
+previousQuery = ""
+
 # runs a FuzzyWuzzy program that constantly accepts an input and tells you
 # the stats of the card you are looking up. Abbreviations allowed
 while True:
@@ -19,8 +23,12 @@ while True:
     topQuery: bool = False
 
     if inputStr == "":
-        print("Please input an actual string.")
-        continue
+        print(f'The previous query was "{previousQuery}"')
+
+        if previousQuery == "":
+            continue
+
+        inputStr = previousQuery
 
     if inputStr == "q":
         break
@@ -47,6 +55,8 @@ while True:
 
     # keeps track of what color pair I want
     colorPair = "all"
+
+    previousQuery = inputStr
 
     # process requests for a color wedge / color pair
     if set(colorWedge.lower()) in colorPairAnagrams:
