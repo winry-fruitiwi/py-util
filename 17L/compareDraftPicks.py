@@ -34,8 +34,32 @@ while True:
         inputStr = previousQuery
         topQuery = not ifPreviousTop
 
+    # special command `+` allows you to add to your last query
     if inputStr[0] == "+":
         inputStr = previousQuery + ", " + inputStr[1:]
+
+    # special command `-` allows you to subtract from your last query
+    if inputStr[0] == "-":
+        inputCardNames = inputStr.split(",")
+
+        # copy the list because we'll remove elements from it during iteration
+        previousCardNames = previousQuery.split(",")
+        previousCopy = previousCardNames.copy()
+
+        choices = master.keys()
+
+        # for every name in input card names, look for it in the previous card
+        # names and check for overlap
+        for name in inputCardNames:
+            closest_match = process.extractOne(name, choices)[0]
+
+            for previousIndex in range(len(previousCopy)):
+                previousMatch = process.extractOne(previousCopy[previousIndex], choices)[0]
+
+                if closest_match == previousMatch:
+                    previousCardNames.remove(previousCopy[previousIndex])
+
+        inputStr = str.join(", ", previousCardNames)
 
     if inputStr == "q":
         break
@@ -97,7 +121,7 @@ while True:
         nameToWinrateDict = {}
 
         print(closest_match)
-        print(f'n     alsa |           GIH |            OH |            GD |  IWD    |  pair')
+        print(f'n     alsa |           GIH |            OH |            GD |     IWD |  pair')
 
         # if I queried for top players, then the winrates used below become
         # the winrate of the top players
@@ -114,7 +138,7 @@ while True:
         continue
 
     # the header for the stats display
-    header = f'n     alsa |           GIH |            OH |            GD |  IWD    |  name'
+    header = f'n     alsa |           GIH |            OH |            GD |     IWD |  name'
 
     # a dictionary of all the stat strings matched to the GIH winrate of the
     # card. datastructure: gihwr: "grade z-score gih oh alsa iwd name".
