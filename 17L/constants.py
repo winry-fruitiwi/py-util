@@ -13,3 +13,5 @@ minGameCountSampleSize = 500
 
 setCode = "woe"
 bonusSheetCode = "wot"
+
+pipe = "\033[37m|\033[0m"
