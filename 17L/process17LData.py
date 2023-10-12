@@ -307,29 +307,30 @@ def createStatList(json, pairOrName):
 
     # a pipe character. Ansi formatting applied
 
-    numGIH = str(json["# GIH"]).ljust(6)
+    numGIH = str(json["# GIH"]).rjust(6)
     alsa = round(json["ALSA"], 1)
     iwd = round(float(json["IWD"]) * 100, 1)
-    iwd = str(iwd) + "pp"
-    iwd = iwd.rjust(6)
+    iwd = str(iwd)
+    iwd = iwd.rjust(5)
+    iwd += f"{ANSI.DARK_GRAY.value}pp{ANSI.RESET.value}"
 
     gradeGIH = json["GIH grade"]
-    zscoreGIH = str(round(json["GIH zscore"], 1)).rjust(4)
+    zscoreGIH = ANSI.DARK_GRAY.value + str(round(json["GIH zscore"], 1)).rjust(4) + ANSI.RESET.value
     winrateGIH = round(float(json["GIH WR"]) * 100, 1)
 
     gradeGD = json["GD grade"]
-    zscoreGD = str(round(json["GD zscore"], 1)).rjust(4)
+    zscoreGD = ANSI.DARK_GRAY.value + str(round(json["GD zscore"], 1)).rjust(4) + ANSI.RESET.value
     winrateGD = round(float(json["GD WR"]) * 100, 1)
 
     gradeOH = json["OH grade"]
-    zscoreOH = str(round(json["OH zscore"], 1)).rjust(4)
+    zscoreOH = ANSI.DARK_GRAY.value + str(round(json["OH zscore"], 1)).rjust(4) + ANSI.RESET.value
     winrateOH = round(float(json["OH WR"]) * 100, 1)
 
     # ideal stat string:
     # 16807  4.1 | B-  0.8 58.3 | B-  0.8 58.4 |
     # B-  0.6 58.2 |  1.2pp  ← Totentanz, Swarm Piper
 
-    return (f"{numGIH} {alsa} {pipe} {gradeGIH} {zscoreGIH}  {winrateGIH}"
+    return (f"{numGIH}  {alsa} {pipe} {gradeGIH} {zscoreGIH}  {winrateGIH}"
             f" {pipe} {gradeOH} {zscoreOH}  {winrateOH} "
             f"{pipe} {gradeGD} {zscoreGD}  {winrateGD} {pipe}"
-            f"  {iwd} {pipe}  {pairOrName}")
+            f" {iwd} {pipe}  {pairOrName}")

@@ -121,7 +121,7 @@ while True:
         nameToWinrateDict = {}
 
         print(closest_match)
-        print(f'n     alsa {pipe}           GIH {pipe}            OH {pipe}            GD {pipe}     IWD {pipe}  pair')
+        print(f'     n alsa {pipe}           GIH {pipe}            OH {pipe}            GD {pipe}     IWD {pipe}  pair')
 
         # if I queried for top players, then the winrates used below become
         # the winrate of the top players
