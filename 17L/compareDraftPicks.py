@@ -33,6 +33,7 @@ while True:
 
         inputStr = previousQuery
         topQuery = not ifPreviousTop
+        ifPreviousTop = not ifPreviousTop
 
     # special command `+` allows you to add to your last query
     if inputStr[0] == "+":
@@ -138,7 +139,7 @@ while True:
         continue
 
     # the header for the stats display
-    header = f'n     alsa {pipe}           GIH {pipe}            OH {pipe}            GD {pipe}     IWD {pipe}  name'
+    header = f'     n alsa {pipe}           GIH {pipe}            OH {pipe}            GD {pipe}     IWD {pipe}  name'
 
     # a dictionary of all the stat strings matched to the GIH winrate of the
     # card. datastructure: gihwr: "grade z-score gih oh alsa iwd name".
@@ -153,6 +154,7 @@ while True:
 
     for cardName in inputCardNames:
         closest_match = process.extractOne(cardName, choices)[0]
+        closest_match_blue = f'{ANSI.BLUE.value}{closest_match}{ANSI.RESET.value}'
 
         stats = master[closest_match]["stats"]
         if topQuery:
@@ -168,7 +170,7 @@ while True:
                 print(f"🍓 {closest_match} is not played enough")
                 continue
 
-        stats = createStatList(winrates, closest_match)
+        stats = createStatList(winrates, closest_match_blue)
 
         # retrieve the stat string previously derived and then use it as the
         # value, paired with a key of the name of the card
