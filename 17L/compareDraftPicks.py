@@ -32,8 +32,11 @@ while True:
             continue
 
         inputStr = previousQuery
-        topQuery = not ifPreviousTop
-        ifPreviousTop = not ifPreviousTop
+
+        if not ifPreviousTop:
+            inputStr = "~" + inputStr
+        else:
+            inputStr = inputStr[1:]
 
     # special command `+` allows you to add to your last query
     if inputStr[0] == "+":
@@ -122,7 +125,8 @@ while True:
         nameToWinrateDict = {}
 
         print(closest_match)
-        print(f'     n alsa {pipe}           GIH {pipe}            OH {pipe}            GD {pipe}     IWD {pipe}  pair')
+        print(f'     n alsa {pipe}           GIH {pipe}            OH {pipe}       '
+              f'     GD {pipe}     IWD {pipe}  pair')
 
         # if I queried for top players, then the winrates used below become
         # the winrate of the top players
@@ -139,7 +143,8 @@ while True:
         continue
 
     # the header for the stats display
-    header = f'     n alsa {pipe}           GIH {pipe}            OH {pipe}            GD {pipe}     IWD {pipe}  name'
+    header = (f'     n alsa {pipe}           GIH {pipe}            OH {pipe}      '
+              f'      GD {pipe}     IWD {pipe}  name')
 
     # a dictionary of all the stat strings matched to the GIH winrate of the
     # card. datastructure: gihwr: "grade z-score gih oh alsa iwd name".
