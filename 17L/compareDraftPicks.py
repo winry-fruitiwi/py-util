@@ -14,13 +14,16 @@ previousQuery = ""
 # save if the previous query was top or bottom players
 ifPreviousTop = False
 
+# save previous color pair
+previousPair = "all"
+
 # runs a FuzzyWuzzy program that constantly accepts an input and tells you
 # the stats of the card you are looking up. Abbreviations allowed
 while True:
     # looks like: "banish, fear, she ambush, shelob child" (in string form) and
     # should get processed into "'Banish from Edoras', 'Fear, Fire, Foes!',
     # 'Shelob's Ambush', 'Shelob, Child of Ungoliant' + their stats
-    inputStr: str = input("→ ")
+    inputStr: str = input(f"→ ")
 
     # keep track of if you wanted to query for top players
     topQuery: bool = False
@@ -65,6 +68,36 @@ while True:
 
         inputStr = str.join(", ", previousCardNames)
 
+    # checks for a color wedge based on splitting by colon
+    colorWedge = inputStr.split(":")[0]
+
+    # keeps track of what color pair I want
+    colorPair = "all"
+
+    if len(inputStr.split(":")[-1]) == "":
+        print("either this is just a string or just a color pair")
+
+        # process requests for a color wedge / color pair
+        if set(colorWedge.lower()) in colorPairAnagrams:
+            print("altering string")
+            colorPairIndex = colorPairAnagrams.index(set(colorWedge.lower()))
+            colorPair = colorPairs[colorPairIndex]
+
+            print(f"querying for {colorPair.upper()} cards!")
+
+            inputStr = inputStr[3:]
+            inputStr = f'{colorPair}: {inputStr}'
+            colorPair = colorPair.lower()
+
+        # process requests for top player data for a color wedge/pair
+        elif set(colorWedge[1:].lower()) in colorPairAnagrams:
+            print("altering string")
+            print(f"querying for {colorWedge.upper()} cards!")
+            inputStr = inputStr[4:]
+            inputStr = f'{colorWedge}: {inputStr}'
+
+            colorPair = colorWedge[1:].lower()
+
     if inputStr == "q":
         break
 
@@ -85,11 +118,6 @@ while True:
         print("querying for top players!")
         topQuery = True
 
-    # checks for a color wedge based on splitting by colon
-    colorWedge = inputStr.split(":")[0]
-
-    # keeps track of what color pair I want
-    colorPair = "all"
 
     previousQuery = inputStr
 
@@ -113,6 +141,7 @@ while True:
     inputCardNames: List[str] = inputStr.split(",")
 
     ifPreviousTop = topQuery
+    previousPair = colorPair
 
     if len(inputCardNames) == 1:
         print("you're only looking for 1 card")
