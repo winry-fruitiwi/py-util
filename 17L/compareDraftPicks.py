@@ -74,7 +74,7 @@ while True:
     # keeps track of what color pair I want
     colorPair = "all"
 
-    if len(inputStr.split(":")[-1]) == "":
+    if inputStr[-1] == ":":
         print("either this is just a string or just a color pair")
 
         # process requests for a color wedge / color pair
