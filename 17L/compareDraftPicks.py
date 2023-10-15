@@ -37,9 +37,15 @@ while True:
         inputStr = previousQuery
 
         if not ifPreviousTop:
+            if previousPair != "all":
+                inputStr = previousPair + ":" + inputStr
+
             inputStr = "~" + inputStr
         else:
             inputStr = inputStr[1:]
+
+            if previousPair != "all":
+                inputStr = previousPair + ":" + inputStr
 
     # special command `+` allows you to add to your last query
     if inputStr[0] == "+":
@@ -84,7 +90,7 @@ while True:
             print(f"querying for {colorPair.upper()} cards!")
 
             inputStr = previousQuery
-            inputStr = f'{colorPair}: {inputStr}'
+            inputStr = f'{colorPair}:{inputStr}'
             print(inputStr)
             colorPair = colorPair.lower()
 
@@ -93,7 +99,7 @@ while True:
             print("altering string")
             print(f"querying for {colorWedge.upper()} cards!")
             inputStr = inputStr[4:]
-            inputStr = f'~{colorWedge}: {inputStr}'
+            inputStr = f'~{colorWedge}:{inputStr}'
 
             colorPair = colorWedge[1:].lower()
 
