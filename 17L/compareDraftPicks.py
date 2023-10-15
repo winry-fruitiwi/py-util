@@ -75,18 +75,17 @@ while True:
     colorPair = "all"
 
     if inputStr[-1] == ":":
-        print("either this is just a string or just a color pair")
-
         # process requests for a color wedge / color pair
         if set(colorWedge.lower()) in colorPairAnagrams:
-            print("altering string")
+            print("altering string: non-top color pair")
             colorPairIndex = colorPairAnagrams.index(set(colorWedge.lower()))
             colorPair = colorPairs[colorPairIndex]
 
             print(f"querying for {colorPair.upper()} cards!")
 
-            inputStr = inputStr[3:]
+            inputStr = previousQuery
             inputStr = f'{colorPair}: {inputStr}'
+            print(inputStr)
             colorPair = colorPair.lower()
 
         # process requests for top player data for a color wedge/pair
@@ -94,7 +93,7 @@ while True:
             print("altering string")
             print(f"querying for {colorWedge.upper()} cards!")
             inputStr = inputStr[4:]
-            inputStr = f'{colorWedge}: {inputStr}'
+            inputStr = f'~{colorWedge}: {inputStr}'
 
             colorPair = colorWedge[1:].lower()
 
@@ -118,9 +117,6 @@ while True:
         print("querying for top players!")
         topQuery = True
 
-
-    previousQuery = inputStr
-
     # process requests for a color wedge / color pair
     if set(colorWedge.lower()) in colorPairAnagrams:
         colorPairIndex = colorPairAnagrams.index(set(colorWedge.lower()))
@@ -142,6 +138,11 @@ while True:
 
     ifPreviousTop = topQuery
     previousPair = colorPair
+
+    if topQuery:
+        previousQuery = "~" + inputStr
+    else:
+        previousQuery = inputStr
 
     if len(inputCardNames) == 1:
         print("you're only looking for 1 card")
