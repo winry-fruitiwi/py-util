@@ -85,27 +85,17 @@ while True:
     if inputStr[-1] == ":":
         # process requests for a color wedge / color pair
         if set(colorWedge.lower()) in colorPairAnagrams:
-            print("altering string: non-top color pair")
+            print("all player color wedge checking")
+
             colorPairIndex = colorPairAnagrams.index(set(colorWedge.lower()))
             colorPair = colorPairs[colorPairIndex]
-
-            print(f"querying for {colorPair.upper()} cards!")
 
             inputStr = previousQuery
             inputStr = f'{colorPair}:{inputStr}'
             print(inputStr)
             colorPair = colorPair.lower()
-
-        # process requests for top player data for a color wedge/pair
-        elif set(colorWedge[1:].lower()) in colorPairAnagrams:
-            print("altering string")
-            print(f"querying for {colorWedge.upper()} cards!")
-            topQuery = True
-            inputStr = previousQuery
-            print("the input string after finding top player color pair is", inputStr)
-            inputStr = f'~{colorWedge}:{inputStr}'
-
-            colorPair = colorWedge[1:].lower()
+            if ifPreviousTop:
+                inputStr = "~" + inputStr
 
     if inputStr == "q":
         break
@@ -124,7 +114,7 @@ while True:
 
     # process requests for top players
     if inputStr[0] == "~":
-        print("querying for top players!")
+        print("🔝")
         topQuery = True
         inputStr = inputStr[1:]
 
@@ -133,7 +123,7 @@ while True:
         colorPairIndex = colorPairAnagrams.index(set(colorWedge.lower()))
         colorPair = colorPairs[colorPairIndex]
 
-        print(f"querying for {colorPair.upper()} cards!")
+        print("🏳️‍🌈")
 
         inputStr = inputStr[3:]
         colorPair = colorPair.lower()
@@ -144,10 +134,8 @@ while True:
     previousPair = colorPair
     previousQuery = inputStr
 
-    print("input string:", inputStr)
 
     if len(inputCardNames) == 1:
-        print("you're only looking for 1 card")
 
         closest_match = process.extractOne(inputStr, choices)[0]
 
