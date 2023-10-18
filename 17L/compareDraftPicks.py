@@ -28,6 +28,9 @@ while True:
     # keep track of if you wanted to query for top players
     topQuery: bool = False
 
+    # keeps track of what color pair I want
+    colorPair = "all"
+
     if inputStr == "":
         print(f'The previous query was "{previousQuery}"')
 
@@ -37,15 +40,11 @@ while True:
         inputStr = previousQuery
 
         if not ifPreviousTop:
-            if previousPair != "all":
-                inputStr = previousPair + ":" + inputStr
-
-            inputStr = "~" + inputStr
+            topQuery = True
         else:
-            inputStr = inputStr[1:]
+            topQuery = False
 
-            if previousPair != "all":
-                inputStr = previousPair + ":" + inputStr
+        colorPair = previousPair
 
         print("input string:", inputStr)
 
@@ -78,9 +77,6 @@ while True:
 
     # checks for a color wedge based on splitting by colon
     colorWedge = inputStr.split(":")[0]
-
-    # keeps track of what color pair I want
-    colorPair = "all"
 
     if inputStr[-1] == ":":
         # process requests for a color wedge / color pair
