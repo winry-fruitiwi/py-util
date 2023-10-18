@@ -28,15 +28,7 @@ while True:
     # keep track of if you wanted to query for top players
     topQuery: bool = False
 
-    # if top vs all toggling has already been handled, then I don't need
-    # to check for it again
-    topVersusAllHandled = False
-
-    # if I already handled color pair checking, I don't need to do so again
-    colorPairsHandled = False
-
     if inputStr == "":
-        topVersusAllHandled = True
         print(f'The previous query was "{previousQuery}"')
 
         if previousQuery == "":
@@ -93,7 +85,6 @@ while True:
     if inputStr[-1] == ":":
         # process requests for a color wedge / color pair
         if set(colorWedge.lower()) in colorPairAnagrams:
-            colorPairsHandled = True
             print("altering string: non-top color pair")
             colorPairIndex = colorPairAnagrams.index(set(colorWedge.lower()))
             colorPair = colorPairs[colorPairIndex]
@@ -107,8 +98,6 @@ while True:
 
         # process requests for top player data for a color wedge/pair
         elif set(colorWedge[1:].lower()) in colorPairAnagrams:
-            colorPairsHandled = True
-            topVersusAllHandled = True
             print("altering string")
             print(f"querying for {colorWedge.upper()} cards!")
             topQuery = True
@@ -134,12 +123,13 @@ while True:
         continue
 
     # process requests for top players
-    if inputStr[0] == "~" and not topVersusAllHandled:
+    if inputStr[0] == "~":
         print("querying for top players!")
         topQuery = True
+        inputStr = inputStr[1:]
 
     # process requests for a color wedge / color pair
-    if (set(colorWedge.lower()) in colorPairAnagrams) and not colorPairsHandled:
+    if set(colorWedge.lower()) in colorPairAnagrams:
         colorPairIndex = colorPairAnagrams.index(set(colorWedge.lower()))
         colorPair = colorPairs[colorPairIndex]
 
@@ -148,24 +138,13 @@ while True:
         inputStr = inputStr[3:]
         colorPair = colorPair.lower()
 
-    # process requests for top player data for a color wedge/pair
-    elif (set(colorWedge[1:].lower()) in colorPairAnagrams) and not colorPairsHandled:
-        print(f"querying for {colorWedge.upper()} cards!")
-        inputStr = inputStr[4:]
-
-        colorPair = colorWedge[1:].lower()
-
     inputCardNames: List[str] = inputStr.split(",")
 
     ifPreviousTop = topQuery
     previousPair = colorPair
+    previousQuery = inputStr
 
     print("input string:", inputStr)
-
-    if topQuery:
-        previousQuery = "~" + inputStr
-    else:
-        previousQuery = inputStr
 
     if len(inputCardNames) == 1:
         print("you're only looking for 1 card")
