@@ -89,11 +89,16 @@ while True:
             colorPair = colorPairs[colorPairIndex]
 
             inputStr = previousQuery
-            inputStr = f'{colorPair}:{inputStr}'
             print(inputStr)
-            colorPair = colorPair.lower()
-            if ifPreviousTop:
-                inputStr = "~" + inputStr
+            topQuery = ifPreviousTop
+
+        if inputStr[:4] == "all:":
+            colorPair = "all"
+
+            print(f"querying all cards")
+
+            inputStr = previousQuery
+            topQuery = ifPreviousTop
 
     if inputStr == "q":
         break
@@ -112,7 +117,7 @@ while True:
 
     # process requests for top players
     if inputStr[0] == "~":
-        print("🔝")
+        print("querying top players")
         topQuery = True
         inputStr = inputStr[1:]
 
@@ -121,9 +126,17 @@ while True:
         colorPairIndex = colorPairAnagrams.index(set(colorWedge.lower()))
         colorPair = colorPairs[colorPairIndex]
 
-        print("🏳️‍🌈")
+        print(f"querying {colorPair} cards")
 
         inputStr = inputStr[3:]
+        colorPair = colorPair.lower()
+
+    if inputStr[:4] == "all:":
+        colorPair = "all"
+
+        print(f"querying all cards")
+
+        inputStr = inputStr[4:]
         colorPair = colorPair.lower()
 
     inputCardNames: List[str] = inputStr.split(",")
