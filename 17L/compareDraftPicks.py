@@ -39,11 +39,7 @@ while True:
 
         inputStr = previousQuery
 
-        if not ifPreviousTop:
-            topQuery = True
-        else:
-            topQuery = False
-
+        topQuery = not ifPreviousTop
         colorPair = previousPair
 
         print("input string:", inputStr)
@@ -51,6 +47,9 @@ while True:
     # special command `+` allows you to add to your last query
     if inputStr[0] == "+":
         inputStr = previousQuery + ", " + inputStr[1:]
+
+        topQuery = ifPreviousTop
+        colorPair = previousPair
 
     # special command `-` allows you to subtract from your last query
     if inputStr[0] == "-":
@@ -74,6 +73,9 @@ while True:
                     previousCardNames.remove(previousCopy[previousIndex])
 
         inputStr = str.join(", ", previousCardNames)
+
+        topQuery = ifPreviousTop
+        colorPair = previousPair
 
     # checks for a color wedge based on splitting by colon
     colorWedge = inputStr.split(":")[0]
