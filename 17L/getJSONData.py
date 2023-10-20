@@ -2,6 +2,17 @@ import requests
 import time
 import json
 from constants import *
+from datetime import datetime
+
+# Get two time values
+time1 = datetime.strptime("2023-10-20 10:00:00", "%Y-%m-%d %H:%M:%S")
+time2 = datetime.strptime("2023-10-20 12:30:00", "%Y-%m-%d %H:%M:%S")
+
+# Calculate the time difference
+time_difference = time2 - time1
+
+# Save or display the time difference
+print(f"Time Difference: {time_difference}")
 
 
 # initialize the scryfall API link and pull the data from the website
@@ -9,10 +20,14 @@ scryfallAPILink = (f"https://api.scryfall.com/cards/search?q=set:{setCode}"
                    f"+or+set:{bonusSheetCode}")
 scryfallDataPath = 'scryfall.json'
 
-downloadData = input("Hey, do you really want to download the data? yes/no ")
+lastSyncTime = datetime.now()
+
+print(f"time: {lastSyncTime}")
+
+downloadData = input("Do you really want to download the data? yes/no ")
 
 if downloadData.lower() != "yes":
-    raise ValueError("You called this function by accident")
+    raise ValueError("You called this file but didn't want to download any data")
 
 
 def getScryfallData(link):
@@ -89,4 +104,4 @@ for pair in colorPairs:
 get17LDataIntoFile(topURL, 'requests/top/card-ratings.json')
 get17LDataIntoFile(allURL, 'requests/all/card-ratings.json')
 
-print("🔮 all stats loaded!")
+print(f"🔮 all stats loaded!")
