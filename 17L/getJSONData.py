@@ -3,6 +3,11 @@ import time
 import json
 from constants import *
 
+# initialize the scryfall API link and pull the data from the website
+scryfallAPILink = (f"https://api.scryfall.com/cards/search?q=set:{setCode}"
+                   f"+or+set:{bonusSheetCode}")
+scryfallDataPath = 'scryfall.json'
+
 downloadData = input("Do you really want to download the data? yes/no ")
 
 if downloadData.lower() != "yes":

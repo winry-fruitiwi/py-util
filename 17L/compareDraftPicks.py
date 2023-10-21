@@ -2,7 +2,19 @@ from fuzzywuzzy import process
 from process17LData import *
 from processScryfallData import *
 import json
+from datetime import datetime
+import os
+import humanize
 
+currentTime = datetime.now()
+modified_timestamp = os.path.getmtime("master.json")
+
+# Convert the timestamp to a human-readable date and time
+modified_date = currentTime - datetime.fromtimestamp(modified_timestamp)
+humanized_date = humanize.naturaldelta(modified_date)
+
+# Print the last modified date
+print(f"📈 updated {humanized_date} ago")
 
 with open("master.json") as file:
     master = json.load(file)
