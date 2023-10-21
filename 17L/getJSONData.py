@@ -2,30 +2,6 @@ import requests
 import time
 import json
 from constants import *
-from datetime import datetime
-import humanize
-
-# Get two time values
-time1 = datetime.strptime("2023-10-19 13:00:00", "%Y-%m-%d %H:%M:%S")
-time2 = datetime.strptime("2023-10-20 12:30:00", "%Y-%m-%d %H:%M:%S")
-
-# Calculate the time difference
-time_difference = time2 - time1
-humanized_time_difference = humanize.naturaldelta(time_difference)
-
-# Save or display the time difference
-print(f"Time Difference: {time_difference}")
-
-
-# initialize the scryfall API link and pull the data from the website
-scryfallAPILink = (f"https://api.scryfall.com/cards/search?q=set:{setCode}"
-                   f"+or+set:{bonusSheetCode}")
-scryfallDataPath = 'scryfall.json'
-
-lastSyncTime = datetime.now()
-
-print(f"time: {lastSyncTime}")
-print(f"humanized time difference: {humanized_time_difference}")
 
 downloadData = input("Do you really want to download the data? yes/no ")
 
