@@ -9,6 +9,7 @@ ltrCollectorIDCap = 281
 
 cardOracle = {}
 rarityOfCards = {}
+cardPNGs = {}
 
 with open(scryfallDataPath, 'r', encoding="utf-8") as scryfall:
     scryfallData = json.load(scryfall)
@@ -52,6 +53,7 @@ for card in scryfallData:
                 )
 
             rarityOfCards[card["name"]] = card["rarity"]
+            cardPNGs[card["name"]] = card["image_uris"]["png"]
 
         except KeyError:  # this means there are multiple card faces
             cardOracle[card["card_faces"][0]["name"]] = ""
@@ -78,6 +80,7 @@ for card in scryfallData:
                     )
 
             rarityOfCards[card["card_faces"][0]["name"]] = card["rarity"]
+            cardPNGs[card["card_faces"][0]["name"]] = card["image_uris"]["png"]
 
         else:
             # handles absence of flavor text
