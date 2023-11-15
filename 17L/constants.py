@@ -11,7 +11,7 @@ colorPairAnagrams = [set(pair) for pair in colorPairs]
 
 minGameCountSampleSize = 500
 
-setCode = "woe"
-bonusSheetCode = "wot"
+setCode = "lci"
+bonusSheetCode = "lci"
 
 pipe = "\033[90m|\033[0m"
