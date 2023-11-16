@@ -15,7 +15,7 @@ with open(scryfallDataPath, 'r', encoding="utf-8") as scryfall:
     scryfallData = json.load(scryfall)
 
 # print all the names of each card within the collector ID cap for the set.
-# The collector ID cap is when the cards begin to move out of the boosters and
+# the collector ID cap is when the cards begin to move out of the boosters and
 # become cards in special Magic card boxes. We're not concerned about these
 # cards.
 for card in scryfallData:
@@ -80,7 +80,13 @@ for card in scryfallData:
                     )
 
             rarityOfCards[card["card_faces"][0]["name"]] = card["rarity"]
-            cardPNGs[card["card_faces"][0]["name"]] = card["image_uris"]["png"]
+
+            if "image_uris" in card:
+                cardPNGs[card["card_faces"][0]["name"]] = card["image_uris"]["png"]
+            else:
+                cardPNGs[card["card_faces"][0]["name"]] = (card["card_faces"][0]
+                                                           ["image_uris"]["png"])
+                print(card["card_faces"][0]["image_uris"]["png"])
 
         else:
             # handles absence of flavor text
