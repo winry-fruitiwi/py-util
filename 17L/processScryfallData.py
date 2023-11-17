@@ -1,11 +1,9 @@
 # TODO turn this into a function
 
 import json
+from constants import *
 
 scryfallDataPath = 'scryfall.json'
-
-# constant for when LTR jumpstart cards start
-ltrCollectorIDCap = 281
 
 cardOracle = {}
 rarityOfCards = {}
@@ -19,7 +17,7 @@ with open(scryfallDataPath, 'r', encoding="utf-8") as scryfall:
 # become cards in special Magic card boxes. We're not concerned about these
 # cards.
 for card in scryfallData:
-    if int(card["collector_number"]) < ltrCollectorIDCap:
+    if int(card["collector_number"]) < collectorIDCap:
         # cardOracle format:
         # Name ManaCost
         # OracleText
@@ -86,7 +84,6 @@ for card in scryfallData:
             else:
                 cardPNGs[card["card_faces"][0]["name"]] = (card["card_faces"][0]
                                                            ["image_uris"]["png"])
-                print(card["card_faces"][0]["image_uris"]["png"])
 
         else:
             # handles absence of flavor text

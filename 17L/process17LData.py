@@ -33,7 +33,7 @@ def gradeCards(json_file_path):
              "OH WR" in inner_dict and inner_dict["OH WR"] is not None]
 
     # Check if there are valid "b" values before calculating the mean
-    if ohWRs:
+    if len(ohWRs) > 1:
         mean_oh = statistics.mean(ohWRs)
         stdev_oh = statistics.stdev(ohWRs)
     else:
@@ -45,7 +45,7 @@ def gradeCards(json_file_path):
               "GIH WR" in inner_dict and inner_dict["GIH WR"] is not None]
 
     # Check if there are valid "b" values before calculating the mean
-    if gihWRs:
+    if len(gihWRs) > 1:
         mean_gih = statistics.mean(gihWRs)
         stdev_gih = statistics.stdev(gihWRs)
     else:
@@ -57,14 +57,14 @@ def gradeCards(json_file_path):
              "GD WR" in inner_dict and inner_dict["GD WR"] is not None]
 
     # Check if there are valid "b" values before calculating the mean
-    if gdWRs:
+    if len(gdWRs) > 1:
         mean_gd = statistics.mean(gdWRs)
         stdev_gd = statistics.stdev(gdWRs)
     else:
         stdev_gd = 0
         mean_gd = 0
 
-    # find the number of standard deviations each car   d is away from the mean using
+    # find the number of standard deviations each card is away from the mean using
     # the equation z=(x-μ)/σ
 
     # to do the above, we need to start with a list of grades and their lower zscore
@@ -289,7 +289,7 @@ def gradeCards(json_file_path):
     # return winrates
 
 
-def createStatList(json, pairOrName):
+def createStatList(stats, pairOrName):
     # # construct a stat string and print it
     # # format: statList = [grade, zscore, diff, oh, alsa, iwd]
     # # I'm using ljust to make sure that alsa is always 4 chars long, using
@@ -307,24 +307,24 @@ def createStatList(json, pairOrName):
 
     # a pipe character. Ansi formatting applied
 
-    numGIH = str(json["# GIH"]).rjust(6)
-    alsa = round(json["ALSA"], 1)
-    iwd = round(float(json["IWD"]) * 100, 1)
+    numGIH = str(stats["# GIH"]).rjust(6)
+    alsa = round(stats["ALSA"], 1)
+    iwd = round(float(stats["IWD"]) * 100, 1)
     iwd = str(iwd)
     iwd = iwd.rjust(5)
     iwd += f"{ANSI.DARK_GRAY.value}pp{ANSI.RESET.value}"
 
-    gradeGIH = json["GIH grade"]
-    zscoreGIH = ANSI.DARK_GRAY.value + str(round(json["GIH zscore"], 1)).rjust(4) + ANSI.RESET.value
-    winrateGIH = round(float(json["GIH WR"]) * 100, 1)
+    gradeGIH = stats["GIH grade"]
+    zscoreGIH = ANSI.DARK_GRAY.value + str(round(stats["GIH zscore"], 1)).rjust(4) + ANSI.RESET.value
+    winrateGIH = round(float(stats["GIH WR"]) * 100, 1)
 
-    gradeGD = json["GD grade"]
-    zscoreGD = ANSI.DARK_GRAY.value + str(round(json["GD zscore"], 1)).rjust(4) + ANSI.RESET.value
-    winrateGD = round(float(json["GD WR"]) * 100, 1)
+    gradeGD = stats["GD grade"]
+    zscoreGD = ANSI.DARK_GRAY.value + str(round(stats["GD zscore"], 1)).rjust(4) + ANSI.RESET.value
+    winrateGD = round(float(stats["GD WR"]) * 100, 1)
 
-    gradeOH = json["OH grade"]
-    zscoreOH = ANSI.DARK_GRAY.value + str(round(json["OH zscore"], 1)).rjust(4) + ANSI.RESET.value
-    winrateOH = round(float(json["OH WR"]) * 100, 1)
+    gradeOH = stats["OH grade"]
+    zscoreOH = ANSI.DARK_GRAY.value + str(round(stats["OH zscore"], 1)).rjust(4) + ANSI.RESET.value
+    winrateOH = round(float(stats["OH WR"]) * 100, 1)
 
     # ideal stat string:
     # 16807  4.1 | B-  0.8 58.3 | B-  0.8 58.4 |

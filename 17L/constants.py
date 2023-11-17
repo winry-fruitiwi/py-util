@@ -11,6 +11,9 @@ colorPairAnagrams = [set(pair) for pair in colorPairs]
 
 minGameCountSampleSize = 500
 
+# constant for when jumpstart cards start
+collectorIDCap = 291
+
 setCode = "lci"
 bonusSheetCode = "lci"
 

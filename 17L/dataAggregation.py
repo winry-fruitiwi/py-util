@@ -1,9 +1,7 @@
 # this file turns all the now streamlined data into one big master.json file
-import json
 from constants import *
 from process17LData import gradeCards, fetchFileData
 from processScryfallData import *
-import requests
 
 # first, get data needed
 colorPairWinrates = {}
@@ -83,8 +81,8 @@ for cardName in allWinrates:
         colorGradesOfAPair = colorPairGrades[pair][cardName]
 
         if ((colorWinratesOfAPair["OH WR"] is not None) and
-            (colorWinratesOfAPair["GD WR"] is not None) and
-            (colorWinratesOfAPair["GIH WR"] is not None)):
+                (colorWinratesOfAPair["GD WR"] is not None) and
+                (colorWinratesOfAPair["GIH WR"] is not None)):
             jsonFragment["stats"]["all"][pair] = {
                 "# OH": colorWinratesOfAPair["# OH"],
                 "OH WR": colorWinratesOfAPair["OH WR"],
@@ -97,13 +95,12 @@ for cardName in allWinrates:
             }
             jsonFragment["stats"]["all"][pair].update(colorGradesOfAPair)
 
-
         topWinratesOfAPair = topColorPairWinrates[pair][cardName]
         topGradesOfAPair = topColorPairGrades[pair][cardName]
 
         if ((topWinratesOfAPair["OH WR"] is not None) and
-            (topWinratesOfAPair["GD WR"] is not None) and
-            (topWinratesOfAPair["GIH WR"] is not None)):
+                (topWinratesOfAPair["GD WR"] is not None) and
+                (topWinratesOfAPair["GIH WR"] is not None)):
             jsonFragment["stats"]["top"][pair] = {
                 "# OH": topWinratesOfAPair["# OH"],
                 "OH WR": topWinratesOfAPair["OH WR"],
