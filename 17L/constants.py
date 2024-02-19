@@ -12,9 +12,9 @@ colorPairAnagrams = [set(pair) for pair in colorPairs]
 minGameCountSampleSize = 500
 
 # constant for when jumpstart cards start
-collectorIDCap = 291
+collectorIDCap = 271
 
-setCode = "lci"
-bonusSheetCode = "lci"
+setCode = "mkm"
+bonusSheetCode = "mkm"
 
 pipe = "\033[90m|\033[0m"
