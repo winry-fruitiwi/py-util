@@ -17,7 +17,16 @@ with open(scryfallDataPath, 'r', encoding="utf-8") as scryfall:
 # become cards in special Magic card boxes. We're not concerned about these
 # cards.
 for card in scryfallData:
-    if int(card["collector_number"]) < collectorIDCap:
+    # we need to make sure that the collector number is actually an integer.
+    # an example where this is not the case is in The List cards.
+    isListCard = False
+
+    try:
+        int(card["collector_number"])
+    except ValueError:
+        isListCard = True
+
+    if isListCard or (int(card["collector_number"]) < collectorIDCap):
         # cardOracle format:
         # Name ManaCost
         # OracleText

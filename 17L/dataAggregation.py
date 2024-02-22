@@ -39,6 +39,7 @@ colorPairs.append("all")
 
 # then, iterate through each card
 for cardName in allWinrates:
+    print(cardName)
     card = allWinrates[cardName]
     # ideal segment of master JSON:
     # {
