@@ -63,17 +63,21 @@ for cardName in allWinrates:
     #   }
     # }
 
-    jsonFragment = {
-        "color": card["color"],
-        "rarity": card["rarity"],
-        "png": cardPNGs[cardName],
-        "stats": {
-            "all": {
-            },
-            "top": {
+    try:
+        jsonFragment = {
+            "color": card["color"],
+            "rarity": card["rarity"],
+            "png": cardPNGs[cardName],
+            "stats": {
+                "all": {
+                },
+                "top": {
+                }
             }
         }
-    }
+    except KeyError:
+        print("*card is not in cardPNGs: " + cardName)
+        continue
 
     # iterate through each color pair, find the grades, and then construct a
     # JSON fragment of winrates and grades for each winrate

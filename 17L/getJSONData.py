@@ -1,42 +1,11 @@
 import requests
 import time
-import json
 from constants import *
-
-# initialize the scryfall API link and pull the data from the website
-scryfallAPILink = (f'https://api.scryfall.com/cards/search?q=(set:{setCode})+or+(set:{bonusSheetCode})'
-                   f'+or+({specialGuestQuery})+or+({theListQuery})+or+({cardExceptions})')
-scryfallDataPath = 'scryfall.json'
 
 downloadData = input("Do you really want to download the data? yes/no ")
 
 if downloadData.lower() != "yes":
     raise ValueError("You called this file but didn't want to download any data")
-
-
-def getScryfallData(link):
-    # Send a GET requests to the URL
-    scryfallData = requests.get(link)
-
-    # Check if the requests was successful (status code 200)
-    if scryfallData.status_code == 200:
-        # Get the JSON data from the response
-        scryfallJSON = scryfallData.json()
-
-        if scryfallJSON["has_more"]:
-            time.sleep(1)
-            nextPage = getScryfallData(scryfallJSON["next_page"])
-            return scryfallJSON["data"] + nextPage
-
-        return scryfallJSON["data"]
-    else:
-        print("Warning: no data available. Please refrain from using "
-              "the '!cardName' command.")
-        print(scryfallData.status_code)
-
-
-with open(scryfallDataPath, 'w', encoding="utf-8") as scryfall:
-    json_data = scryfall.write(json.dumps(getScryfallData(scryfallAPILink)))
 
 
 def get17LDataIntoFile(url, filePath):
