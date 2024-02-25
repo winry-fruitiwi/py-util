@@ -26,9 +26,7 @@ for card in scryfallData:
     except ValueError:
         isListCard = True
 
-    if isListCard or (card["set"] != setCode) or (int(card["collector_number"]) < collectorIDCap):
-        print(card["name"])
-
+    if isListCard or (card["set"] != setCode) or (int(card["collector_number"]) <= collectorIDCap):
         # cardOracle format:
         # Name ManaCost
         # OracleText
@@ -118,4 +116,3 @@ for card in scryfallData:
 
             rarityOfCards[card["name"]] = card["rarity"]
 
-print("\n")

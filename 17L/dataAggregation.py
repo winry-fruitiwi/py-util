@@ -39,7 +39,6 @@ colorPairs.append("all")
 
 # then, iterate through each card
 for cardName in allWinrates:
-    print(cardName)
     card = allWinrates[cardName]
     # ideal segment of master JSON:
     # {
@@ -76,8 +75,23 @@ for cardName in allWinrates:
             }
         }
     except KeyError:
-        print("*card is not in cardPNGs: " + cardName)
-        continue
+        print("*card is most likely a split card: " + cardName)
+
+        # "Consign // Oblivion" → ["Consign", "Oblivion"] → "Consign", which is
+        # now an actual key in the Scryfall data that I queried.
+        splitCardFrontName = cardName.split(" // ")[0]
+
+        jsonFragment = {
+            "color": card["color"],
+            "rarity": card["rarity"],
+            "png": cardPNGs[splitCardFrontName],
+            "stats": {
+                "all": {
+                },
+                "top": {
+                }
+            }
+        }
 
     # iterate through each color pair, find the grades, and then construct a
     # JSON fragment of winrates and grades for each winrate

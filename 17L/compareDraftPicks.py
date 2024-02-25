@@ -32,6 +32,8 @@ previousPair = "all"
 # runs a FuzzyWuzzy program that constantly accepts an input and tells you
 # the stats of the card you are looking up. Abbreviations allowed
 while True:
+    colorWedgeFound = False
+
     # looks like: "banish, fear, she ambush, shelob child" (in string form) and
     # should get processed into "'Banish from Edoras', 'Fear, Fire, Foes!',
     # 'Shelob's Ambush', 'Shelob, Child of Ungoliant' + their stats
@@ -104,6 +106,12 @@ while True:
             print(inputStr)
             topQuery = ifPreviousTop
 
+            # after both this and the next if block, add a flag
+            # that prevents the other block of this type from
+            # triggering to avoid removing part of the input
+            # string from the query
+            colorWedgeFound = True
+
         if inputStr[:4] == "all:":
             colorPair = "all"
 
@@ -111,6 +119,8 @@ while True:
 
             inputStr = previousQuery
             topQuery = ifPreviousTop
+
+            colorWedgeFound = True
 
     if inputStr == "q":
         break
@@ -134,7 +144,7 @@ while True:
         inputStr = inputStr[1:]
 
     # process requests for a color wedge / color pair
-    if set(colorWedge.lower()) in colorPairAnagrams:
+    if set(colorWedge.lower()) in colorPairAnagrams and not colorWedgeFound:
         colorPairIndex = colorPairAnagrams.index(set(colorWedge.lower()))
         colorPair = colorPairs[colorPairIndex]
 
@@ -143,7 +153,7 @@ while True:
         inputStr = inputStr[3:]
         colorPair = colorPair.lower()
 
-    if inputStr[:4] == "all:":
+    if inputStr[:4] == "all:" and not colorWedgeFound:
         colorPair = "all"
 
         print(f"querying all cards")
