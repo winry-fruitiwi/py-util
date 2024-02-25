@@ -26,7 +26,7 @@ for card in scryfallData:
     except ValueError:
         isListCard = True
 
-    if isListCard or (int(card["collector_number"]) < collectorIDCap):
+    if isListCard or (card["set"] != setCode) or (int(card["collector_number"]) < collectorIDCap):
         print(card["name"])
 
         # cardOracle format:

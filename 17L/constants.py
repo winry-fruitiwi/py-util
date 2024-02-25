@@ -31,6 +31,6 @@ theListQuery = ('e%3Aplst+%28%28%28cn≥+cn≤%29+OR+cn%3A"APC-117"+OR+cn%3A"MH1
                 '"ONS-272"+OR+cn%3A"UMA-247"+OR+cn%3A"SOM-98"+OR+cn%3A"DDU-50"+OR+cn%3A"CLB-85"'
                 '+OR+cn%3A"DIS-173"+OR+cn%3A"SOI-262"%29%29')
 # cards that aren't special guests or from the list, but still appear in 17L
-cardExceptions = "(possibility+storm)+or+(evolutionary+leap)"
+cardExceptions = "(possibilitystorm)+or+(evolutionaryleap)+or+(smugglerscopter)"
 
 pipe = "\033[90m|\033[0m"
