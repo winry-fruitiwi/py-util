@@ -3,9 +3,6 @@ import requests
 import time
 from constants import *
 
-# initialize the scryfall API link and pull the data from the website
-scryfallAPILink = (f'https://api.scryfall.com/cards/search?q=(set:{setCode})+or+(set:{bonusSheetCode})'
-                   f'+or+({specialGuestQuery})+or+({theListQuery})+or+({cardExceptions})')
 scryfallDataPath = 'scryfall.json'
 
 
