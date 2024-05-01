@@ -1,12 +1,19 @@
 from processScryfallData import *
 from process17LData import *
 import requests
+print(cardPNGs)
 
 masterJSON = fetchFileData("master.json")
 
 for cardName in masterJSON:
     # Replace this URL with the image URL you want to download
-    image_url = cardPNGs[cardName]
+    try:
+        image_url = cardPNGs[cardName]
+    except KeyError:
+        # this means that the card is probably double-faced
+        splitCardFrontName = cardName.split(" // ")[0]
+        image_url = cardPNGs[splitCardFrontName]
+        cardName = splitCardFrontName
 
     # Send an HTTP GET request to the image URL
     response = requests.get(image_url)
@@ -26,4 +33,4 @@ for cardName in masterJSON:
         print(f"Image downloaded and saved to {file_path}")
     else:
         print(
-            f"Failed to download the image. Status code: {response.status_code}")
+            f"Failed to download the image. Card name: {cardName}")
