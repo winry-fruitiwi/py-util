@@ -12,17 +12,17 @@ colorPairAnagrams = [set(pair) for pair in colorPairs]
 minGameCountSampleSize = 500
 
 # constant for when jumpstart cards start
-collectorIDCap = 276
+collectorIDCap = 319
 
-setCode = "otj"
-bonusSheetCode = "otp"
+setCode = "mh3"
+bonusSheetCode = "mh3"
 
 # special guest cards
-specialGuestQuery = "e%3Aspg+cn≥29+cn≤38"
+specialGuestQuery = "e%3Aspg+cn≥39+cn≤53"
 # cards from The List
-theListQuery = 'e%3Abig+cn≥1+cn≤30'
+theListQuery = 'e%3Am3c+cn≥1+cn≤8'
 # cards that aren't special guests or from the list, but still appear in 17L
-# cardExceptions = "(possibilitystorm)+or+(evolutionaryleap)+or+(smugglerscopter)"
+# cardExceptions = "e%3A"
 
 pipe = "\033[90m|\033[0m"
 

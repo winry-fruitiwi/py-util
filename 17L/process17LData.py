@@ -307,30 +307,33 @@ def createStatList(stats, pairOrName):
 
     # a pipe character. Ansi formatting applied
 
-    numGIH = str(stats["# GIH"]).rjust(6)
-    alsa = round(stats["ALSA"], 1)
-    iwd = round(float(stats["IWD"]) * 100, 1)
-    iwd = str(iwd)
-    iwd = iwd.rjust(5)
-    iwd += f"{ANSI.DARK_GRAY.value}pp{ANSI.RESET.value}"
+    try:
+        numGIH = str(stats["# GIH"]).rjust(6)
+        alsa = round(stats["ALSA"], 1)
+        iwd = round(float(stats["IWD"]) * 100, 1)
+        iwd = str(iwd)
+        iwd = iwd.rjust(5)
+        iwd += f"{ANSI.DARK_GRAY.value}pp{ANSI.RESET.value}"
 
-    gradeGIH = stats["GIH grade"]
-    zscoreGIH = ANSI.DARK_GRAY.value + str(round(stats["GIH zscore"], 1)).rjust(4) + ANSI.RESET.value
-    winrateGIH = round(float(stats["GIH WR"]) * 100, 1)
+        gradeGIH = stats["GIH grade"]
+        zscoreGIH = ANSI.DARK_GRAY.value + str(round(stats["GIH zscore"], 1)).rjust(4) + ANSI.RESET.value
+        winrateGIH = round(float(stats["GIH WR"]) * 100, 1)
 
-    gradeGD = stats["GD grade"]
-    zscoreGD = ANSI.DARK_GRAY.value + str(round(stats["GD zscore"], 1)).rjust(4) + ANSI.RESET.value
-    winrateGD = round(float(stats["GD WR"]) * 100, 1)
+        gradeGD = stats["GD grade"]
+        zscoreGD = ANSI.DARK_GRAY.value + str(round(stats["GD zscore"], 1)).rjust(4) + ANSI.RESET.value
+        winrateGD = round(float(stats["GD WR"]) * 100, 1)
 
-    gradeOH = stats["OH grade"]
-    zscoreOH = ANSI.DARK_GRAY.value + str(round(stats["OH zscore"], 1)).rjust(4) + ANSI.RESET.value
-    winrateOH = round(float(stats["OH WR"]) * 100, 1)
+        gradeOH = stats["OH grade"]
+        zscoreOH = ANSI.DARK_GRAY.value + str(round(stats["OH zscore"], 1)).rjust(4) + ANSI.RESET.value
+        winrateOH = round(float(stats["OH WR"]) * 100, 1)
 
-    # ideal stat string:
-    # 16807  4.1 | B-  0.8 58.3 | B-  0.8 58.4 |
-    # B-  0.6 58.2 |  1.2pp  ← Totentanz, Swarm Piper
+        # ideal stat string:
+        # 16807  4.1 | B-  0.8 58.3 | B-  0.8 58.4 |
+        # B-  0.6 58.2 |  1.2pp  ← Totentanz, Swarm Piper
 
-    return (f"{numGIH}  {alsa} {pipe} {gradeGIH} {zscoreGIH}  {winrateGIH}"
-            f" {pipe} {gradeOH} {zscoreOH}  {winrateOH} "
-            f"{pipe} {gradeGD} {zscoreGD}  {winrateGD} {pipe}"
-            f" {iwd} {pipe}  {pairOrName}")
+        return (f"{numGIH}  {alsa} {pipe} {gradeGIH} {zscoreGIH}  {winrateGIH}"
+                f" {pipe} {gradeOH} {zscoreOH}  {winrateOH} "
+                f"{pipe} {gradeGD} {zscoreGD}  {winrateGD} {pipe}"
+                f" {iwd} {pipe}  {pairOrName}")
+    except KeyError:
+        return None
