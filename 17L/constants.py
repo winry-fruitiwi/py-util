@@ -14,13 +14,13 @@ minGameCountSampleSize = 500
 # constant for when jumpstart cards start
 collectorIDCap = 319
 
-setCode = "mh3"
-bonusSheetCode = "mh3"
+setCode = "blb"
+bonusSheetCode = "blb"
 
 # special guest cards
-specialGuestQuery = "e%3Aspg+cn≥39+cn≤53"
-# cards from The List
-theListQuery = 'e%3Am3c+cn≥1+cn≤8'
+specialGuestQuery = "e%3Aspg+cn≥54+cn≤63"
+# cards from The List or other seemingly unrelated sets
+theListQuery = 'e:blb'
 # cards that aren't special guests or from the list, but still appear in 17L
 # cardExceptions = "e%3A"
 

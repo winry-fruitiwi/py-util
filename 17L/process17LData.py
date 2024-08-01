@@ -319,13 +319,23 @@ def createStatList(stats, pairOrName):
         zscoreGIH = ANSI.DARK_GRAY.value + str(round(stats["GIH zscore"], 1)).rjust(4) + ANSI.RESET.value
         winrateGIH = round(float(stats["GIH WR"]) * 100, 1)
 
-        gradeGD = stats["GD grade"]
-        zscoreGD = ANSI.DARK_GRAY.value + str(round(stats["GD zscore"], 1)).rjust(4) + ANSI.RESET.value
-        winrateGD = round(float(stats["GD WR"]) * 100, 1)
+        if stats.get("GD grade"):
+            gradeGD = stats["GD grade"]
+            zscoreGD = ANSI.DARK_GRAY.value + str(round(stats["GD zscore"], 1)).rjust(4) + ANSI.RESET.value
+            winrateGD = round(float(stats["GD WR"]) * 100, 1)
+        else:
+            gradeGD = "  "
+            zscoreGD = "    "
+            winrateGD = "    "
 
-        gradeOH = stats["OH grade"]
-        zscoreOH = ANSI.DARK_GRAY.value + str(round(stats["OH zscore"], 1)).rjust(4) + ANSI.RESET.value
-        winrateOH = round(float(stats["OH WR"]) * 100, 1)
+        if stats.get("OH grade"):
+            gradeOH = stats["OH grade"]
+            zscoreOH = ANSI.DARK_GRAY.value + str(round(stats["OH zscore"], 1)).rjust(4) + ANSI.RESET.value
+            winrateOH = round(float(stats["OH WR"]) * 100, 1)
+        else:
+            gradeOH = "  "
+            zscoreOH = "    "
+            winrateOH = "    "
 
         # ideal stat string:
         # 16807  4.1 | B-  0.8 58.3 | B-  0.8 58.4 |
