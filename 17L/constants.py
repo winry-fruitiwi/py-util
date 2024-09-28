@@ -12,15 +12,15 @@ colorPairAnagrams = [set(pair) for pair in colorPairs]
 minGameCountSampleSize = 500
 
 # constant for when jumpstart cards start
-collectorIDCap = 319
+collectorIDCap = 286
 
-setCode = "blb"
-bonusSheetCode = "blb"
+setCode = "dsk"
+bonusSheetCode = "dsk"
 
 # special guest cards
-specialGuestQuery = "e%3Aspg+cn≥54+cn≤63"
+specialGuestQuery = "e%3Aspg+cn≥64+cn≤74"
 # cards from The List or other seemingly unrelated sets
-theListQuery = 'e:blb'
+theListQuery = 'e:dsk'
 # cards that aren't special guests or from the list, but still appear in 17L
 # cardExceptions = "e%3A"
 
