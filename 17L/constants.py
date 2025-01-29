@@ -11,22 +11,32 @@ colorPairAnagrams = [set(pair) for pair in colorPairs]
 
 minGameCountSampleSize = 500
 
-# constant for when jumpstart cards start
-collectorIDCap = 286
+# Parameters to Get Access to Different Sets. order of typing
+# DSK: 286, dsk, dsk, e%3Aspg+cn≥64+cn≤73, e:dsk, none
+# FDN: 281, fdn, fdn, e%3Aspg+cn≥74+cn≤, e:fdn, none
 
-setCode = "dsk"
-bonusSheetCode = "dsk"
+setCode = "fdn"
+bonusSheetCode = None
+specialGuestQuery = None
+theListQuery = None
 
-# special guest cards
-specialGuestQuery = "e%3Aspg+cn≥64+cn≤74"
-# cards from The List or other seemingly unrelated sets
-theListQuery = 'e:dsk'
-# cards that aren't special guests or from the list, but still appear in 17L
-# cardExceptions = "e%3A"
+if setCode == "dsk":
+    bonusSheetCode = "dsk"
+    # special guest cards
+    specialGuestQuery = "e%3Aspg+cn≥64+cn≤73"
+    # cards from The List or other seemingly unrelated sets
+    theListQuery = 'e:dsk'
+    # constant for when additional non-limited cards start
+    collectorIDCap = 286
+elif setCode == "fdn":
+    bonusSheetCode = "fdn"
+    specialGuestQuery = "e%3Aspg+cn≥74+cn≤83"
+    theListQuery = 'e:fdn'
+    collectorIDCap = 281
 
 pipe = "\033[90m|\033[0m"
 
 
 scryfallAPILink = (f'https://api.scryfall.com/cards/search?q='
-                   f'(set:{setCode})+or+(set:{bonusSheetCode})'
+                   f'(e:{setCode})+or+(e:{bonusSheetCode})'
                    f'+or+({specialGuestQuery})+or+({theListQuery})')
