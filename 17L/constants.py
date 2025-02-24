@@ -15,7 +15,7 @@ minGameCountSampleSize = 500
 # DSK: 286, dsk, dsk, e%3Aspg+cn≥64+cn≤73, e:dsk, none
 # FDN: 281, fdn, fdn, e%3Aspg+cn≥74+cn≤, e:fdn, none
 
-setCode = "fdn"
+setCode = "dft"
 bonusSheetCode = None
 specialGuestQuery = None
 theListQuery = None
@@ -28,11 +28,18 @@ if setCode == "dsk":
     theListQuery = 'e:dsk'
     # constant for when additional non-limited cards start
     collectorIDCap = 286
+
 elif setCode == "fdn":
     bonusSheetCode = "fdn"
     specialGuestQuery = "e%3Aspg+cn≥74+cn≤83"
     theListQuery = 'e:fdn'
     collectorIDCap = 281
+
+elif setCode == "dft":
+    bonusSheetCode = "dft"
+    specialGuestQuery = "e:spg+cn≥84+cn≤103"
+    theListQuery = 'e:dft'
+    collectorIDCap = 291
 
 pipe = "\033[90m|\033[0m"
 
