@@ -2,10 +2,10 @@ import requests
 import time
 from constants import *
 
-downloadData = input("Do you really want to download the data? yes/no ")
-
-if downloadData.lower() != "yes":
-    raise ValueError("You called this file but didn't want to download any data")
+# downloadData = input("Do you really want to download the data? yes/no ")
+#
+# if downloadData.lower() != "yes":
+#     raise ValueError("You called this file but didn't want to download any data")
 
 
 def get17LDataIntoFile(url, filePath):
@@ -24,38 +24,40 @@ def get17LDataIntoFile(url, filePath):
         print("Request failed with status code:", response.status_code)
 
 
-topURL = (f"https://www.17lands.com/card_ratings/data?"
-          f"expansion={setCode.upper()}&"
-          f"format=PremierDraft&"
-          f"user_group=top"
-          )
+
+def getJSONData():
+    topURL = (f"https://www.17lands.com/card_ratings/data?"
+              f"expansion={setCode.upper()}&"
+              f"format=PremierDraft&"
+              f"user_group=top"
+              )
 
 
-allURL = (f"https://www.17lands.com/card_ratings/data?"
-          f"expansion={setCode.upper()}&"
-          f"format=PremierDraft&"
-          )
+    allURL = (f"https://www.17lands.com/card_ratings/data?"
+              f"expansion={setCode.upper()}&"
+              f"format=PremierDraft&"
+              )
 
 
-for pair in colorPairs:
-    pairURL = (f"https://www.17lands.com/card_ratings/data?"
-               f"expansion={setCode.upper()}&"
-               f"format=PremierDraft&"
-               f"colors={pair}"
-               )
+    for pair in colorPairs:
+        pairURL = (f"https://www.17lands.com/card_ratings/data?"
+                   f"expansion={setCode.upper()}&"
+                   f"format=PremierDraft&"
+                   f"colors={pair}"
+                   )
 
-    topPairURL = (f"https://www.17lands.com/card_ratings/data?"
-                  f"expansion={setCode.upper()}&"
-                  f"format=PremierDraft&"
-                  f"colors={pair}&"
-                  f"user_group=top"
-                  )
+        topPairURL = (f"https://www.17lands.com/card_ratings/data?"
+                      f"expansion={setCode.upper()}&"
+                      f"format=PremierDraft&"
+                      f"colors={pair}&"
+                      f"user_group=top"
+                      )
 
-    get17LDataIntoFile(pairURL, f'requests/all/{pair}-card-ratings.json')
-    get17LDataIntoFile(topPairURL, f'requests/top/{pair}-card-ratings.json')
+        get17LDataIntoFile(pairURL, f'requests/all/{pair}-card-ratings.json')
+        get17LDataIntoFile(topPairURL, f'requests/top/{pair}-card-ratings.json')
 
 
-get17LDataIntoFile(topURL, 'requests/top/card-ratings.json')
-get17LDataIntoFile(allURL, 'requests/all/card-ratings.json')
+    get17LDataIntoFile(topURL, 'requests/top/card-ratings.json')
+    get17LDataIntoFile(allURL, 'requests/all/card-ratings.json')
 
-print(f"🔮 all stats loaded!")
+    print(f"🔮 all stats loaded!")

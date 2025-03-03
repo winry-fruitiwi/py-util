@@ -27,5 +27,7 @@ def getScryfallData(link):
         print(scryfallData.status_code)
 
 
-with open(scryfallDataPath, 'w', encoding="utf-8") as scryfall:
-    json_data = scryfall.write(json.dumps(getScryfallData(scryfallAPILink)))
+def downloadScryfallData():
+    with open(scryfallDataPath, 'w', encoding="utf-8") as scryfall:
+        json_data = scryfall.write(json.dumps(getScryfallData(scryfallAPILink)))
+        print("🎴Scryfall data found")
