@@ -53,11 +53,13 @@ def getJSONData():
                       f"user_group=top"
                       )
 
-        get17LDataIntoFile(pairURL, f'requests/all/{pair}-card-ratings.json')
-        get17LDataIntoFile(topPairURL, f'requests/top/{pair}-card-ratings.json')
+        get17LDataIntoFile(pairURL,
+                           f'requestFiles/all/{pair}-card-ratings.json')
+        get17LDataIntoFile(topPairURL,
+                           f'requestFiles/top/{pair}-card-ratings.json')
 
 
-    get17LDataIntoFile(topURL, 'requests/top/card-ratings.json')
-    get17LDataIntoFile(allURL, 'requests/all/card-ratings.json')
+    get17LDataIntoFile(topURL, 'requestFiles/top/card-ratings.json')
+    get17LDataIntoFile(allURL, 'requestFiles/all/card-ratings.json')
 
     print(f"🔮 all stats loaded!")

@@ -1,6 +1,6 @@
 from processScryfallData import *
 from process17LData import *
-import requests
+import requestFiles
 print(cardPNGs)
 
 masterJSON = fetchFileData("master.json")
@@ -16,7 +16,7 @@ for cardName in masterJSON:
         cardName = splitCardFrontName
 
     # Send an HTTP GET request to the image URL
-    response = requests.get(image_url)
+    response = requestFiles.get(image_url)
 
     # Check if the request was successful (status code 200)
     if response.status_code == 200:

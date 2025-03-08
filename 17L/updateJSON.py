@@ -7,9 +7,9 @@ from dataAggregation import *
 from dataCleanup import *
 from downloadScryfallData import *
 
-scryfallDownload = False
+downloadScryfall = True
 
-if scryfallDownload:
+if downloadScryfall:
     downloadScryfallData()
 
 getJSONData()

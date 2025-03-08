@@ -6,11 +6,11 @@ from constants import *
 
 # a file that looks for each archetype and returns the top commons of that
 # archetype. Does not count top players.
-allWinrates = gradeCards('requests/all/card-ratings.json')
+allWinrates = gradeCards('requestFiles/all/card-ratings.json')
 colorPairWinrates = {}
 
 for pair in colorPairs:
-    pairData = gradeCards(f'requests/all/{pair}-card-ratings.json')
+    pairData = gradeCards(f'requestFiles/all/{pair}-card-ratings.json')
     pairData = sorted_dict = {key: value for key, value in
                               sorted(pairData.items(),
                                      key=lambda x: x[1][2],
