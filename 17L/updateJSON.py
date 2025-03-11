@@ -8,6 +8,7 @@ from dataCleanup import *
 from downloadScryfallData import *
 
 downloadScryfall = True
+downloadCardPics = True
 
 if downloadScryfall:
     downloadScryfallData()
