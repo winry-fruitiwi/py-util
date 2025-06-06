@@ -1,6 +1,7 @@
 from processScryfallData import *
 from process17LData import *
 import requests
+processScryfallData()
 print(cardPNGs)
 
 masterJSON = fetchFileData("master.json")

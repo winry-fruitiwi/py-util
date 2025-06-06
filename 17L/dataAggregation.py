@@ -20,6 +20,8 @@ topColorPairGrades["all"] = gradeCards('formatted/top/card-ratings.json')
 
 
 def aggregateData():
+    processScryfallData()
+
     for pair in colorPairs:
         topColorPairWinrates[pair] = fetchFileData(
             f'formatted/top/{pair}-card-ratings.json')

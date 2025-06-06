@@ -15,7 +15,7 @@ minGameCountSampleSize = 500
 # DSK: 286, dsk, dsk, e%3Aspg+cn≥64+cn≤73, e:dsk, none
 # FDN: 281, fdn, fdn, e%3Aspg+cn≥74+cn≤, e:fdn, none
 
-setCode = "dft"
+setCode = "tdm"
 bonusSheetCode = None
 specialGuestQuery = None
 theListQuery = None
@@ -40,6 +40,12 @@ elif setCode == "dft":
     specialGuestQuery = "e:spg+cn≥84+cn≤103"
     theListQuery = 'e:dft'
     collectorIDCap = 291
+
+elif setCode == "tdm":
+    bonusSheetCode = "tdm"
+    specialGuestQuery = "e:spg+cn≥104+cn≤113"
+    theListQuery = 'e:tdm'
+    collectorIDCap = 286
 
 pipe = "\033[90m|\033[0m"
 
