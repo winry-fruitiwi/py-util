@@ -27,6 +27,13 @@ for cardName in masterJSON:
         # Specify the file path where you want to save the image
         file_path = f'cardImages/{cardName}.png'
 
+        # example: there exists no filepath labeled as Summon: Choco/Mog.png
+        # this forces the program to remove all / characters from card names
+        slash_index = cardName.find("/")
+        if slash_index != -1:
+            new_name = cardName[:slash_index]+" or "+cardName[slash_index + 1:]
+            file_path = f'cardImages/{new_name}.png'
+
         # Open the file in binary write mode and write the image data to it
         with open(file_path, 'wb+') as file:
             file.write(image_data)

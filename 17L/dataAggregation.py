@@ -103,8 +103,9 @@ def aggregateData():
             colorWinratesOfAPair = colorPairWinrates[pair][cardName]
             colorGradesOfAPair = colorPairGrades[pair][cardName]
 
-            if ((colorWinratesOfAPair["OH WR"] is not None) and
-                    (colorWinratesOfAPair["GD WR"] is not None) and
+            if (
+                    # (colorWinratesOfAPair["OH WR"] is not None) and
+                    # (colorWinratesOfAPair["GD WR"] is not None) and
                     (colorWinratesOfAPair["GIH WR"] is not None)):
                 jsonFragment["stats"]["all"][pair] = {
                     "# OH": colorWinratesOfAPair["# OH"],
@@ -121,8 +122,9 @@ def aggregateData():
             topWinratesOfAPair = topColorPairWinrates[pair][cardName]
             topGradesOfAPair = topColorPairGrades[pair][cardName]
 
-            if ((topWinratesOfAPair["OH WR"] is not None) and
-                    (topWinratesOfAPair["GD WR"] is not None) and
+            if (
+                    # (topWinratesOfAPair["OH WR"] is not None) and
+                    # (topWinratesOfAPair["GD WR"] is not None) and
                     (topWinratesOfAPair["GIH WR"] is not None)):
                 jsonFragment["stats"]["top"][pair] = {
                     "# OH": topWinratesOfAPair["# OH"],

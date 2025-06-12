@@ -9,7 +9,7 @@ colorPairs = [
 # a set of each color pair
 colorPairAnagrams = [set(pair) for pair in colorPairs]
 
-minGameCountSampleSize = 500
+minGameCountSampleSize = 50
 
 # Parameters to Get Access to Different Sets. order of typing
 # DSK: 286, dsk, dsk, e%3Aspg+cn≥64+cn≤73, e:dsk, none
