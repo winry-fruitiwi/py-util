@@ -29,6 +29,9 @@ ifPreviousTop = False
 # save previous color pair
 previousPair = "all"
 
+# process oracle data, card rarity, and card pictures
+processScryfallData()
+
 # runs a FuzzyWuzzy program that constantly accepts an input and tells you
 # the stats of the card you are looking up. Abbreviations allowed
 while True:

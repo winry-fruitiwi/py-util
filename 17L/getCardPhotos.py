@@ -31,7 +31,7 @@ for cardName in masterJSON:
         # this forces the program to remove all / characters from card names
         slash_index = cardName.find("/")
         if slash_index != -1:
-            new_name = cardName[:slash_index]+" or "+cardName[slash_index + 1:]
+            new_name = cardName.replace("/", " or ")
             file_path = f'cardImages/{new_name}.png'
 
         # Open the file in binary write mode and write the image data to it
